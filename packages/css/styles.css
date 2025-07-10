@@ -286,7 +286,84 @@ img {
   left: 0;
   z-index: var(--z-fixed);
   background-color: var(--body-color);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Dark mode styling for header */
+body.dark-theme .header {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+}
+
+.qualification__data.scroll-animation {
+  transition: transform 0.2s ease;
+}
+
+.qualification__data.scroll-animation:hover {
+  transform: translateY(-3px);
+}
+
+.qualification__subtitle.scroll-animation:hover a {
+  text-decoration: underline;
+}
+
+.floating-icon {
+  position: fixed;
+  top: 0;
+  left: 0;
+  font-size: 2rem;
+  will-change: transform;
+  pointer-events: none;
+  user-select: none;
+  z-index: 9998;
+}
+
+/* Spawn button */
+#spawn-btn {
+  position: fixed;
+  left: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3rem;
+  height: 3rem;
+  background: transparent;
+  color: var(--first-color);
+  border: none;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 9999;
+  transition: box-shadow 0.2s, transform 0.2s;
+  padding: 0 !important
+}
+#spawn-btn:hover {
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* Clear button */
+#clear-all-btn {
+  position: fixed;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3rem;
+  height: 3rem;
+  background: transparent;
+  color: var(--first-color);
+  border: none;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  display: none;             /* shown only when critters exist */
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10000;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+#clear-all-btn:hover {
+  transform: translateY(-50%) scale(1.2);
 }
 
 /*==================== NAV ====================*/
