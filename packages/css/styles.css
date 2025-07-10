@@ -317,6 +317,24 @@ body.dark-theme .header {
   z-index: 9998;
 }
 
+#spawn-btn-mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  #spawn-btn {
+    display: none !important;
+  }
+
+  #spawn-btn-mobile {
+    display: flex;      /* or inline-flex, depending on your nav layout */
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    /* match any sizing/padding you need… */
+  }
+}
+
 /* Spawn button */
 #spawn-btn {
   position: fixed;
@@ -362,6 +380,7 @@ body.dark-theme .header {
   z-index: 10000;
   transition: box-shadow 0.2s, transform 0.2s;
 }
+
 #clear-all-btn:hover {
   transform: translateY(-50%) scale(1.2);
 }

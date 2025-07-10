@@ -563,10 +563,15 @@
           </ul>
           <i class="uil uil-times nav__close" id="nav-close"></i>
         </div>
-        <div class="nav__btns" style="margin-left: 9px">
+        <div class="nav__btns" style="margin-left: 9px">          
           <!-- Back to Top btn -->
           <div class="nav__toggle" id="back-to-top-btn" title="Back to Top">
             <i class="uil uil-arrow-up"></i>
+          </div>
+
+          <!-- Mobile spawn critters -->
+          <div class="nav__toggle" id="spawn-btn-mobile" title="Spawn Critters" style="margin-right: 1rem">
+            <i class="uil uil-plane"></i>
           </div>
 
           <!-- Chatbot btn -->
@@ -3883,35 +3888,43 @@
           'uil-ghost','uil-atom','uil-brain','uil-leaf','uil-fire','uil-gem',
           'uil-pizza-slice','uil-github','uil-linkedin-alt'
         ];
-
+    
         const icons = [];
-        const spawnBtn = document.getElementById('spawn-btn');
+        // grab both desktop and mobile buttons (if present)
+        const spawnBtns = [
+          document.getElementById('spawn-btn'),
+          document.getElementById('spawn-btn-mobile')
+        ].filter(btn => btn !== null);
+    
         const clearBtn = document.getElementById('clear-all-btn');
-
+    
         function updateClearBtn() {
           clearBtn.style.display = icons.length ? 'block' : 'none';
         }
-
-        spawnBtn.addEventListener('click', () => {
-          const count = 3 + Math.floor(Math.random() * 4); // 3–6 icons
-          for (let i = 0; i < count; i++) {
-            const iconEl = document.createElement('i');
-            const cls = ICON_CLASSES[Math.floor(Math.random() * ICON_CLASSES.length)];
-            iconEl.className = `uil ${cls} floating-icon`;
-            iconEl.style.color = `hsl(${Math.random() * 360}, 70%, 50%)`;
-
-            const x = Math.random() * (window.innerWidth - 30);
-            const y = Math.random() * (window.innerHeight - 30);
-            iconEl.style.transform = `translate(${x}px, ${y}px)`;
-
-            document.body.appendChild(iconEl);
-
-            const angle = Math.random() * Math.PI * 2;
-            icons.push({ el: iconEl, vx: Math.cos(angle) * 1.5, vy: Math.sin(angle) * 1.5 });
-          }
-          updateClearBtn();
+    
+        // attach spawn logic to each button
+        spawnBtns.forEach(spawnBtn => {
+          spawnBtn.addEventListener('click', () => {
+            const count = 3 + Math.floor(Math.random() * 4); // 3–6 icons
+            for (let i = 0; i < count; i++) {
+              const iconEl = document.createElement('i');
+              const cls = ICON_CLASSES[Math.floor(Math.random() * ICON_CLASSES.length)];
+              iconEl.className = `uil ${cls} floating-icon`;
+              iconEl.style.color = `hsl(${Math.random() * 360}, 70%, 50%)`;
+    
+              const x = Math.random() * (window.innerWidth - 30);
+              const y = Math.random() * (window.innerHeight - 30);
+              iconEl.style.transform = `translate(${x}px, ${y}px)`;
+    
+              document.body.appendChild(iconEl);
+    
+              const angle = Math.random() * Math.PI * 2;
+              icons.push({ el: iconEl, vx: Math.cos(angle) * 1.5, vy: Math.sin(angle) * 1.5 });
+            }
+            updateClearBtn();
+          });
         });
-
+    
         clearBtn.addEventListener('click', () => {
           for (let obj of icons) {
             obj.el.remove();
@@ -3919,45 +3932,60 @@
           icons.length = 0;
           updateClearBtn();
         });
-
+    
         function animate() {
           for (let obj of icons) {
             const [x, y] = obj.el.style.transform
               .match(/translate\(([^,]+)px,\s*([^)]+)px\)/)
               .slice(1)
               .map(parseFloat);
-
+    
             let nx = x + obj.vx;
             let ny = y + obj.vy;
-
+    
             if (nx < 0 || nx > window.innerWidth - 30) obj.vx *= -1;
             if (ny < 0 || ny > window.innerHeight - 30) obj.vy *= -1;
-
+    
             obj.el.style.transform = `translate(${nx}px, ${ny}px)`;
           }
           requestAnimationFrame(animate);
         }
-
+    
         animate();
       })();
-    </script>  
+    </script>
+    
+<!-- <script>
+  (function() {
+    const spawnBtn  = document.getElementById('spawn-btn');
+    let shown       = false;
+    const threshold = 150; // px scrolled before showing
 
-    <script>
-      (function() {
-        const spawnBtn = document.getElementById('spawn-btn');
-        let shown = false;
-        const threshold = 150; // px scrolled before showing
-    
-        // start hidden
-        spawnBtn.style.display = 'none';
-    
-        window.addEventListener('scroll', () => {
-          if (!shown && window.scrollY > threshold) {
-            spawnBtn.style.display = 'flex';
-            shown = true;
-          }
-        });
-      })();
-    </script>  
+    // hide at start
+    spawnBtn.style.display = 'none';
+
+    // pick the right scroll container: main (if you scroll it), otherwise the document
+    const scroller = document.querySelector('main') 
+                  || document.scrollingElement 
+                  || document.documentElement;
+
+    function checkScroll() {
+      // read how far we are scrolled
+      const y = scroller.scrollTop;
+      if (!shown && y > threshold) {
+        spawnBtn.style.display = 'flex';
+        shown = true;
+      }
+    }
+
+    // bind scroll
+    scroller.addEventListener('scroll', checkScroll);
+
+    // also check on load/resize in case you start mid-page or orientation changes
+    window.addEventListener('load',   checkScroll);
+    window.addEventListener('resize', checkScroll);
+  })();
+</script> -->
+
   </body>
 </html>
