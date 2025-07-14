@@ -356,8 +356,36 @@ body.dark-theme .header {
   transition: box-shadow 0.2s, transform 0.2s;
   padding: 0 !important
 }
+
 #spawn-btn:hover {
-  transform: translateY(-50%) scale(1.1);
+  transform: translateY(-50%);
+  color: var(--first-color-alt);
+}
+
+#spawn-btn[data-tooltip]:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  font-family: 'Poppins', sans-serif;
+  transform: translateX(-25%);
+  white-space: nowrap;
+  background-color: #333;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.3s ease-in-out,
+    visibility 0.3s ease-in-out;
+}
+
+#spawn-btn[data-tooltip]:hover::after {
+  opacity: 1;
+  visibility: visible;
 }
 
 /* Clear button */
@@ -382,7 +410,34 @@ body.dark-theme .header {
 }
 
 #clear-all-btn:hover {
-  transform: translateY(-50%) scale(1.2);
+  transform: translateY(-50%);
+  color: var(--first-color-alt);
+}
+
+#clear-all-btn[data-tooltip]:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  font-family: 'Poppins', sans-serif;
+  transform: translateX(-70%);
+  white-space: nowrap;
+  background-color: #333;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.3s ease-in-out,
+    visibility 0.3s ease-in-out;
+}
+
+#clear-all-btn[data-tooltip]:hover::after {
+  opacity: 1;
+  visibility: visible;
 }
 
 /*==================== NAV ====================*/
@@ -2016,7 +2071,7 @@ body {
   position: absolute;
   bottom: 100%;
   left: 50%;
-  transform: translateX(-39%);
+  transform: translateX(-35%);
   white-space: nowrap;
   background-color: #333;
   color: white;
@@ -2555,10 +2610,6 @@ body.dark-theme .waves.waves--mirror .wave3 {
 .swiper-button-prev i:hover {
   color: var(--first-color-alt);
   transition: color 0.3s;
-}
-
-#back-to-top i {
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 /*==================== USEFUL LINKS STYLING ====================*/
