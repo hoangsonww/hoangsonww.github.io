@@ -52,7 +52,7 @@
 
 1. **Clone the Repository**
     ```bash
-    git clone https://github.com/hoangsonww/My-Portfolio-Website.git
+    git clone https://github.com/hoangsonww/hoangsonww.github.io.git
     cd My-Portfolio-Website
     ```
    
