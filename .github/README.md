@@ -53,7 +53,7 @@
 1. **Clone the Repository**
     ```bash
     git clone https://github.com/hoangsonww/hoangsonww.github.io.git
-    cd My-Portfolio-Website
+    cd hoangsonww.github.io
     ```
    
 2. **Open with Live Server**
