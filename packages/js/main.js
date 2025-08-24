@@ -169,6 +169,21 @@ modalBtns.forEach((modalBtn, i) => {
   });
 });
 
+modalViews.forEach(view => {
+  view.addEventListener('click', (e) => {
+    const content = view.querySelector('.services__modal-content');
+    if (!content.contains(e.target)) {
+      view.classList.remove('active-modal');
+    }
+  });
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    modalViews.forEach(view => view.classList.remove('active-modal'));
+  }
+});
+
 modalCloses.forEach(modalClose => {
   modalClose.addEventListener('click', () => {
     modalViews.forEach(modalView => {
