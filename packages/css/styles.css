@@ -2141,63 +2141,41 @@ body.dark-theme #welcome .welcome__subtitle { color: #fff; }
   }
 }
 
-/* --- Scroll button: outline + glow --- */
+/* Keep scroll button text/icon color the same on hover/focus/active */
+#scroll-button {
+  color: var(--title-color) !important;
+  background: transparent !important;
+}
+#scroll-button:hover,
+#scroll-button:focus,
+#scroll-button:active {
+  color: var(--title-color) !important;
+  background: transparent !important;
+}
+
+/* Outline-only glow (decoupled from text color) */
 #scroll-button,
 #scroll-button .button__icon {
-  /* keep your text color as-is (black in light, white in dark) */
-  color: inherit;
-
-  /* crisp outline only */
-  -webkit-text-stroke: 1px currentColor;
+  -webkit-text-stroke: 1px currentColor;  /* crisp outline in the fixed text color */
   paint-order: stroke fill;
-
-  /* same halo as headings (stacked, no offsets) */
-  filter:
-    drop-shadow(0 0 6px  var(--glow-color))
-    drop-shadow(0 0 14px var(--glow-color))
-    drop-shadow(0 0 28px var(--glow-color));
-
-  transition: filter 180ms ease;
+  text-shadow:
+    0 0 6px  var(--glow-color, var(--first-color)),
+    0 0 12px var(--glow-color, var(--first-color)),
+    0 0 18px var(--glow-color, var(--first-color)),
+    0 0 26px var(--glow-color, var(--first-color));
 }
 
-/* Stop the default hover color/background change */
-#scroll-button:hover {
-  color: inherit !important;
-  background-color: transparent !important;
-}
-
-/* On hover: slide the halo upward (negative Y on each layer) */
-#scroll-button:hover,
-#scroll-button:hover .button__icon {
-  filter:
-    drop-shadow(0 -2px 6px  var(--glow-color))
-    drop-shadow(0 -4px 14px var(--glow-color))
-    drop-shadow(0 -6px 28px var(--glow-color));
-}
-
-/* -------- Firefox fallback (no -webkit-text-stroke) -------- */
+/* Firefox fallback: fake 1px outline + same halo */
 @supports not (-webkit-text-stroke: 1px black) {
   #scroll-button,
   #scroll-button .button__icon {
-    /* hard 1px outline using current text color */
     text-shadow:
       1px 0   0 currentColor, -1px 0   0 currentColor,
       0   1px 0 currentColor,  0  -1px 0 currentColor,
-      /* halo (no offset) */
-      0 0 6px  var(--glow-color),
-      0 0 14px var(--glow-color),
-      0 0 28px var(--glow-color);
-    transition: text-shadow 180ms ease;
-  }
-  #scroll-button:hover,
-  #scroll-button:hover .button__icon {
-    /* slide the halo up, keep the 1px outline fixed */
-    text-shadow:
-      1px 0   0 currentColor, -1px 0   0 currentColor,
-      0   1px 0 currentColor,  0  -1px 0 currentColor,
-      0 -2px 6px  var(--glow-color),
-      0 -4px 14px var(--glow-color),
-      0 -6px 28px var(--glow-color);
+      0 0 6px  var(--glow-color, var(--first-color)),
+      0 0 12px var(--glow-color, var(--first-color)),
+      0 0 18px var(--glow-color, var(--first-color)),
+      0 0 26px var(--glow-color, var(--first-color));
   }
 }
 
