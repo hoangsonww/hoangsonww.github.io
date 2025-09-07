@@ -852,3 +852,23 @@ document.querySelectorAll('.about__item').forEach(item => {
 });
 
 window.clearHistory = clearHistory;
+
+// ── System theme auto-apply (overridden by saved preference) ───────────────
+(function () {
+  const hasSaved = !!localStorage.getItem('selected-theme');
+  const mq = window.matchMedia('(prefers-color-scheme: dark)');
+
+  const apply = (isDark) => {
+    document.body.classList[isDark ? 'add' : 'remove'](darkTheme);
+    if (themeButton) themeButton.classList[isDark ? 'add' : 'remove'](iconTheme);
+    if (themeMeta) themeMeta.setAttribute('content', isDark ? '#162427' : '#ffffff');
+  };
+
+  // If no saved choice, apply system preference on load
+  if (!hasSaved) apply(mq.matches);
+
+  // If no saved choice, keep following system changes
+  const onChange = (e) => { if (!localStorage.getItem('selected-theme')) apply(e.matches); };
+  if (mq.addEventListener) mq.addEventListener('change', onChange);
+  else if (mq.addListener) mq.addListener(onChange); // Safari/old Chrome fallback
+})();
