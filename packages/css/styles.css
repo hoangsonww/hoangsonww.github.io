@@ -2432,6 +2432,40 @@ body.dark-theme #welcome #scroll-button:focus-visible::after {
   transform: translateX(240%); /* was 260% */
 }
 
+/* Force perfect inline alignment for text + icon */
+#welcome #scroll-button {
+  display: inline-flex;
+  align-items: center;     /* vertical centering of children */
+  gap: .6rem;
+  line-height: 1;          /* kill extra baseline room */
+  white-space: nowrap;
+}
+
+#welcome #scroll-button .button__icon {
+  /* override any inline margins */
+  margin: 0 !important;
+
+  /* treat the icon as a square box and center the glyph inside it */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  /* size tuned to match text cap-height */
+  width: 16px;
+  height: 16px;
+  font-size: 16px;
+  line-height: 1;          /* ensure the icon glyph sits dead-center */
+  flex: 0 0 auto;
+
+  margin-right: 10px !important; /* keep a bit of space if icon is last */
+}
+
+/* keep your hover slide without affecting vertical alignment */
+#welcome #scroll-button:hover .button__icon,
+#welcome #scroll-button:focus-visible .button__icon {
+  transform: translateX(0) !important;
+}
+
 /* Horizontal dotted line style and animation */
 .horizontal-line {
   fill: none;
