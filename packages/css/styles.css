@@ -2460,6 +2460,36 @@ body.dark-theme #welcome #scroll-button:focus-visible::after {
   margin-right: 10px !important; /* keep a bit of space if icon is last */
 }
 
+/* Smooth entrance + delay bounce until after reveal */
+#welcome #scroll-button {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity .45s ease, transform .55s ease;
+  will-change: opacity, transform;
+
+  /* your existing bounce stays, but paused until shown */
+  animation: btn-bounce 1.9s ease-in-out infinite;
+  animation-play-state: paused;
+}
+
+#welcome #scroll-button.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition-delay: .05s;     /* tiny polish */
+  animation-play-state: running;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  #welcome #scroll-button,
+  #welcome #scroll-button.is-visible {
+    transition: none;
+    animation: none;
+  }
+}
+
 /* keep your hover slide without affecting vertical alignment */
 #welcome #scroll-button:hover .button__icon,
 #welcome #scroll-button:focus-visible .button__icon {

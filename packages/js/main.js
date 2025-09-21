@@ -254,6 +254,17 @@ let cursor = document.getElementById('cursor');
 let cursorSubtitle = document.getElementById('cursor-subtitle');
 let scrollButton = document.getElementById('scroll-button');
 
+function revealScrollBtn() {
+  if (!scrollButton) return;
+  // clear any inline display toggles
+  scrollButton.style.display = '';
+  // switch to the animated visible state (CSS handles fade/slide + starts bounce)
+  scrollButton.classList.remove('is-hidden');
+  scrollButton.classList.add('is-visible');
+  // a11y
+  scrollButton.setAttribute('aria-hidden', 'false');
+}
+
 function typeTitle() {
   if (charIndex < textArray[0].length) {
     typedTextSpan.textContent += textArray[0].charAt(charIndex);
@@ -285,17 +296,15 @@ function typeSubtitle() {
     cursorSubtitle.classList.add('blinking-cursor');
 
     // Show the button
+    // Show the button (smooth reveal; bounce starts after it fades in)
     setTimeout(() => {
-      scrollButton.style.display = 'inline-block';
-      scrollButton.classList.add('drop-down');
+      revealScrollBtn();
 
       // Delay before showing the graphics
       setTimeout(() => {
         const graphicsElem = document.querySelector('.graphics');
-        if (graphicsElem) {
-          graphicsElem.classList.add('show-graphics');
-        }
-      }, 500); // Adjust this delay as needed
+        if (graphicsElem) graphicsElem.classList.add('show-graphics');
+      }, 500);
     }, 600);
   }
 }
