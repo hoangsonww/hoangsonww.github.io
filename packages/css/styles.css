@@ -1161,6 +1161,12 @@ body.dark-theme .header {
   cursor: grab;
 }
 
+@media (max-width: 567px) {
+  .portfolio__content {
+    margin-bottom: 1.5rem;
+  }
+}
+
 .portfolio__img {
   width: 265px;
   border-radius: 0.5rem;
@@ -1175,6 +1181,23 @@ body.dark-theme .header {
 
 .portfolio__description {
   margin-bottom: var(--mb-0-75);
+}
+
+.portfolio_ {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--mb-0-5);
+}
+
+.portfolio_ > h3,
+.portfolio_ > p {
+  flex: 1 0 100%;
+}
+
+/* Ensure consistent spacing/alignment for stacked buttons */
+.portfolio_ > a.portfolio__button {
+  margin: 0 !important;
 }
 
 .portfolio__button:hover .button__icon {
