@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Security Check - Son Nguyen Hoang</title>
+    <link rel="stylesheet" href="./packages/css/styles.css" />
+    <meta name="theme-color" content="#56c9e0" />
+    <meta
+      name="description"
+      content="Security check triggered. Please return to the main site."
+    />
+    <meta name="keywords" content="security, warning, devtools, restricted" />
+    <meta name="author" content="Son Nguyen Hoang" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href="https://sonnguyenhoang.com/utils/favicon.ico" />
+    <link rel="apple-touch-icon" href="https://sonnguyenhoang.com/utils/favicon.ico" />
+    <link rel="canonical" href="https://sonnguyenhoang.com/generic-error.html" />
+    <meta property="og:title" content="Security Check - Son Nguyen Hoang" />
+    <meta
+      property="og:description"
+      content="Security check triggered. Please return to the main site."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://sonnguyenhoang.com/generic-error.html" />
+    <meta property="og:image" content="https://sonnguyenhoang.com/utils/favicon.ico" />
+    <meta property="og:site_name" content="Son Nguyen Hoang" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Security Check - Son Nguyen Hoang" />
+    <meta
+      name="twitter:description"
+      content="Security check triggered. Please return to the main site."
+    />
+    <meta name="twitter:image" content="https://sonnguyenhoang.com/utils/favicon.ico" />
+    <meta name="twitter:image:alt" content="Son Nguyen Hoang" />
+    <link rel="manifest" href="https://sonnguyenhoang.com/manifest.json" />
+    <style>
+      :root {
+        --first-color: #56c9e0;
+        --first-color-alt: #4286b3;
+        --container-color: #ffffff;
+        --big-font-size: 5rem;
+        --h2-font-size: 1.5rem;
+        --normal-font-size: 1rem;
+        --mb-1-5: 1.5rem;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        position: relative;
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(45deg, #1a2a6c, #b21f1f, #fdbb2d);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+        overflow: hidden;
+        color: #fff;
+      }
+
+      @keyframes gradientBG {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .particles {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        overflow: hidden;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      .particle {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 50%;
+        animation: float 10s linear infinite;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0) scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-110vh) scale(0.5);
+          opacity: 0;
+        }
+      }
+
+      .particle:nth-child(1) {
+        width: 10px;
+        height: 10px;
+        left: 20%;
+        top: 100%;
+        animation-duration: 12s;
+        animation-delay: 0s;
+      }
+      .particle:nth-child(2) {
+        width: 15px;
+        height: 15px;
+        left: 40%;
+        top: 100%;
+        animation-duration: 10s;
+        animation-delay: 2s;
+      }
+      .particle:nth-child(3) {
+        width: 8px;
+        height: 8px;
+        left: 70%;
+        top: 100%;
+        animation-duration: 14s;
+        animation-delay: 4s;
+      }
+      .particle:nth-child(4) {
+        width: 12px;
+        height: 12px;
+        left: 80%;
+        top: 100%;
+        animation-duration: 11s;
+        animation-delay: 1s;
+      }
+      .particle:nth-child(5) {
+        width: 20px;
+        height: 20px;
+        left: 30%;
+        top: 100%;
+        animation-duration: 13s;
+        animation-delay: 3s;
+      }
+      .particle:nth-child(6) {
+        width: 5px;
+        height: 5px;
+        left: 60%;
+        top: 100%;
+        animation-duration: 9s;
+        animation-delay: 5s;
+      }
+
+      .not-found-container {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        text-align: center;
+        padding: 1rem;
+        background: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(5px);
+        border-radius: 1rem;
+        margin: 2rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        animation: fadeIn 1.5s ease-out forwards;
+        opacity: 0;
+      }
+
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+        }
+      }
+
+      .not-found-container h1 {
+        font-size: var(--big-font-size);
+        color: #fff;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        position: relative;
+        margin-bottom: 1rem;
+        animation: flicker 3s infinite alternate;
+      }
+      .not-found-container h1::before,
+      .not-found-container h1::after {
+        content: 'Access Restricted';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        overflow: hidden;
+      }
+      .not-found-container h1::before {
+        left: 2px;
+        text-shadow: -2px 0 red;
+        clip: rect(24px, 550px, 90px, 0);
+        animation: glitch1 2s infinite linear alternate-reverse;
+      }
+      .not-found-container h1::after {
+        left: -2px;
+        text-shadow: -2px 0 blue;
+        clip: rect(85px, 550px, 140px, 0);
+        animation: glitch2 2s infinite linear alternate-reverse;
+      }
+      @keyframes glitch1 {
+        0% {
+          clip: rect(42px, 9999px, 44px, 0);
+        }
+        20% {
+          clip: rect(12px, 9999px, 16px, 0);
+        }
+        40% {
+          clip: rect(82px, 9999px, 84px, 0);
+        }
+        60% {
+          clip: rect(22px, 9999px, 26px, 0);
+        }
+        80% {
+          clip: rect(12px, 9999px, 14px, 0);
+        }
+        100% {
+          clip: rect(42px, 9999px, 44px, 0);
+        }
+      }
+      @keyframes glitch2 {
+        0% {
+          clip: rect(12px, 9999px, 14px, 0);
+        }
+        20% {
+          clip: rect(82px, 9999px, 84px, 0);
+        }
+        40% {
+          clip: rect(22px, 9999px, 26px, 0);
+        }
+        60% {
+          clip: rect(42px, 9999px, 44px, 0);
+        }
+        80% {
+          clip: rect(12px, 9999px, 14px, 0);
+        }
+        100% {
+          clip: rect(82px, 9999px, 84px, 0);
+        }
+      }
+      @keyframes flicker {
+        0% {
+          opacity: 1;
+        }
+        5% {
+          opacity: 0.8;
+        }
+        10% {
+          opacity: 1;
+        }
+        15% {
+          opacity: 0.9;
+        }
+        20% {
+          opacity: 1;
+        }
+        25% {
+          opacity: 0.85;
+        }
+        30% {
+          opacity: 1;
+        }
+        35% {
+          opacity: 0.95;
+        }
+        40% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      .not-found-container p {
+        font-size: var(--h2-font-size);
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: var(--mb-1-5);
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+      }
+      .not-found-container a {
+        font-size: var(--normal-font-size);
+        color: var(--container-color);
+        background-color: var(--first-color);
+        padding: 1rem 2rem;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        transition:
+          background-color 0.3s,
+          transform 0.3s;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      }
+      .not-found-container a:hover {
+        background-color: var(--first-color-alt);
+        transform: scale(1.05);
+      }
+
+      .scroll-animation {
+        opacity: 0;
+        transform: translateY(50px);
+        transition:
+          opacity 0.8s ease-out,
+          transform 0.8s ease-out;
+      }
+      .scroll-in-view {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      body.dark-theme {
+        background: #121212;
+      }
+    </style>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-69TKSZGS7T"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-69TKSZGS7T');
+    </script>
+  </head>
+  <body>
+    <div class="particles">
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+    </div>
+    <div class="not-found-container scroll-animation">
+      <h1>Access Restricted</h1>
+      <p>Developer tools have been disabled for security reasons. Let's head back.</p>
+      <a href="/">Return to Homepage</a>
+    </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const observerOptions = {
+          root: null,
+          rootMargin: '0px',
+          threshold: 0.1,
+        };
+        const elementsToAnimate = document.querySelectorAll('.scroll-animation');
+        const observer = new IntersectionObserver(function (entries, observer) {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('scroll-in-view');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, observerOptions);
+        elementsToAnimate.forEach(element => {
+          observer.observe(element);
+        });
+      });
+
+      const darkTheme = 'dark-theme';
+      const selectedTheme = localStorage.getItem('selected-theme');
+      if (selectedTheme) {
+        document.body.classList[selectedTheme === 'dark' ? 'add' : 'remove'](darkTheme);
+      }
+    </script>
+  </body>
+</html>

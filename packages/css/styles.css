@@ -315,6 +315,7 @@ body.dark-theme .header {
   pointer-events: none;
   user-select: none;
   z-index: 9998;
+  transition: transform 0.25s ease-out;
 }
 
 #spawn-btn-mobile {
