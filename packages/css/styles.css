@@ -3091,3 +3091,13 @@ body.dark-theme .waves.waves--mirror .wave3 {
 .link:hover {
   color: var(--first-color-alt);
 }
+
+.link-elera {
+  color: var(--first-color);
+  text-decoration: underline;
+  transition: color 0.3s;
+}
+
+.link-elera:hover {
+  color: var(--first-color-alt);
+}
