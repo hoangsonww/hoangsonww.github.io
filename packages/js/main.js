@@ -177,12 +177,78 @@ tabs.forEach(tab => {
   });
 });
 
+function setupQualificationCardLinks() {
+  const allowedTitles = [
+    'Vector Databases Professional Certificate',
+    'Microsoft Azure AI Essentials Professional Certificate',
+    'Agile Project Management & Jira Professional Certificate',
+    'DevOps Professional Certificate',
+    'Docker Foundations Professional Certificate',
+    'Microservices Foundations Professional Certificate',
+    'LambdaTest Test Automation Professional Certificate',
+    'Advanced Snowflake: Cloud Data Warehousing and Analytics',
+    'Software Engineer Role Certificate',
+    'Frontend Engineer Role Certificate',
+    'REST APIs Certificate',
+    'Analyzing Business Metrics with SQL Certificate',
+    'DS102X: Machine Learning for Data Science and Analytics Certificate',
+    'BDE1x: Big Data & Education Certificate',
+    'PH125.4x: Data Science: Inference and Modeling',
+    'CYB003x: Building A Cybersecurity Toolkit',
+  ];
+
+  const qualificationCards = document.querySelectorAll('.qualification__data');
+
+  qualificationCards.forEach(card => {
+    const columns = [card.firstElementChild, card.lastElementChild].filter(Boolean);
+
+    columns.forEach(column => {
+      const titleText = column.querySelector('.qualification__title')?.textContent.trim() || '';
+      if (!allowedTitles.includes(titleText)) {
+        return;
+      }
+
+      const anchor = column.querySelector('a[href]');
+      if (!anchor) {
+        return;
+      }
+
+      anchor.setAttribute('target', '_blank');
+      anchor.setAttribute('rel', 'noopener noreferrer');
+
+      column.classList.add('qualification__card-link');
+
+      column.addEventListener('click', event => {
+        const interactive = event.target.closest('a, button');
+        if (interactive) {
+          return; // let native link/button behavior proceed
+        }
+
+        const href = anchor.getAttribute('href');
+        if (!href) {
+          return;
+        }
+
+        const target = '_blank';
+        window.open(href, target);
+      });
+    });
+  });
+}
+
 const modalViews = document.querySelectorAll('.services__modal'),
   modalBtns = document.querySelectorAll('.services__button'),
   modalCloses = document.querySelectorAll('.services__modal-close');
 
 let modal = function (modalClick) {
-  modalViews[modalClick].classList.add('active-modal');
+  const modalEl = modalViews[modalClick];
+
+  if (modalEl && !modalEl.dataset.movedToBody) {
+    document.body.appendChild(modalEl);
+    modalEl.dataset.movedToBody = 'true';
+  }
+
+  modalEl.classList.add('active-modal');
 };
 
 const portfolioPreviewData = getPortfolioPreviewData();
@@ -325,6 +391,7 @@ function setupPortfolioBulletPreviews(swiper, projectData) {
 }
 
 document.addEventListener('DOMContentLoaded', scrollActive);
+document.addEventListener('DOMContentLoaded', setupQualificationCardLinks);
 
 const swiperPortfolio = new Swiper('.portfolio__container', {
   loop: true,
