@@ -328,7 +328,7 @@ body.dark-theme .header {
   }
 
   #spawn-btn-mobile {
-    display: flex;      /* or inline-flex, depending on your nav layout */
+    display: flex; /* or inline-flex, depending on your nav layout */
     align-items: center;
     justify-content: center;
     cursor: pointer;
@@ -354,8 +354,10 @@ body.dark-theme .header {
   justify-content: center;
   cursor: pointer;
   z-index: 9999;
-  transition: box-shadow 0.2s, transform 0.2s;
-  padding: 0 !important
+  transition:
+    box-shadow 0.2s,
+    transform 0.2s;
+  padding: 0 !important;
 }
 
 #spawn-btn:hover {
@@ -402,12 +404,14 @@ body.dark-theme .header {
   border: none;
   border-radius: 50%;
   font-size: 1.5rem;
-  display: none;             /* shown only when critters exist */
+  display: none; /* shown only when critters exist */
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 10000;
-  transition: box-shadow 0.2s, transform 0.2s;
+  transition:
+    box-shadow 0.2s,
+    transform 0.2s;
 }
 
 #clear-all-btn:hover {
@@ -869,7 +873,7 @@ body.dark-theme .header {
 .skills__titles {
   display: flex;
   justify-content: space-between;
-  margin-bottom: var(--mb-0-35);
+  margin-bottom: 0.55rem;
   gap: 0.5rem;
 }
 
@@ -997,7 +1001,8 @@ body.dark-theme .header {
 .skills__open .skills__list {
   height: max-content;
   margin-bottom: var(--mb-2-5);
-  max-height: 1000px;
+  max-height: 2000px;
+  overflow: visible;
 }
 
 .skills__open .skills__arrow {
@@ -2305,12 +2310,18 @@ body {
 }
 
 body:not(.dark-theme) #welcome .welcome__title,
-body:not(.dark-theme) #welcome .welcome__subtitle { color: #000; }
+body:not(.dark-theme) #welcome .welcome__subtitle {
+  color: #000;
+}
 
 body.dark-theme #welcome .welcome__title,
-body.dark-theme #welcome .welcome__subtitle { color: #fff; }
+body.dark-theme #welcome .welcome__subtitle {
+  color: #fff;
+}
 
-:root { --glow-color: var(--first-color); }
+:root {
+  --glow-color: var(--first-color);
+}
 
 #welcome #typed-text,
 #welcome #typed-subtitle {
@@ -2318,7 +2329,7 @@ body.dark-theme #welcome .welcome__subtitle { color: #fff; }
   paint-order: stroke fill;
 
   text-shadow:
-    0 0 6px  var(--glow-color),
+    0 0 6px var(--glow-color),
     0 0 12px var(--glow-color),
     0 0 18px var(--glow-color),
     0 0 26px var(--glow-color);
@@ -2328,9 +2339,11 @@ body.dark-theme #welcome .welcome__subtitle { color: #fff; }
   #welcome #typed-text,
   #welcome #typed-subtitle {
     text-shadow:
-      1px 0   0 currentColor, -1px 0   0 currentColor,
-      0   1px 0 currentColor,  0  -1px 0 currentColor,
-      0 0 6px  var(--glow-color),
+      1px 0 0 currentColor,
+      -1px 0 0 currentColor,
+      0 1px 0 currentColor,
+      0 -1px 0 currentColor,
+      0 0 6px var(--glow-color),
       0 0 12px var(--glow-color),
       0 0 18px var(--glow-color),
       0 0 26px var(--glow-color);
@@ -2352,10 +2365,10 @@ body.dark-theme #welcome .welcome__subtitle { color: #fff; }
 /* Outline-only glow (decoupled from text color) */
 #scroll-button,
 #scroll-button .button__icon {
-  -webkit-text-stroke: 1px currentColor;  /* crisp outline in the fixed text color */
+  -webkit-text-stroke: 1px currentColor; /* crisp outline in the fixed text color */
   paint-order: stroke fill;
   text-shadow:
-    0 0 6px  var(--glow-color, var(--first-color)),
+    0 0 6px var(--glow-color, var(--first-color)),
     0 0 12px var(--glow-color, var(--first-color)),
     0 0 18px var(--glow-color, var(--first-color)),
     0 0 26px var(--glow-color, var(--first-color));
@@ -2366,9 +2379,11 @@ body.dark-theme #welcome .welcome__subtitle { color: #fff; }
   #scroll-button,
   #scroll-button .button__icon {
     text-shadow:
-      1px 0   0 currentColor, -1px 0   0 currentColor,
-      0   1px 0 currentColor,  0  -1px 0 currentColor,
-      0 0 6px  var(--glow-color, var(--first-color)),
+      1px 0 0 currentColor,
+      -1px 0 0 currentColor,
+      0 1px 0 currentColor,
+      0 -1px 0 currentColor,
+      0 0 6px var(--glow-color, var(--first-color)),
       0 0 12px var(--glow-color, var(--first-color)),
       0 0 18px var(--glow-color, var(--first-color)),
       0 0 26px var(--glow-color, var(--first-color));
@@ -2453,7 +2468,7 @@ body:not(.dark-theme) #welcome #typed-subtitle {
 #scroll-button .button__icon {
   text-shadow: none !important;
   -webkit-text-stroke: 0 !important;
-  box-shadow: none !important;   /* just in case theme adds one */
+  box-shadow: none !important; /* just in case theme adds one */
   filter: none !important;
 }
 
@@ -2473,7 +2488,7 @@ body:not(.dark-theme) #welcome #typed-subtitle {
   /* layout */
   display: inline-flex;
   align-items: center;
-  gap: .5rem;
+  gap: 0.5rem;
 
   /* visuals */
   background: linear-gradient(135deg, var(--first-color), color-mix(in srgb, var(--first-color) 70%, #ffffff 30%)) !important;
@@ -2482,16 +2497,18 @@ body:not(.dark-theme) #welcome #typed-subtitle {
   border-radius: 9999px;
   padding: 12px 22px;
   font-weight: 700;
-  letter-spacing: .2px;
+  letter-spacing: 0.2px;
 
   /* motion + polish */
-  box-shadow: 0 10px 22px rgba(0,0,0,.18), 0 3px 8px rgba(0,0,0,.10);
+  box-shadow:
+    0 10px 22px rgba(0, 0, 0, 0.18),
+    0 3px 8px rgba(0, 0, 0, 0.1);
   background-size: 180% 180%;
   background-position: 0% 50%;
   transition:
-    transform .25s ease,
-    box-shadow .25s ease,
-    background-position .8s ease;
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background-position 0.8s ease;
 
   /* infinite gentle bounce */
   animation: btn-bounce 1.9s ease-in-out infinite;
@@ -2501,14 +2518,16 @@ body:not(.dark-theme) #welcome #typed-subtitle {
 
 /* icon nudge */
 #welcome #scroll-button .button__icon {
-  transition: transform .25s ease;
+  transition: transform 0.25s ease;
 }
 
 /* hover/focus: lift, shine, gradient shift, icon slide */
 #welcome #scroll-button:hover,
 #welcome #scroll-button:focus-visible {
   transform: translateY(-4px) scale(1.03);
-  box-shadow: 0 14px 26px rgba(0,0,0,.22), 0 6px 12px rgba(0,0,0,.14);
+  box-shadow:
+    0 14px 26px rgba(0, 0, 0, 0.22),
+    0 6px 12px rgba(0, 0, 0, 0.14);
   background-position: 100% 50%;
 }
 
@@ -2519,23 +2538,25 @@ body:not(.dark-theme) #welcome #typed-subtitle {
 
 /* classy sheen sweep (no neon/glow) */
 #welcome #scroll-button::after {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,.32) 50%, transparent 70%);
+  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.32) 50%, transparent 70%);
   transform: translateX(-120%);
   pointer-events: none;
 }
 #welcome #scroll-button:hover::after,
 #welcome #scroll-button:focus-visible::after {
   transform: translateX(120%);
-  transition: transform .9s ease;
+  transition: transform 0.9s ease;
 }
 
 /* active: subtle press */
 #welcome #scroll-button:active {
   transform: translateY(-1px) scale(1.01);
-  box-shadow: 0 8px 18px rgba(0,0,0,.18), 0 3px 8px rgba(0,0,0,.12);
+  box-shadow:
+    0 8px 18px rgba(0, 0, 0, 0.18),
+    0 3px 8px rgba(0, 0, 0, 0.12);
 }
 
 /* dark theme tweak: keep contrast crisp without neon */
@@ -2545,55 +2566,61 @@ body.dark-theme #welcome #scroll-button {
 
 /* accessibility: respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  #welcome #scroll-button { animation: none; }
+  #welcome #scroll-button {
+    animation: none;
+  }
 }
 
 /* keyframes */
 @keyframes btn-bounce {
-  0%, 100% { transform: translateY(0); }
-  45%      { transform: translateY(-8px); }
-  55%      { transform: translateY(-8px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  45% {
+    transform: translateY(-8px);
+  }
+  55% {
+    transform: translateY(-8px);
+  }
 }
 
 /* Keep the moving sheen fully inside the button */
 #welcome #scroll-button {
   position: relative;
-  overflow: hidden;          /* <- clips the effect to the button bounds */
-  isolation: isolate;        /* avoids blending/bleed with ancestors */
-  border-radius: 999px;      /* or whatever you use */
+  overflow: hidden; /* <- clips the effect to the button bounds */
+  isolation: isolate; /* avoids blending/bleed with ancestors */
+  border-radius: 999px; /* or whatever you use */
 }
 
 /* Dark-mode sheen (fully clipped + starts off-canvas left) */
 body.dark-theme #welcome #scroll-button::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
-  left: -30%;                /* start completely outside the left edge */
-  width: 60%;                /* slimmer stripe for a tasteful pass */
+  left: -30%; /* start completely outside the left edge */
+  width: 60%; /* slimmer stripe for a tasteful pass */
   height: 100%;
   pointer-events: none;
-  border-radius: inherit;    /* match button rounding */
+  border-radius: inherit; /* match button rounding */
 
   /* subtle diagonal glint */
-  background: linear-gradient(
-    120deg,
-    transparent 45%,
-    rgba(255,255,255,.18) 52%,
-    transparent 60%
-  );
+  background: linear-gradient(120deg, transparent 45%, rgba(255, 255, 255, 0.18) 52%, transparent 60%);
 
   /* fully hidden to the left at rest */
   transform: translateX(-100%);
-  opacity: .55;
+  opacity: 0.55;
   will-change: transform;
-  transition: transform .7s ease-out, opacity .2s ease-out;
+  transition:
+    transform 0.7s ease-out,
+    opacity 0.2s ease-out;
 }
 
 /* Move the sheen across only within the button on hover/focus */
 body.dark-theme #welcome #scroll-button:hover::after,
 body.dark-theme #welcome #scroll-button:focus-visible::after {
   transform: translateX(260%); /* travels from far-left to far-right */
-  opacity: .6;
+  opacity: 0.6;
 }
 
 /* Reduced motion: keep it still */
@@ -2607,17 +2634,12 @@ body.dark-theme #welcome #scroll-button:focus-visible::after {
 /* Dark-mode sheen — thicker to match light */
 body.dark-theme #welcome #scroll-button::after {
   /* keep it clipped by the button (you already set overflow:hidden on the button) */
-  left: -40%;          /* start further left so the wider band can slide in cleanly */
-  width: 80%;          /* wider stripe = thicker glint */
-  opacity: .65;        /* slight boost for dark backgrounds */
+  left: -40%; /* start further left so the wider band can slide in cleanly */
+  width: 80%; /* wider stripe = thicker glint */
+  opacity: 0.65; /* slight boost for dark backgrounds */
 
   /* same clean, non-neon look but with a broader bright core */
-  background: linear-gradient(
-    120deg,
-    transparent 30%,
-    rgba(255,255,255,.30) 50%,
-    transparent 70%
-  );
+  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
 
   /* leave your existing transform/transition rules as-is */
 }
@@ -2631,9 +2653,9 @@ body.dark-theme #welcome #scroll-button:focus-visible::after {
 /* Force perfect inline alignment for text + icon */
 #welcome #scroll-button {
   display: inline-flex;
-  align-items: center;     /* vertical centering of children */
-  gap: .6rem;
-  line-height: 1;          /* kill extra baseline room */
+  align-items: center; /* vertical centering of children */
+  gap: 0.6rem;
+  line-height: 1; /* kill extra baseline room */
   white-space: nowrap;
 }
 
@@ -2650,7 +2672,7 @@ body.dark-theme #welcome #scroll-button:focus-visible::after {
   width: 16px;
   height: 16px;
   font-size: 16px;
-  line-height: 1;          /* ensure the icon glyph sits dead-center */
+  line-height: 1; /* ensure the icon glyph sits dead-center */
   flex: 0 0 auto;
 
   margin-right: 10px !important; /* keep a bit of space if icon is last */
@@ -2661,7 +2683,9 @@ body.dark-theme #welcome #scroll-button:focus-visible::after {
   opacity: 0;
   visibility: hidden;
   transform: translateY(10px);
-  transition: opacity .45s ease, transform .55s ease;
+  transition:
+    opacity 0.45s ease,
+    transform 0.55s ease;
   will-change: opacity, transform;
 
   /* your existing bounce stays, but paused until shown */
@@ -2673,7 +2697,7 @@ body.dark-theme #welcome #scroll-button:focus-visible::after {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
-  transition-delay: .05s;     /* tiny polish */
+  transition-delay: 0.05s; /* tiny polish */
   animation-play-state: running;
 }
 

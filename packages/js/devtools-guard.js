@@ -89,14 +89,19 @@
 
   const listeners = [
     [document, 'contextmenu', event => event.preventDefault(), true],
-    [window, 'keydown', event => {
-      if (shouldHijackDevtools(event)) {
-        event.preventDefault();
-        event.stopPropagation();
-        event.stopImmediatePropagation();
-        redirectToSecurityPage();
-      }
-    }, true],
+    [
+      window,
+      'keydown',
+      event => {
+        if (shouldHijackDevtools(event)) {
+          event.preventDefault();
+          event.stopPropagation();
+          event.stopImmediatePropagation();
+          redirectToSecurityPage();
+        }
+      },
+      true,
+    ],
     [window, 'resize', checkForDevtools, true],
     [window, 'focus', checkForDevtools, true],
     [window, 'blur', checkForDevtools, true],
@@ -119,6 +124,6 @@
       });
       window.__DEVTOOLS_GUARD_INSTALLED__ = false;
     },
-    { once: true },
+    { once: true }
   );
 })();
