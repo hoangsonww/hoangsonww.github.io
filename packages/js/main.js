@@ -33,8 +33,8 @@ const skillsChart = new Chart(ctx, {
     ],
     datasets: [
       {
-        label: 'Skill Level (%) - Experience and Proficiency',
-        data: [83, 92, 96, 85, 80, 90, 75, 85, 78],
+        label: 'Skill Level (%)',
+        data: [86, 93, 96, 89, 84, 92, 78, 90, 76],
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
         borderColor: 'rgba(75, 192, 192, 1)',
         borderWidth: 2,
@@ -42,6 +42,28 @@ const skillsChart = new Chart(ctx, {
         pointBorderColor: '#fff',
         pointHoverBackgroundColor: '#fff',
         pointHoverBorderColor: 'rgba(75, 192, 192, 1)',
+      },
+      {
+        label: 'Delivery Confidence (%)',
+        data: [83, 92, 90, 87, 79, 88, 72, 85, 70],
+        backgroundColor: 'rgba(147, 112, 219, 0.15)',
+        borderColor: 'rgba(147, 112, 219, 1)',
+        borderWidth: 2,
+        pointBackgroundColor: 'rgba(147, 112, 219, 1)',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: 'rgba(147, 112, 219, 1)',
+      },
+      {
+        label: 'Learning Agility (%)',
+        data: [92, 96, 94, 92, 89, 95, 81, 89, 82],
+        backgroundColor: 'rgba(255, 159, 64, 0.15)',
+        borderColor: 'rgba(255, 159, 64, 1)',
+        borderWidth: 2,
+        pointBackgroundColor: 'rgba(255, 159, 64, 1)',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: 'rgba(255, 159, 64, 1)',
       },
     ],
   },
@@ -163,6 +185,8 @@ let modal = function (modalClick) {
   modalViews[modalClick].classList.add('active-modal');
 };
 
+const portfolioPreviewData = getPortfolioPreviewData();
+
 modalBtns.forEach((modalBtn, i) => {
   modalBtn.addEventListener('click', () => {
     modal(i);
@@ -192,6 +216,114 @@ modalCloses.forEach(modalClose => {
   });
 });
 
+function getPortfolioPreviewData() {
+  const slides = Array.from(document.querySelectorAll('.portfolio__container .swiper-wrapper > .portfolio__content'));
+
+  return slides.map(slide => {
+    const title = slide.querySelector('.portfolio__title')?.textContent.trim() || 'Project';
+    const description = trimProjectText(slide.querySelector('.portfolio__description')?.textContent.trim() || '');
+    const image = slide.querySelector('.portfolio__img')?.getAttribute('src') || '';
+
+    return { title, description, image };
+  });
+}
+
+function trimProjectText(text, maxLength = 150) {
+  if (text.length <= maxLength) {
+    return text;
+  }
+
+  return `${text.slice(0, maxLength - 1).trim()}...`;
+}
+
+function setupPortfolioBulletPreviews(swiper, projectData) {
+  const paginationElRaw = swiper.pagination?.el;
+  const paginationEl = Array.isArray(paginationElRaw)
+    ? paginationElRaw[0]
+    : typeof paginationElRaw === 'string'
+      ? document.querySelector(paginationElRaw)
+      : paginationElRaw;
+
+  if (!paginationEl || !projectData || !projectData.length) {
+    return;
+  }
+
+  let preview = document.querySelector('.portfolio__bullet-preview');
+  if (!preview) {
+    preview = document.createElement('div');
+    preview.className = 'portfolio__bullet-preview';
+    preview.innerHTML = `
+      <div class="portfolio__bullet-preview__media" aria-hidden="true"></div>
+      <div class="portfolio__bullet-preview__body">
+        <span class="portfolio__bullet-preview__eyebrow">Project highlight</span>
+        <h4 class="portfolio__bullet-preview__title"></h4>
+        <p class="portfolio__bullet-preview__desc"></p>
+      </div>
+    `;
+    document.body.appendChild(preview);
+  }
+
+  const previewMedia = preview.querySelector('.portfolio__bullet-preview__media');
+  const previewTitle = preview.querySelector('.portfolio__bullet-preview__title');
+  const previewDesc = preview.querySelector('.portfolio__bullet-preview__desc');
+
+  const hidePreview = () => preview.classList.remove('is-visible');
+
+  const updateBulletData = () => {
+    const bullets = paginationEl.querySelectorAll('.swiper-pagination-bullet');
+    bullets.forEach((bullet, index) => {
+      const dataIndex = Math.min(index, projectData.length - 1);
+      bullet.dataset.portfolioIndex = String(dataIndex);
+      bullet.setAttribute('aria-label', `Preview ${projectData[dataIndex].title}`);
+      bullet.setAttribute('title', projectData[dataIndex].title);
+    });
+  };
+
+  updateBulletData();
+
+  const observer = new MutationObserver(updateBulletData);
+  observer.observe(paginationEl, { childList: true });
+
+  const showFromBullet = bullet => {
+    if (!bullet || !bullet.dataset.portfolioIndex) return;
+    const project = projectData[Number(bullet.dataset.portfolioIndex)];
+    if (!project) return;
+
+    previewTitle.textContent = project.title;
+    previewDesc.textContent = project.description;
+    previewMedia.style.backgroundImage = project.image
+      ? `linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.35)), url(${project.image})`
+      : '';
+
+    const bulletRect = bullet.getBoundingClientRect();
+    const bulletCenter = bulletRect.left + bulletRect.width / 2;
+    preview.style.setProperty('--preview-left', `${bulletCenter}px`);
+
+    requestAnimationFrame(() => {
+      const offset = preview.offsetHeight || 0;
+      let top = bulletRect.top - offset - 16;
+      if (top < 12) {
+        top = bulletRect.bottom + 16; // fall back to below the dots if near the top
+      }
+      preview.style.setProperty('--preview-top', `${top}px`);
+      preview.classList.add('is-visible');
+    });
+  };
+
+  const delegatedHover = event => {
+    const bullet = event.target.closest('.swiper-pagination-bullet');
+    if (bullet) showFromBullet(bullet);
+  };
+
+  document.addEventListener('mouseover', delegatedHover, true);
+  document.addEventListener('focusin', delegatedHover, true);
+  document.addEventListener('mouseleave', hidePreview, true);
+  document.addEventListener('focusout', hidePreview, true);
+  swiper.on('slideChange', hidePreview);
+  window.addEventListener('resize', hidePreview);
+  window.addEventListener('scroll', hidePreview, true);
+}
+
 document.addEventListener('DOMContentLoaded', scrollActive);
 
 const swiperPortfolio = new Swiper('.portfolio__container', {
@@ -210,6 +342,12 @@ const swiperPortfolio = new Swiper('.portfolio__container', {
   keyboard: true,
   threshold: 20,
   on: {
+    init: function () {
+      setTimeout(() => setupPortfolioBulletPreviews(this, portfolioPreviewData), 50);
+    },
+    paginationUpdate: function () {
+      setTimeout(() => setupPortfolioBulletPreviews(this, portfolioPreviewData), 50);
+    },
     reachBeginning: function () {
       this.loopDestroy();
       this.loopCreate();

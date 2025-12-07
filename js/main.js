@@ -176,6 +176,117 @@ modalCloses.forEach(modalClose => {
   });
 });
 
+function getPortfolioPreviewData() {
+  const slides = Array.from(document.querySelectorAll('.portfolio__container .swiper-wrapper > .portfolio__content'));
+
+  return slides.map(slide => {
+    const title = slide.querySelector('.portfolio__title')?.textContent.trim() || 'Project';
+    const description = trimProjectText(slide.querySelector('.portfolio__description')?.textContent.trim() || '');
+    const image = slide.querySelector('.portfolio__img')?.getAttribute('src') || '';
+
+    return { title, description, image };
+  });
+}
+
+function trimProjectText(text, maxLength = 150) {
+  if (text.length <= maxLength) {
+    return text;
+  }
+
+  return `${text.slice(0, maxLength - 1).trim()}...`;
+}
+
+function setupPortfolioBulletPreviews(swiper) {
+  const paginationElRaw = swiper.pagination?.el;
+  const paginationEl = Array.isArray(paginationElRaw)
+    ? paginationElRaw[0]
+    : typeof paginationElRaw === 'string'
+      ? document.querySelector(paginationElRaw)
+      : paginationElRaw;
+
+  const projectData = getPortfolioPreviewData();
+
+  if (!paginationEl || !projectData.length) {
+    return;
+  }
+
+  let preview = document.querySelector('.portfolio__bullet-preview');
+  if (!preview) {
+    preview = document.createElement('div');
+    preview.className = 'portfolio__bullet-preview';
+    preview.innerHTML = `
+      <div class="portfolio__bullet-preview__media" aria-hidden="true"></div>
+      <div class="portfolio__bullet-preview__body">
+        <span class="portfolio__bullet-preview__eyebrow">Project highlight</span>
+        <h4 class="portfolio__bullet-preview__title"></h4>
+        <p class="portfolio__bullet-preview__desc"></p>
+      </div>
+    `;
+    document.body.appendChild(preview);
+  }
+
+  const previewMedia = preview.querySelector('.portfolio__bullet-preview__media');
+  const previewTitle = preview.querySelector('.portfolio__bullet-preview__title');
+  const previewDesc = preview.querySelector('.portfolio__bullet-preview__desc');
+
+  const hidePreview = () => preview.classList.remove('is-visible');
+
+  const updateBulletData = () => {
+    const bullets = paginationEl.querySelectorAll('.swiper-pagination-bullet');
+    bullets.forEach((bullet, index) => {
+      bullet.dataset.portfolioIndex = String(index % projectData.length);
+      bullet.setAttribute('aria-label', `Preview ${projectData[index % projectData.length].title}`);
+      bullet.setAttribute('title', projectData[index % projectData.length].title);
+    });
+  };
+
+  updateBulletData();
+
+  const observer = new MutationObserver(updateBulletData);
+  observer.observe(paginationEl, { childList: true });
+
+  const showFromBullet = bullet => {
+    if (!bullet || !bullet.dataset.portfolioIndex) return;
+    const project = projectData[Number(bullet.dataset.portfolioIndex)];
+    if (!project) return;
+
+    previewTitle.textContent = project.title;
+    previewDesc.textContent = project.description;
+    previewMedia.style.backgroundImage = project.image ? `linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.35)), url(${project.image})` : '';
+
+    const bulletRect = bullet.getBoundingClientRect();
+    const bulletCenter = bulletRect.left + bulletRect.width / 2;
+    preview.style.setProperty('--preview-left', `${bulletCenter}px`);
+
+    requestAnimationFrame(() => {
+      const offset = preview.offsetHeight || 0;
+      const top = Math.max(12, bulletRect.top - offset - 16);
+      preview.style.setProperty('--preview-top', `${top}px`);
+      preview.classList.add('is-visible');
+    });
+  };
+
+  paginationEl.addEventListener('mouseenter', event => {
+    const bullet = event.target.closest('.swiper-pagination-bullet');
+    if (bullet) {
+      showFromBullet(bullet);
+    }
+  });
+
+  paginationEl.addEventListener('focusin', event => {
+    const bullet = event.target.closest('.swiper-pagination-bullet');
+    if (bullet) {
+      showFromBullet(bullet);
+    }
+  });
+
+  paginationEl.addEventListener('mouseleave', hidePreview);
+  paginationEl.addEventListener('focusout', hidePreview);
+  swiper.on('slideChange', hidePreview);
+  window.addEventListener('resize', hidePreview);
+  window.addEventListener('scroll', hidePreview, true);
+}
+
 const swiperPortfolio = new Swiper('.portfolio__container', {
   loop: true,
   loopAdditionalSlides: 3,
@@ -192,6 +303,9 @@ const swiperPortfolio = new Swiper('.portfolio__container', {
   keyboard: true,
   threshold: 20,
   on: {
+    init: function () {
+      setTimeout(() => setupPortfolioBulletPreviews(this), 50);
+    },
     reachBeginning: function () {
       this.loopDestroy();
       this.loopCreate();
