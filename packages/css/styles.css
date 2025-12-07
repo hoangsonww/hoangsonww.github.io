@@ -1168,7 +1168,11 @@ body.dark-theme .header {
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
   padding: 1.25rem;
   border: 1px solid rgba(255, 255, 255, 0.06);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.25s ease,
+    background-color 0.35s ease;
 }
 
 .portfolio__content.grid:hover {
