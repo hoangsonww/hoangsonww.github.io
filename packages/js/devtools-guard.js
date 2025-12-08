@@ -75,18 +75,6 @@
     return false;
   };
 
-  const isDevtoolsDockedAndOpen = () => {
-    const widthDiff = Math.abs(window.outerWidth - window.innerWidth);
-    const heightDiff = Math.abs(window.outerHeight - window.innerHeight);
-    return widthDiff > THRESHOLD || heightDiff > THRESHOLD;
-  };
-
-  const checkForDevtools = () => {
-    if (isDevtoolsDockedAndOpen()) {
-      redirectToSecurityPage();
-    }
-  };
-
   const listeners = [
     [document, 'contextmenu', event => event.preventDefault(), true],
     [
@@ -102,23 +90,15 @@
       },
       true,
     ],
-    [window, 'resize', checkForDevtools, true],
-    [window, 'focus', checkForDevtools, true],
-    [window, 'blur', checkForDevtools, true],
-    [document, 'visibilitychange', checkForDevtools, true],
   ];
 
   listeners.forEach(([target, eventName, handler, options]) => {
     target.addEventListener(eventName, handler, options);
   });
 
-  const intervalId = window.setInterval(checkForDevtools, 250);
-  checkForDevtools();
-
   window.addEventListener(
     'pagehide',
     () => {
-      window.clearInterval(intervalId);
       listeners.forEach(([target, eventName, handler, options]) => {
         target.removeEventListener(eventName, handler, options);
       });

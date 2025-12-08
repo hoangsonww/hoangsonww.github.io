@@ -649,6 +649,13 @@ body.dark-theme .scroll-progress {
   box-shadow: 0 0 15px rgba(86, 201, 224, 0.7), 0 0 30px rgba(86, 201, 224, 0.3);
 }
 
+/* Mobile: Hide progress bar */
+@media screen and (max-width: 767px) {
+  .scroll-progress {
+    display: none;
+  }
+}
+
 /* Desktop: Move to top */
 @media screen and (min-width: 768px) {
   .scroll-progress {
