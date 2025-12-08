@@ -525,6 +525,13 @@ body.dark-theme .header {
     position: fixed; /* Prevent any background scrolling */
     width: 100%; /* Ensure no unwanted resizing occurs */
   }
+  
+  /* Mobile active link styling */
+  .active-link::after {
+    bottom: -6px;
+    width: 5px;
+    height: 5px;
+  }
 }
 
 .nav__list {
@@ -540,10 +547,13 @@ body.dark-theme .header {
   font-size: var(--small-font-size);
   color: var(--title-color);
   font-weight: var(--font-medium);
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .nav__link:hover {
   color: var(--first-color);
+  transform: translateY(-2px);
 }
 
 .nav__icon {
@@ -571,6 +581,80 @@ body.dark-theme .header {
 /* Active link */
 .active-link {
   color: var(--first-color);
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.active-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  background-color: var(--first-color);
+  border-radius: 50%;
+  opacity: 0;
+  animation: activeDot 0.4s ease forwards;
+}
+
+@keyframes activeDot {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) scale(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.3);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+}
+
+/* Scroll progress bar */
+.scroll-progress {
+  position: fixed;
+  bottom: var(--header-height);
+  left: 0;
+  right: 0;
+  width: 0%;
+  height: 4px;
+  background: linear-gradient(90deg, 
+    hsl(var(--hue-color), 89%, 61%), 
+    hsl(var(--hue-color), 57%, 53%),
+    hsl(var(--hue-color), 89%, 61%)
+  );
+  background-size: 200% 100%;
+  z-index: 99999;
+  transition: none;
+  box-shadow: 0 0 10px rgba(86, 201, 224, 0.5);
+  animation: shimmer 2s linear infinite;
+  will-change: width;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+body.dark-theme .scroll-progress {
+  box-shadow: 0 0 15px rgba(86, 201, 224, 0.7), 0 0 30px rgba(86, 201, 224, 0.3);
+}
+
+/* Desktop: Move to top */
+@media screen and (min-width: 768px) {
+  .scroll-progress {
+    top: calc(var(--header-height) + 1.5rem);
+    bottom: auto;
+  }
 }
 
 /* Change background header */
@@ -1784,6 +1868,10 @@ body.dark-theme .header {
 
     .nav__menu {
       margin-left: auto;
+    }
+    
+    .active-link::after {
+      bottom: -8px;
     }
 
     .change-theme {

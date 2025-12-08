@@ -442,6 +442,25 @@ function scrollActive() {
       link.classList.remove('active-link');
     }
   });
+  
+  // Update scroll progress bar
+  updateScrollProgress();
+}
+
+function updateScrollProgress() {
+  const progressBar = document.getElementById('scroll-progress');
+  if (!progressBar) return;
+  
+  const windowHeight = window.innerHeight;
+  const documentHeight = document.documentElement.scrollHeight;
+  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  
+  const scrollPercentage = (scrollTop / (documentHeight - windowHeight)) * 100;
+  const clampedPercentage = Math.max(0, Math.min(scrollPercentage, 100));
+  
+  requestAnimationFrame(() => {
+    progressBar.style.width = `${clampedPercentage}%`;
+  });
 }
 
 const textArray = ['Welcome!'];
