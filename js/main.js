@@ -439,7 +439,7 @@ async function elizaResponse(message) {
   try {
     const genAI = new GoogleGenerativeAI(getAIResponse());
     const model = genAI.getGenerativeModel({
-      model: 'gemini-2.0-flash-lite',
+      model: 'gemini-2.5-flash-lite',
       systemInstruction:
         "Son (David) Nguyen - +1 (413) 437-6759 · hoangson091104@gmail.com · sonnguyenhoang.com, linkedin.com/in/hoangsonw · github.com/hoangsonww. \
         Chapel Hill, NC, USA 27514. You are an AI personal assistant for Son Nguyen, also known as David Nguyen or by full name Son Hoang Nguyen, \
