@@ -433,7 +433,7 @@ function scrollActive() {
   sections.forEach(current => {
     const sectionTop = current.offsetTop - 50;
     const sectionId = current.getAttribute('id');
-    
+
     if (scrollY >= sectionTop) {
       activeSection = sectionId;
     }
@@ -450,7 +450,7 @@ function scrollActive() {
       link.classList.remove('active-link');
     }
   });
-  
+
   // Update scroll progress bar
   updateScrollProgress();
 }
@@ -458,14 +458,14 @@ function scrollActive() {
 function updateScrollProgress() {
   const progressBar = document.getElementById('scroll-progress');
   if (!progressBar) return;
-  
+
   const windowHeight = window.innerHeight;
   const documentHeight = document.documentElement.scrollHeight;
   const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-  
+
   const scrollPercentage = (scrollTop / (documentHeight - windowHeight)) * 100;
   const clampedPercentage = Math.max(0, Math.min(scrollPercentage, 100));
-  
+
   requestAnimationFrame(() => {
     progressBar.style.width = `${clampedPercentage}%`;
   });
@@ -574,15 +574,6 @@ function scrollUp1() {
 
 window.addEventListener('scroll', scrollUp1);
 
-// helper: wrap URLs in clickable links
-function linkify(text) {
-  // 1) Convert Markdown [label](url)
-  text = text.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
-
-  // 2) Convert bare URLs (not already in an <a>), avoiding trailing punctuation
-  return text.replace(/(^|[^"'>])\b(https?:\/\/[^\s<>"')]+[^\s<>"'),.!?;:])/g, '$1<a href="$2" target="_blank" rel="noopener noreferrer">$2</a>');
-}
-
 // Theme toggle setup
 const themeButton = document.getElementById('theme-button');
 const darkTheme = 'dark-theme';
@@ -681,7 +672,7 @@ function setCachedGeminiModels(models) {
     JSON.stringify({
       timestamp: Date.now(),
       models,
-    }),
+    })
   );
 }
 
@@ -776,7 +767,7 @@ async function elizaResponse(message) {
 
         const nextIndex = (startIndex + i + 1) % models.length;
         setGeminiRotationIndex(nextIndex);
-        return removeMarkdown(fullResponse);
+        return fullResponse;
       } catch (error) {
         lastError = error;
         console.warn(`Gemini model ${modelName} failed, trying next.`, error);
@@ -790,7 +781,7 @@ async function elizaResponse(message) {
       'An error occurred while generating the response, possibly due to high traffic or safety concerns. I apologize for any inconvenience caused. Please try again later with a different query or contact me for further assistance.';
   }
 
-  return removeMarkdown(fullResponse);
+  return fullResponse;
 }
 
 function getAIResponse() {
@@ -798,12 +789,85 @@ function getAIResponse() {
   return atob(response);
 }
 
-function removeMarkdown(text) {
-  const converter = new showdown.Converter();
-  const html = converter.makeHtml(text);
-  const tempDiv = document.createElement('div');
-  tempDiv.innerHTML = html;
-  return tempDiv.textContent || tempDiv.innerText || '';
+// Markdown rendering for chatbot messages (safe HTML only).
+const markdownConverter = new showdown.Converter({
+  simplifiedAutoLink: true,
+  simpleLineBreaks: true,
+  strikethrough: true,
+  tables: true,
+  openLinksInNewWindow: true,
+});
+
+const allowedMarkdownTags = new Set([
+  'a',
+  'p',
+  'br',
+  'strong',
+  'em',
+  'b',
+  'i',
+  'code',
+  'pre',
+  'blockquote',
+  'ul',
+  'ol',
+  'li',
+  'hr',
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
+  'del',
+]);
+
+const allowedMarkdownAttributes = {
+  a: ['href', 'title'],
+  code: ['class'],
+};
+
+function sanitizeMarkdownHtml(html) {
+  const template = document.createElement('template');
+  template.innerHTML = html;
+
+  const nodes = Array.from(template.content.querySelectorAll('*'));
+  nodes.forEach(node => {
+    const tag = node.tagName.toLowerCase();
+    if (!allowedMarkdownTags.has(tag)) {
+      const text = document.createTextNode(node.textContent || '');
+      node.replaceWith(text);
+      return;
+    }
+
+    const allowedAttrs = allowedMarkdownAttributes[tag] || [];
+    Array.from(node.attributes).forEach(attr => {
+      if (!allowedAttrs.includes(attr.name.toLowerCase())) {
+        node.removeAttribute(attr.name);
+      }
+    });
+
+    if (tag === 'a') {
+      const href = node.getAttribute('href') || '';
+      if (!/^(https?:\/\/|mailto:)/i.test(href)) {
+        node.removeAttribute('href');
+      }
+      node.setAttribute('target', '_blank');
+      node.setAttribute('rel', 'noopener noreferrer');
+    }
+  });
+
+  const walker = document.createTreeWalker(template.content, NodeFilter.SHOW_COMMENT);
+  while (walker.nextNode()) {
+    walker.currentNode.remove();
+  }
+
+  return template.innerHTML;
+}
+
+function renderMarkdown(text) {
+  const html = markdownConverter.makeHtml(text || '');
+  return sanitizeMarkdownHtml(html);
 }
 
 // === Elements & history helpers ===
@@ -825,7 +889,7 @@ function loadHistory() {
     div.style.marginBottom = '10px';
     div.style.color = 'white';
     div.style.textAlign = entry.role === 'user' ? 'right' : 'left';
-    div.innerHTML = linkify(entry.parts[0].text);
+    div.innerHTML = renderMarkdown(entry.parts[0].text);
     chatbotBody.appendChild(div);
     if (mobileChatbotBody) {
       mobileChatbotBody.appendChild(div.cloneNode(true));
@@ -857,7 +921,7 @@ async function sendMessage(message) {
   // 1) render user bubble
   chatbotBody.innerHTML += `
     <div class="chatbotMessage" style="text-align: right">
-      ${linkify(message)}
+      ${renderMarkdown(message)}
     </div>`;
   // scroll so the user message is visible
   chatbotBody.scrollTop = chatbotBody.scrollHeight;
@@ -886,7 +950,7 @@ async function sendMessage(message) {
     try {
       const reply = await elizaResponse(message);
       clearInterval(interval);
-      loading.innerHTML = linkify(reply);
+      loading.innerHTML = renderMarkdown(reply);
       // scroll once more so the final reply is in view
       chatbotBody.scrollTop = chatbotBody.scrollHeight;
     } catch {
@@ -900,7 +964,7 @@ async function sendMessage1(message) {
   // mobile version does the same
   mobileChatbotBody.innerHTML += `
     <div class="chatbotMessage" style="text-align: right">
-      ${linkify(message)}
+      ${renderMarkdown(message)}
     </div>`;
   mobileChatbotBody.scrollTop = mobileChatbotBody.scrollHeight;
 
@@ -925,7 +989,7 @@ async function sendMessage1(message) {
     try {
       const reply = await elizaResponse(message);
       clearInterval(interval);
-      loading.innerHTML = linkify(reply);
+      loading.innerHTML = renderMarkdown(reply);
       mobileChatbotBody.scrollTop = mobileChatbotBody.scrollHeight;
     } catch {
       clearInterval(interval);

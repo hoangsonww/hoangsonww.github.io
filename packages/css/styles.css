@@ -525,7 +525,7 @@ body.dark-theme .header {
     position: fixed; /* Prevent any background scrolling */
     width: 100%; /* Ensure no unwanted resizing occurs */
   }
-  
+
   /* Mobile active link styling */
   .active-link::after {
     bottom: -6px;
@@ -622,11 +622,7 @@ body.dark-theme .header {
   right: 0;
   width: 0%;
   height: 4px;
-  background: linear-gradient(90deg, 
-    hsl(var(--hue-color), 89%, 61%), 
-    hsl(var(--hue-color), 57%, 53%),
-    hsl(var(--hue-color), 89%, 61%)
-  );
+  background: linear-gradient(90deg, hsl(var(--hue-color), 89%, 61%), hsl(var(--hue-color), 57%, 53%), hsl(var(--hue-color), 89%, 61%));
   background-size: 200% 100%;
   z-index: 99999;
   transition: none;
@@ -646,7 +642,9 @@ body.dark-theme .header {
 }
 
 body.dark-theme .scroll-progress {
-  box-shadow: 0 0 15px rgba(86, 201, 224, 0.7), 0 0 30px rgba(86, 201, 224, 0.3);
+  box-shadow:
+    0 0 15px rgba(86, 201, 224, 0.7),
+    0 0 30px rgba(86, 201, 224, 0.3);
 }
 
 /* Mobile: Hide progress bar */
@@ -673,6 +671,8 @@ body.dark-theme .scroll-progress {
 
 .home__container {
   gap: 1rem;
+  position: relative;
+  z-index: 2;
 }
 
 .home__content {
@@ -746,6 +746,8 @@ body.dark-theme .scroll-progress {
 .home__scroll-button {
   color: var(--first-color);
   transition: 0.3s;
+  animation: home-scroll-bounce 2.8s ease-in-out infinite;
+  will-change: transform;
 }
 
 .home__scroll-button:hover .home__scroll-arrow {
@@ -765,7 +767,7 @@ body.dark-theme .scroll-progress {
 }
 
 .home__scroll-button:hover {
-  transform: translateY(0.25rem);
+  animation-play-state: paused;
 }
 
 .home__scroll-mouse {
@@ -781,6 +783,28 @@ body.dark-theme .scroll-progress {
 
 .home__scroll-arrow {
   font-size: 1.25rem;
+}
+
+@keyframes home-scroll-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  45% {
+    transform: translateY(-5px);
+  }
+  70% {
+    transform: translateY(0);
+  }
+  85% {
+    transform: translateY(-2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home__scroll-button {
+    animation: none;
+  }
 }
 
 /*==================== BUTTONS ====================*/
@@ -1876,7 +1900,7 @@ body.dark-theme .scroll-progress {
     .nav__menu {
       margin-left: auto;
     }
-    
+
     .active-link::after {
       bottom: -8px;
     }
@@ -2224,6 +2248,56 @@ body.dark-theme .scroll-progress {
   transition: transform 0.2s ease;
 }
 
+.chatbotMessage p {
+  margin: 0 0 0.45rem;
+}
+
+.chatbotMessage p:last-child {
+  margin-bottom: 0;
+}
+
+.chatbotMessage ul,
+.chatbotMessage ol {
+  margin: 0.4rem 0;
+  padding-left: 1.2rem;
+}
+
+.chatbotMessage li {
+  margin: 0.2rem 0;
+}
+
+.chatbotMessage code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  background: #f4f7fa;
+  padding: 0.1rem 0.35rem;
+  border-radius: 6px;
+}
+
+.chatbotMessage pre {
+  background: #f4f7fa;
+  border-radius: 12px;
+  padding: 0.6rem 0.75rem;
+  overflow-x: auto;
+  margin: 0.5rem 0;
+}
+
+.chatbotMessage pre code {
+  background: transparent;
+  padding: 0;
+}
+
+.chatbotMessage blockquote {
+  border-left: 3px solid rgba(87, 201, 224, 0.8);
+  padding-left: 0.6rem;
+  margin: 0.4rem 0;
+}
+
+.chatbotMessage hr {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  margin: 0.5rem 0;
+}
+
 /* Right‐side (user) bubble – flush to right edge */
 .chatbotMessage[style*='text-align: right'],
 .chatbotMessage[style*='text-align:right'] {
@@ -2507,6 +2581,7 @@ body.dark-theme .welcome {
   position: absolute;
   top: 30%;
   width: 100%;
+  z-index: 2;
 }
 
 .welcome__title {
@@ -2912,6 +2987,182 @@ body.dark-theme .waves .wave3 {
 
 .home.section {
   position: relative;
+}
+
+.welcome__celebration {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.confetti,
+.firework {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  opacity: 0.8;
+  --scale: 1;
+}
+
+.confetti {
+  --duration: 6s;
+  --delay: 0s;
+  --drift: 12px;
+  --rotate: 0deg;
+  --size: 12px;
+  --color: #ffd166;
+  width: var(--size);
+  height: calc(var(--size) * 0.55);
+  background: linear-gradient(140deg, color-mix(in srgb, var(--color) 70%, #fff 30%), var(--color));
+  border-radius: 3px;
+  box-shadow: 0 8px 16px color-mix(in srgb, var(--color) 40%, transparent);
+  transform: translate(-50%, -50%) rotate(var(--rotate)) scale(var(--scale));
+  animation: confetti-float var(--duration) ease-in-out infinite;
+  animation-delay: var(--delay);
+}
+
+.confetti--dash {
+  height: calc(var(--size) * 0.35);
+  border-radius: 999px;
+}
+
+.confetti--kite {
+  width: calc(var(--size) * 0.8);
+  height: calc(var(--size) * 0.8);
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+}
+
+.confetti--chip {
+  width: calc(var(--size) * 0.65);
+  height: calc(var(--size) * 0.65);
+  border-radius: 6px;
+}
+
+@keyframes confetti-float {
+  0% {
+    transform: translate(-50%, -50%) rotate(var(--rotate)) scale(var(--scale));
+    opacity: 0.65;
+  }
+  50% {
+    transform: translate(-50%, -50%) rotate(calc(var(--rotate) + 24deg)) translate3d(var(--drift), -18px, 0) scale(var(--scale));
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(var(--rotate)) scale(var(--scale));
+    opacity: 0.7;
+  }
+}
+
+.firework {
+  --duration: 5.8s;
+  --delay: 0s;
+  --size: 86px;
+  --hue: 28;
+  --firework-color: hsl(var(--hue), 90%, 60%);
+  --firework-core: color-mix(in srgb, var(--firework-color) 70%, #fff 30%);
+  --burst: calc(var(--size) * 0.42);
+  --burst2: calc(var(--size) * 0.28);
+  --spark: calc(var(--size) * 0.08);
+  --spark2: calc(var(--size) * 0.06);
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--firework-color) 45%, #fff 55%) 0 12%, transparent 45%);
+  filter: drop-shadow(0 0 16px color-mix(in srgb, var(--firework-color) 65%, #fff 35%));
+  transform: translate(-50%, -50%) scale(calc(var(--scale) * 0.2));
+  animation: firework-pop var(--duration) cubic-bezier(0.2, 0.7, 0.2, 1) infinite;
+  animation-delay: var(--delay);
+  opacity: 0;
+  mix-blend-mode: screen;
+}
+
+.firework::before,
+.firework::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.services__modal-subtitle {
+  margin-top: 5px;
+  margin-bottom: 0;
+}
+
+.firework::before {
+  width: var(--spark);
+  height: var(--spark);
+  background: var(--firework-core);
+  box-shadow:
+    0 calc(var(--burst) * -1) 0 0 var(--firework-color),
+    calc(var(--burst) * 0.75) calc(var(--burst) * -0.75) 0 0 var(--firework-color),
+    var(--burst) 0 0 0 var(--firework-color),
+    calc(var(--burst) * 0.75) calc(var(--burst) * 0.75) 0 0 var(--firework-color),
+    0 var(--burst) 0 0 var(--firework-color),
+    calc(var(--burst) * -0.75) calc(var(--burst) * 0.75) 0 0 var(--firework-color),
+    calc(var(--burst) * -1) 0 0 0 var(--firework-color),
+    calc(var(--burst) * -0.75) calc(var(--burst) * -0.75) 0 0 var(--firework-color),
+    calc(var(--burst) * 0.35) calc(var(--burst) * -0.95) 0 0 var(--firework-core),
+    calc(var(--burst) * 0.95) calc(var(--burst) * -0.35) 0 0 var(--firework-core),
+    calc(var(--burst) * -0.95) calc(var(--burst) * 0.35) 0 0 var(--firework-core),
+    calc(var(--burst) * -0.35) calc(var(--burst) * 0.95) 0 0 var(--firework-core);
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--firework-color) 60%, #fff 40%));
+}
+
+.firework::after {
+  width: var(--spark2);
+  height: var(--spark2);
+  background: color-mix(in srgb, var(--firework-color) 55%, #fff 45%);
+  box-shadow:
+    0 calc(var(--burst2) * -1) 0 0 color-mix(in srgb, var(--firework-color) 70%, #fff 30%),
+    calc(var(--burst2) * 0.7) calc(var(--burst2) * -0.4) 0 0 var(--firework-core),
+    var(--burst2) 0 0 0 var(--firework-core),
+    calc(var(--burst2) * 0.5) calc(var(--burst2) * 0.8) 0 0 var(--firework-core),
+    0 var(--burst2) 0 0 color-mix(in srgb, var(--firework-color) 75%, #fff 25%),
+    calc(var(--burst2) * -0.6) calc(var(--burst2) * 0.5) 0 0 var(--firework-core),
+    calc(var(--burst2) * -1) 0 0 0 var(--firework-core),
+    calc(var(--burst2) * -0.5) calc(var(--burst2) * -0.8) 0 0 var(--firework-core);
+  opacity: 0.85;
+}
+
+@keyframes firework-pop {
+  0% {
+    transform: translate(-50%, -50%) scale(calc(var(--scale) * 0.2));
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.9;
+  }
+  40% {
+    transform: translate(-50%, -50%) scale(calc(var(--scale) * 1.05));
+    opacity: 1;
+  }
+  70% {
+    opacity: 0.65;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(calc(var(--scale) * 1.2));
+    opacity: 0;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .confetti,
+  .firework {
+    --scale: 0.85;
+    opacity: 0.7;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .confetti,
+  .firework {
+    animation: none;
+  }
 }
 
 .waves.waves--mirror {
