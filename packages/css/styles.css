@@ -2997,6 +2997,27 @@ body.dark-theme .waves .wave3 {
   z-index: 1;
 }
 
+body.is-safari .confetti,
+body.is-safari .firework {
+  animation-duration: calc(var(--duration) * 1.4);
+  filter: none;
+  box-shadow: none;
+  mix-blend-mode: normal;
+}
+
+body.is-safari .confetti {
+  background: var(--color);
+}
+
+body.is-safari .firework {
+  background: radial-gradient(circle, var(--firework-color) 0 18%, transparent 55%);
+}
+
+body.is-safari .firework::before,
+body.is-safari .firework::after {
+  filter: none;
+}
+
 .confetti,
 .firework {
   position: absolute;

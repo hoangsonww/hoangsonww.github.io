@@ -4,6 +4,22 @@ const navMenu = document.getElementById('nav-menu'),
   navToggle = document.getElementById('nav-toggle'),
   navClose = document.getElementById('nav-close');
 
+const isSafari =
+  /safari/i.test(navigator.userAgent) &&
+  !/chrome|chromium|crios|edg|opr|fxios/i.test(navigator.userAgent);
+
+if (isSafari) {
+  document.body.classList.add('is-safari');
+
+  const confetti = Array.from(document.querySelectorAll('.welcome__celebration .confetti'));
+  const fireworks = Array.from(document.querySelectorAll('.welcome__celebration .firework'));
+  const keepConfetti = 18;
+  const keepFireworks = 8;
+
+  confetti.slice(keepConfetti).forEach(node => node.remove());
+  fireworks.slice(keepFireworks).forEach(node => node.remove());
+}
+
 if (navToggle) {
   navToggle.addEventListener('click', () => {
     navMenu.classList.add('show-menu');
