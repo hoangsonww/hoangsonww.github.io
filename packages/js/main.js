@@ -20,6 +20,36 @@ if (isSafari) {
   fireworks.slice(keepFireworks).forEach(node => node.remove());
 }
 
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const celebrationFireworks = Array.from(document.querySelectorAll('.welcome__celebration .firework'));
+
+const randomBetween = (min, max) => Math.random() * (max - min) + min;
+
+const updateFirework = firework => {
+  const x = randomBetween(6, 94);
+  const y = randomBetween(10, 82);
+  const size = Math.round(randomBetween(68, 112));
+  const hue = Math.round(randomBetween(0, 360));
+  const launch = Math.max(35, 110 - y + randomBetween(-8, 8));
+
+  firework.style.setProperty('--x', `${x}%`);
+  firework.style.setProperty('--y', `${y}%`);
+  firework.style.setProperty('--size', `${size}px`);
+  firework.style.setProperty('--hue', `${hue}`);
+  firework.style.setProperty('--launch', `${launch.toFixed(0)}vh`);
+};
+
+if (celebrationFireworks.length) {
+  celebrationFireworks.forEach(firework => {
+    firework.style.setProperty('--duration', `${randomBetween(5.4, 7.2).toFixed(2)}s`);
+    updateFirework(firework);
+
+    if (!prefersReducedMotion) {
+      firework.addEventListener('animationiteration', () => updateFirework(firework));
+    }
+  });
+}
+
 if (navToggle) {
   navToggle.addEventListener('click', () => {
     navMenu.classList.add('show-menu');

@@ -3081,6 +3081,7 @@ body.is-safari .firework::after {
   --delay: 0s;
   --size: 86px;
   --hue: 28;
+  --launch: 90vh;
   --firework-color: hsl(var(--hue), 90%, 60%);
   --firework-core: color-mix(in srgb, var(--firework-color) 70%, #fff 30%);
   --burst: calc(var(--size) * 0.42);
@@ -3093,7 +3094,7 @@ body.is-safari .firework::after {
   background: radial-gradient(circle, color-mix(in srgb, var(--firework-color) 45%, #fff 55%) 0 12%, transparent 45%);
   filter: drop-shadow(0 0 16px color-mix(in srgb, var(--firework-color) 65%, #fff 35%));
   transform: translate(-50%, -50%) scale(calc(var(--scale) * 0.2));
-  animation: firework-pop var(--duration) cubic-bezier(0.2, 0.7, 0.2, 1) infinite;
+  animation: firework-launch var(--duration) cubic-bezier(0.2, 0.7, 0.2, 1) infinite;
   animation-delay: var(--delay);
   opacity: 0;
   mix-blend-mode: screen;
@@ -3150,15 +3151,19 @@ body.is-safari .firework::after {
   opacity: 0.85;
 }
 
-@keyframes firework-pop {
+@keyframes firework-launch {
   0% {
-    transform: translate(-50%, -50%) scale(calc(var(--scale) * 0.2));
+    transform: translate(-50%, calc(-50% + var(--launch))) scale(calc(var(--scale) * 0.1));
     opacity: 0;
   }
-  15% {
+  18% {
+    opacity: 0.95;
+  }
+  35% {
+    transform: translate(-50%, -50%) scale(calc(var(--scale) * 0.2));
     opacity: 0.9;
   }
-  40% {
+  60% {
     transform: translate(-50%, -50%) scale(calc(var(--scale) * 1.05));
     opacity: 1;
   }
