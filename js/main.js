@@ -480,8 +480,8 @@ async function elizaResponse(message) {
         \
         EDUCATION \
         \
-        University of North Carolina at Chapel Hill (December 2025 Expected): \
-        Bachelor of Science in Computer Science & Bachelor of Arts in Economics & Data Science Minor. Cumulative GPA: 3.9 / 4.0. \
+        University of North Carolina at Chapel Hill (December 2025 - Graduated): \
+        Bachelor of Science in Computer Science & Bachelor of Arts in Economics & Data Science Minor. Cumulative GPA: 3.93 / 4.0. \
         \
         NOTABLE PROJECTS \
         \
