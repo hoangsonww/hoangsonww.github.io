@@ -4,9 +4,7 @@ const navMenu = document.getElementById('nav-menu'),
   navToggle = document.getElementById('nav-toggle'),
   navClose = document.getElementById('nav-close');
 
-const isSafari =
-  /safari/i.test(navigator.userAgent) &&
-  !/chrome|chromium|crios|edg|opr|fxios/i.test(navigator.userAgent);
+const isSafari = /safari/i.test(navigator.userAgent) && !/chrome|chromium|crios|edg|opr|fxios/i.test(navigator.userAgent);
 
 if (isSafari) {
   document.body.classList.add('is-safari');
