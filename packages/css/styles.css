@@ -1527,6 +1527,14 @@ body.dark-theme .scroll-progress {
   .portfolio__bullet-preview {
     display: none;
   }
+
+  .swiper-button-prev {
+    left: -1.5rem;
+  }
+
+  .swiper-button-next {
+    right: -1.5rem;
+  }
 }
 /*==================== PROJECT IN MIND ====================*/
 .project {
