@@ -1,2 +1,7 @@
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /backend/
+Disallow: /project-config/
+Disallow: /shell-scripts/
+Disallow: /node_modules/
+Sitemap: https://sonnguyenhoang.com/sitemap.xml
