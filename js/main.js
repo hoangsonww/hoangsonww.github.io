@@ -300,6 +300,10 @@ const swiperPortfolio = new Swiper('.portfolio__container', {
     el: '.swiper-pagination',
     clickable: true,
   },
+  autoplay: {
+    delay: 3000,
+    disableOnInteraction: false,
+  },
   keyboard: true,
   threshold: 20,
   on: {
