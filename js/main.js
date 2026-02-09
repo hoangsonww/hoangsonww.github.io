@@ -312,6 +312,44 @@ function setupPortfolioAutoplayOnView(swiper) {
   observer.observe(portfolioSection);
 }
 
+function setupHorizontalScrollForCarousel(swiper) {
+  if (!swiper || !swiper.el) return;
+
+  const minDelta = 18;
+  const cooldownMs = 450;
+  let lastTriggerTime = 0;
+
+  swiper.el.addEventListener(
+    'wheel',
+    event => {
+      let horizontalDelta = event.deltaX;
+
+      if (event.shiftKey && Math.abs(horizontalDelta) < Math.abs(event.deltaY)) {
+        horizontalDelta = event.deltaY;
+      }
+
+      if (Math.abs(horizontalDelta) < minDelta) return;
+
+      if (!event.shiftKey && Math.abs(horizontalDelta) < Math.abs(event.deltaY)) {
+        return;
+      }
+
+      const now = Date.now();
+      if (now - lastTriggerTime < cooldownMs) return;
+
+      lastTriggerTime = now;
+      event.preventDefault();
+
+      if (horizontalDelta > 0) {
+        swiper.slideNext();
+      } else {
+        swiper.slidePrev();
+      }
+    },
+    { passive: false }
+  );
+}
+
 const swiperPortfolio = new Swiper('.portfolio__container', {
   loop: true,
   loopAdditionalSlides: 3,
@@ -335,6 +373,7 @@ const swiperPortfolio = new Swiper('.portfolio__container', {
     init: function () {
       this.autoplay.stop();
       setupPortfolioAutoplayOnView(this);
+      setupHorizontalScrollForCarousel(this);
       setTimeout(() => setupPortfolioBulletPreviews(this), 50);
     },
     reachBeginning: function () {
