@@ -432,6 +432,33 @@ function setupPortfolioBulletPreviews(swiper, projectData) {
   window.addEventListener('scroll', hidePreview, true);
 }
 
+function setupPortfolioAutoplayOnView(swiper) {
+  const portfolioSection = document.getElementById('portfolio');
+  if (!swiper || !swiper.autoplay || !portfolioSection) {
+    return;
+  }
+
+  const updateAutoplay = isVisible => {
+    if (isVisible) {
+      swiper.autoplay.start();
+      return;
+    }
+    swiper.autoplay.stop();
+  };
+
+  const observer = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => updateAutoplay(entry.isIntersecting));
+    },
+    {
+      root: null,
+      threshold: 0.3,
+    }
+  );
+
+  observer.observe(portfolioSection);
+}
+
 document.addEventListener('DOMContentLoaded', scrollActive);
 document.addEventListener('DOMContentLoaded', setupQualificationCardLinks);
 
@@ -456,6 +483,8 @@ const swiperPortfolio = new Swiper('.portfolio__container', {
   threshold: 20,
   on: {
     init: function () {
+      this.autoplay.stop();
+      setupPortfolioAutoplayOnView(this);
       setTimeout(() => setupPortfolioBulletPreviews(this, portfolioPreviewData), 50);
     },
     paginationUpdate: function () {
