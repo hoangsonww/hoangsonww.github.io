@@ -1380,9 +1380,14 @@ body.dark-theme .scroll-progress {
 }
 
 .portfolio__img {
-  width: 265px;
+  width: min(100%, 360px);
+  height: clamp(180px, 34vw, 225px);
+  object-fit: cover;
+  object-position: center;
+  display: block;
   border-radius: 0.8rem;
   justify-self: center;
+  background-color: rgba(0, 0, 0, 0.08);
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
 }
 
@@ -1987,7 +1992,8 @@ body.dark-theme .scroll-progress {
     }
 
     .portfolio__img {
-      width: 320px;
+      width: min(100%, 380px);
+      height: clamp(210px, 26vw, 240px);
     }
 
     .portfolio__content {
