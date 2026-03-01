@@ -142,9 +142,10 @@
               { "@type": "ListItem", "position": 2, "name": "About", "item": "https://sonnguyenhoang.com/#about" },
               { "@type": "ListItem", "position": 3, "name": "Skills", "item": "https://sonnguyenhoang.com/#skills" },
               { "@type": "ListItem", "position": 4, "name": "Qualifications", "item": "https://sonnguyenhoang.com/#qualifications" },
-              { "@type": "ListItem", "position": 5, "name": "Projects", "item": "https://sonnguyenhoang.com/#portfolio" },
-              { "@type": "ListItem", "position": 6, "name": "Useful Links", "item": "https://sonnguyenhoang.com/#useful-links" },
-              { "@type": "ListItem", "position": 7, "name": "Contact", "item": "https://sonnguyenhoang.com/#contact" }
+              { "@type": "ListItem", "position": 5, "name": "Publications", "item": "https://sonnguyenhoang.com/#publications" },
+              { "@type": "ListItem", "position": 6, "name": "Projects", "item": "https://sonnguyenhoang.com/#portfolio" },
+              { "@type": "ListItem", "position": 7, "name": "Useful Links", "item": "https://sonnguyenhoang.com/#useful-links" },
+              { "@type": "ListItem", "position": 8, "name": "Contact", "item": "https://sonnguyenhoang.com/#contact" }
             ]
           },
           {
@@ -156,7 +157,11 @@
             "description": "Welcome page of Son Nguyen Hoang’s software engineering portfolio.",
             "inLanguage": "en-US",
             "breadcrumb": { "@id": "https://sonnguyenhoang.com/#breadcrumb" },
-            "hasPart": [{ "@id": "https://sonnguyenhoang.com/#portfolioList" }, { "@id": "https://sonnguyenhoang.com/#usefulLinksList" }],
+            "hasPart": [
+              { "@id": "https://sonnguyenhoang.com/#publicationsList" },
+              { "@id": "https://sonnguyenhoang.com/#portfolioList" },
+              { "@id": "https://sonnguyenhoang.com/#usefulLinksList" }
+            ],
             "potentialAction": [
               {
                 "@type": "CallAction",
@@ -203,6 +208,58 @@
             ]
           },
 
+          {
+            "@type": "ItemList",
+            "@id": "https://sonnguyenhoang.com/#publicationsList",
+            "name": "Research Publications",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "item": {
+                  "@type": "ScholarlyArticle",
+                  "name": "An AI-Driven, Cloud-Native Architecture for End-to-End Travel Planning: A System Design Study",
+                  "url": "https://www.researchgate.net/publication/392525972_An_AI-Driven_Cloud-Native_Architecture_for_End-to-End_Travel_Planning_A_System_Design_Study_Research_Insights_on_Micro-Agent_Orchestration_and_Scalable_GCP_Integration_Table_of_Content"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "item": {
+                  "@type": "ScholarlyArticle",
+                  "name": "Optimizing Web Performance and Computational Efficiency: A Deep Dive into WebAssembly's Technical Advancements and Real-World Applications",
+                  "url": "https://www.researchgate.net/publication/389517325_Optimizing_Web_Performance_and_Computational_Efficiency_A_Deep_Dive_into_WebAssembly%27s_Technical_Advancements_and_Real-World_Applications"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "item": {
+                  "@type": "ScholarlyArticle",
+                  "name": "Enhancing the Robustness of Transformer-Based Code Generation Models Against Adversarial Perturbations: A Comprehensive Study",
+                  "url": "https://www.researchgate.net/publication/389517109_Enhancing_the_Robustness_of_Transformer-Based_Code_Generation_Models_Against_Adversarial_Perturbations_A_Comprehensive_Study"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 4,
+                "item": {
+                  "@type": "ScholarlyArticle",
+                  "name": "A Comprehensive Analysis of Assisted Suicide: The Technical, Ethical, and Moral Dimensions of Physician-Assisted and Non-Physician-Assisted Suicide",
+                  "url": "https://www.researchgate.net/publication/390768100_A_Comprehensive_Analysis_of_Assisted_Suicide_The_Technical_Ethical_and_Moral_Dimensions_of_Physician-Assisted_and_Non-Physician-Assisted_Suicide"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 5,
+                "item": {
+                  "@type": "ScholarlyArticle",
+                  "name": "A Strategic Analysis of Highlands Coffee's Success: Upsell Techniques, Marketing Strategies, Store Design, Staff Training, Sustainability Initiatives, and Pricing Strategies",
+                  "url": "https://www.researchgate.net/publication/388729071_A_Strategic_Analysis_of_Highlands_Coffee%27s_Success_Upsell_Techniques_Marketing_Strategies_Store_Design_Staff_Training_Sustainability_Initiatives_and_Pricing_Strategies"
+                }
+              }
+            ]
+          },
           {
             "@type": "ItemList",
             "@id": "https://sonnguyenhoang.com/#portfolioList",
@@ -550,6 +607,11 @@
             <li class="nav__item">
               <a href="#qualifications" class="nav__link" title="View My Qualifications">
                 <i class="uil uil-graduation-cap nav__icon" title="View My Qualifications"></i>Qualifications
+              </a>
+            </li>
+            <li class="nav__item">
+              <a href="#publications" class="nav__link" title="Read My Publications">
+                <i class="uil uil-book-open nav__icon" title="Read My Publications"></i>Publications
               </a>
             </li>
             <li class="nav__item">
@@ -5088,6 +5150,138 @@
 
           <!-- Swiper Pagination -->
           <div class="swiper-pagination"></div>
+        </div>
+      </section>
+
+      <!--==================== PUBLICATIONS ====================-->
+      <section class="publications section" id="publications" style="margin-bottom: 50px">
+        <h2 class="section__title scroll-animation">Publications</h2>
+        <span class="section__subtitle scroll-animation">
+          Selected research and long-form studies published through UNC-Chapel Hill and available on
+          <a href="https://www.researchgate.net/profile/Son-Nguyen-128" target="_blank" rel="noopener noreferrer" class="link">ResearchGate</a>.
+        </span>
+
+        <div class="publications__container container">
+          <article class="publication__card scroll-animation">
+            <div class="publication__meta">
+              <span class="publication__pill">Computer Science</span>
+              <span class="publication__date"><i class="uil uil-calendar-alt"></i> Jul 4, 2025</span>
+            </div>
+            <h3 class="publication__title">An AI-Driven, Cloud-Native Architecture for End-to-End Travel Planning: A System Design Study</h3>
+            <p class="publication__venue">University of North Carolina at Chapel Hill, Department of Computer Science</p>
+            <p class="publication__description">
+              A cloud-native architecture study for an AI travel agent built on Google Cloud Platform, using Vertex AI, Dialogflow CX, Pub/Sub, and
+              stateless microservices to support itinerary generation, booking orchestration, and real-time disruption management.
+            </p>
+            <a
+              href="https://www.researchgate.net/publication/392525972_An_AI-Driven_Cloud-Native_Architecture_for_End-to-End_Travel_Planning_A_System_Design_Study_Research_Insights_on_Micro-Agent_Orchestration_and_Scalable_GCP_Integration_Table_of_Content"
+              class="button button--flex button--small publication__button"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View Publication
+              <i class="uil uil-external-link-alt button__icon"></i>
+            </a>
+          </article>
+
+          <article class="publication__card scroll-animation">
+            <div class="publication__meta">
+              <span class="publication__pill">Computer Science</span>
+              <span class="publication__date"><i class="uil uil-calendar-alt"></i> Apr 14, 2025</span>
+            </div>
+            <h3 class="publication__title">
+              Optimizing Web Performance and Computational Efficiency: A Deep Dive into WebAssembly's Technical Advancements and Real-World
+              Applications
+            </h3>
+            <p class="publication__venue">University of North Carolina at Chapel Hill, Department of Computer Science</p>
+            <p class="publication__description">
+              An evaluation of recent WebAssembly advances, combining technical analysis with practical case studies to show how modern WASM
+              capabilities improve runtime performance and computational efficiency in production web applications.
+            </p>
+            <a
+              href="https://www.researchgate.net/publication/389517325_Optimizing_Web_Performance_and_Computational_Efficiency_A_Deep_Dive_into_WebAssembly%27s_Technical_Advancements_and_Real-World_Applications"
+              class="button button--flex button--small publication__button"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View Publication
+              <i class="uil uil-external-link-alt button__icon"></i>
+            </a>
+          </article>
+
+          <article class="publication__card scroll-animation">
+            <div class="publication__meta">
+              <span class="publication__pill">AI Research</span>
+              <span class="publication__date"><i class="uil uil-calendar-alt"></i> Mar 14, 2025</span>
+            </div>
+            <h3 class="publication__title">
+              Enhancing the Robustness of Transformer-Based Code Generation Models Against Adversarial Perturbations: A Comprehensive Study
+            </h3>
+            <p class="publication__venue">University of North Carolina at Chapel Hill, Department of Computer Science</p>
+            <p class="publication__description">
+              A study of adversarial vulnerabilities in transformer-based code generation models, with a comparative review of hardening techniques
+              aimed at improving the resilience, reliability, and security of generated code.
+            </p>
+            <a
+              href="https://www.researchgate.net/publication/389517109_Enhancing_the_Robustness_of_Transformer-Based_Code_Generation_Models_Against_Adversarial_Perturbations_A_Comprehensive_Study"
+              class="button button--flex button--small publication__button"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View Publication
+              <i class="uil uil-external-link-alt button__icon"></i>
+            </a>
+          </article>
+
+          <article class="publication__card scroll-animation">
+            <div class="publication__meta">
+              <span class="publication__pill">Ethics Study</span>
+              <span class="publication__date"><i class="uil uil-calendar-alt"></i> Dec 12, 2024</span>
+            </div>
+            <h3 class="publication__title">
+              A Comprehensive Analysis of Assisted Suicide: The Technical, Ethical, and Moral Dimensions of Physician-Assisted and
+              Non-Physician-Assisted Suicide
+            </h3>
+            <p class="publication__venue">University of North Carolina at Chapel Hill, Department of Computer Science</p>
+            <p class="publication__description">
+              A cross-disciplinary analysis of assisted suicide that compares implementation methods, ethical tensions, and policy implications, with
+              emphasis on the tradeoffs between individual autonomy, medical responsibility, and broader social values.
+            </p>
+            <a
+              href="https://www.researchgate.net/publication/390768100_A_Comprehensive_Analysis_of_Assisted_Suicide_The_Technical_Ethical_and_Moral_Dimensions_of_Physician-Assisted_and_Non-Physician-Assisted_Suicide"
+              class="button button--flex button--small publication__button"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View Publication
+              <i class="uil uil-external-link-alt button__icon"></i>
+            </a>
+          </article>
+
+          <article class="publication__card scroll-animation">
+            <div class="publication__meta">
+              <span class="publication__pill">Economics</span>
+              <span class="publication__date"><i class="uil uil-calendar-alt"></i> May 10, 2024</span>
+            </div>
+            <h3 class="publication__title">
+              A Strategic Analysis of Highlands Coffee's Success: Upsell Techniques, Marketing Strategies, Store Design, Staff Training,
+              Sustainability Initiatives, and Pricing Strategies
+            </h3>
+            <p class="publication__venue">University of North Carolina at Chapel Hill, Department of Economics</p>
+            <p class="publication__description">
+              A strategy-focused analysis of the operating levers behind Highlands Coffee's growth, covering upsell mechanics, marketing, store
+              design, staff training, sustainability initiatives, and pricing decisions that drive profitability and customer satisfaction.
+            </p>
+            <a
+              href="https://www.researchgate.net/publication/388729071_A_Strategic_Analysis_of_Highlands_Coffee%27s_Success_Upsell_Techniques_Marketing_Strategies_Store_Design_Staff_Training_Sustainability_Initiatives_and_Pricing_Strategies"
+              class="button button--flex button--small publication__button"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View Publication
+              <i class="uil uil-external-link-alt button__icon"></i>
+            </a>
+          </article>
         </div>
       </section>
 
