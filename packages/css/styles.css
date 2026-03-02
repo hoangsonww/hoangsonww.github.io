@@ -2654,12 +2654,6 @@ body.dark-theme #welcome .welcome__subtitle {
 #welcome #typed-subtitle {
   -webkit-text-stroke: 1px currentColor;
   paint-order: stroke fill;
-
-  text-shadow:
-    0 0 6px var(--glow-color),
-    0 0 12px var(--glow-color),
-    0 0 18px var(--glow-color),
-    0 0 26px var(--glow-color);
 }
 
 @supports not (-webkit-text-stroke: 1px black) {
@@ -2669,11 +2663,7 @@ body.dark-theme #welcome .welcome__subtitle {
       1px 0 0 currentColor,
       -1px 0 0 currentColor,
       0 1px 0 currentColor,
-      0 -1px 0 currentColor,
-      0 0 6px var(--glow-color),
-      0 0 12px var(--glow-color),
-      0 0 18px var(--glow-color),
-      0 0 26px var(--glow-color);
+      0 -1px 0 currentColor;
   }
 }
 
