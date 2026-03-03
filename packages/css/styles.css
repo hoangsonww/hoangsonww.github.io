@@ -2652,8 +2652,9 @@ body.dark-theme #welcome .welcome__subtitle {
 
 #welcome #typed-text,
 #welcome #typed-subtitle {
-  -webkit-text-stroke: 1px currentColor;
-  paint-order: stroke fill;
+  text-shadow: none !important;
+  -webkit-text-stroke: 0 !important;
+  paint-order: normal;
 }
 
 @supports not (-webkit-text-stroke: 1px black) {
