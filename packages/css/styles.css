@@ -940,6 +940,10 @@ body.dark-theme .scroll-progress {
   margin-bottom: var(--mb-1);
 }
 
+.skills__content.skills__close {
+  cursor: pointer;
+}
+
 .skills__content:hover {
   transform: translateY(-1px);
   border-color: rgba(86, 201, 224, 0.2);
@@ -1005,6 +1009,34 @@ body.dark-theme .scroll-progress {
   font-size: var(--normal-font-size);
   font-weight: var(--font-medium);
   color: var(--title-color);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.45rem;
+  line-height: 1.35;
+}
+
+.skills__name-text {
+  font-weight: var(--font-medium);
+}
+
+.skills__badges {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.skills__badge-img {
+  height: 18px;
+  width: auto;
+  border-radius: 6px;
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.18);
+  vertical-align: middle;
+  transition: transform 0.2s ease;
+}
+
+.skills__badge-img:hover {
+  transform: translateY(-1px);
 }
 
 .skills__bar,
@@ -1022,6 +1054,20 @@ body.dark-theme .scroll-progress {
   display: block;
   background: linear-gradient(90deg, var(--first-color), var(--first-color-alt));
   box-shadow: 0 3px 10px rgba(86, 201, 224, 0.2);
+  transform-origin: left center;
+}
+
+.skills__percentage--animate {
+  animation: skillsGaugeFill 0.9s ease-out forwards;
+}
+
+@keyframes skillsGaugeFill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
 }
 
 .skills__data {

@@ -181,28 +181,356 @@ function linkAction() {
 navLink.forEach(n => n.addEventListener('click', linkAction));
 
 const skillsContent = document.querySelectorAll('.skills__content');
-const skillsHeader = document.querySelectorAll('.skills__header');
 
-function toggleSkills() {
-  const itemClass = this.parentNode.classList.contains('skills__open');
+function escapeHtml(text) {
+  return text.replace(/[&<>"']/g, char => {
+    const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+    return map[char] || char;
+  });
+}
 
-  // Close all skill sections
-  skillsContent.forEach(content => content.classList.remove('skills__open'));
+function normalizeSkillTag(tag) {
+  return tag
+    .toLowerCase()
+    .replace(/\+/g, 'plus')
+    .replace(/[^a-z0-9]+/g, '')
+    .trim();
+}
 
-  // Open the clicked section only if it was closed before
-  if (!itemClass) {
-    this.parentNode.classList.add('skills__open');
+function skillBadgeColor(tag) {
+  const palette = ['2563eb', '0ea5e9', '16a34a', 'f97316', '8b5cf6', 'ef4444'];
+  let hash = 0;
+  for (let i = 0; i < tag.length; i++) {
+    hash = (hash << 5) - hash + tag.charCodeAt(i);
+    hash |= 0;
+  }
+  return palette[Math.abs(hash) % palette.length];
+}
 
-    // Smooth scroll to the newly opened section
-    const offset = 100;
-    const elementPosition = this.parentNode.getBoundingClientRect().top + window.pageYOffset;
-    window.scrollTo({ top: elementPosition - offset, behavior: 'smooth' });
+const SHIELD_STYLE_HINTS = {
+  html5: { color: 'orange', logo: 'html5', logoColor: 'white' },
+  css3: { color: 'orange', logo: 'html5', logoColor: 'white' },
+  sass: { color: 'orange', logo: 'html5', logoColor: 'white' },
+  react: { color: 'blue', logo: 'react', logoColor: 'white' },
+  reactnative: { color: 'blue', logo: 'react', logoColor: 'white' },
+  angular: { color: 'red', logo: 'angular', logoColor: 'white' },
+  vuejs: { color: 'darkgreen', logo: 'vue.js', logoColor: 'white' },
+  nuxt: { color: '00DC82', logo: 'nuxt', logoColor: 'white' },
+  nextjs: { color: 'black', logo: 'next.js', logoColor: 'white' },
+  webassembly: { color: 'purple', logo: 'webassembly', logoColor: 'white' },
+  wasm: { color: 'purple', logo: 'webassembly', logoColor: 'white' },
+  bootstrap: { color: 'blueviolet', logo: 'bootstrap', logoColor: 'white' },
+  jquery: { color: 'blue', logo: 'jquery', logoColor: 'white' },
+  tailwindcss: { color: 'teal', logo: 'tailwindcss', logoColor: 'white' },
+  postcss: { color: 'DD3A0A', logo: 'postcss', logoColor: 'white' },
+  streamlit: { color: 'orange', logo: 'streamlit', logoColor: 'white' },
+  materialui: { color: 'blueviolet', logo: 'mui', logoColor: 'white' },
+  joyui: { color: 'blueviolet', logo: 'mui', logoColor: 'white' },
+  shadcn: { color: 'black', logo: 'shadcnui', logoColor: 'white' },
+  electron: { color: '47848F', logo: 'electron', logoColor: 'white' },
+  webpack: { color: 'skyblue', logo: 'webpack', logoColor: 'white' },
+  turborepo: { color: 'EF4444', logo: 'turborepo', logoColor: 'white' },
+  vite: { color: 'yellow', logo: 'vite', logoColor: 'white' },
+  playwright: { color: '2EAD33', logo: 'playcanvas', logoColor: 'white' },
+  cypress: { color: '17202C', logo: 'cypress', logoColor: 'white' },
+  selenium: { color: '43B02A', logo: 'selenium', logoColor: 'white' },
+  jest: { color: 'C21325', logo: 'jest', logoColor: 'white' },
+  reacttestinglibrary: { color: 'C21325', logo: 'jest', logoColor: 'white' },
+  vitest: { color: '6E9F18', logo: 'vitest', logoColor: 'white' },
+  microfrontendsarchitecture: { color: '123232', logo: 'protondb', logoColor: 'white' },
+  nodejs: { color: 'darkgreen', logo: 'node.js', logoColor: 'white' },
+  expressjs: { color: 'blue', logo: 'express', logoColor: 'white' },
+  nestjs: { color: 'red', logo: 'nestjs', logoColor: 'white' },
+  springframework: { color: 'yellow', logo: 'spring', logoColor: 'white' },
+  springboot: { color: 'yellow', logo: 'spring', logoColor: 'white' },
+  django: { color: 'darkgreen', logo: 'django', logoColor: 'white' },
+  djangorestframework: { color: 'darkgreen', logo: 'django', logoColor: 'white' },
+  flask: { color: 'lightgrey', logo: 'flask', logoColor: 'white' },
+  fastapi: { color: 'success', logo: 'fastapi', logoColor: 'white' },
+  pytest: { color: '0A9EDC', logo: 'pytest', logoColor: 'white' },
+  mocha: { color: '8D6748', logo: 'mocha', logoColor: 'white' },
+  chai: { color: '8D6748', logo: 'mocha', logoColor: 'white' },
+  golang: { color: 'blue', logo: 'go', logoColor: 'white' },
+  go: { color: 'blue', logo: 'go', logoColor: 'white' },
+  beego: { color: 'blue', logo: 'go', logoColor: 'white' },
+  restfulapis: { color: 'red', logo: 'axios', logoColor: 'white' },
+  graphql: { color: 'magenta', logo: 'graphql', logoColor: 'white' },
+  trpc: { color: '2596BE', logo: 'trpc', logoColor: 'white' },
+  grpc: { color: '4285F4', logo: 'grocy', logoColor: 'white' },
+  protocolbuffers: { color: '4285F4', logo: 'grocy', logoColor: 'white' },
+  websockets: { color: 'yellow', logo: 'socketdotio', logoColor: 'white' },
+  serversentevents: { color: '0EA5E9', logo: 'serverless', logoColor: 'white' },
+  sse: { color: '0EA5E9', logo: 'serverless', logoColor: 'white' },
+  rabbitmq: { color: 'orange', logo: 'rabbitmq', logoColor: 'white' },
+  nginx: { color: 'darkgreen', logo: 'nginx', logoColor: 'white' },
+  hibernate: { color: 'purple', logo: 'hibernate', logoColor: 'white' },
+  typeorm: { color: 'blue', logo: 'typeorm', logoColor: 'white' },
+  prisma: { color: 'darkblue', logo: 'prisma', logoColor: 'white' },
+  red5mediaserver: { color: 'red', logo: 'webrtc', logoColor: 'white' },
+  apachekafka: { color: 'black', logo: 'apachekafka', logoColor: 'white' },
+  oauth: { color: 'blue', logo: 'jsonwebtokens', logoColor: 'white' },
+  jwt: { color: 'blue', logo: 'jsonwebtokens', logoColor: 'white' },
+  auth0: { color: 'EB5424', logo: 'auth0', logoColor: 'white' },
+  elasticsearch: { color: 'darkgreen', logo: 'elasticsearch', logoColor: 'white' },
+  elkstack: { color: 'darkgreen', logo: 'elasticsearch', logoColor: 'white' },
+  openapi: { color: 'blue', logo: 'openapiinitiative', logoColor: 'white' },
+  microservicesarchitecture: { color: 'darkgreen', logo: 'stackedit', logoColor: 'white' },
+  tensorflow: { color: 'orange', logo: 'tensorflow', logoColor: 'white' },
+  keras: { color: 'red', logo: 'keras', logoColor: 'white' },
+  agenticai: { color: 'darkblue', logo: 'google', logoColor: 'white' },
+  modelcontextprotocol: { color: 'blue', logo: 'modelcontextprotocol', logoColor: 'white' },
+  mcp: { color: 'blue', logo: 'modelcontextprotocol', logoColor: 'white' },
+  agenttoagentprotocol: { color: '2E7D32' },
+  a2a: { color: '2E7D32' },
+  pytorch: { color: 'red', logo: 'pytorch', logoColor: 'white' },
+  scikitlearn: { color: 'blue', logo: 'scikitlearn', logoColor: 'white' },
+  opencv: { color: 'darkgreen', logo: 'opencv', logoColor: 'white' },
+  yolov3: { color: 'yellow', logo: 'e', logoColor: 'white' },
+  yolov8: { color: 'yellow', logo: 'e', logoColor: 'white' },
+  tesseractocr: { color: 'darkgreen', logo: 'interactjs', logoColor: 'white' },
+  transformers: { color: 'E53236', logo: 'huggingface', logoColor: 'white' },
+  langchain: { color: 'black', logo: 'langchain', logoColor: 'white' },
+  langgraph: { color: 'purple', logo: 'langgraph', logoColor: 'white' },
+  langsmith: { color: '111111', logo: 'langchain', logoColor: 'white' },
+  crewai: { color: 'blue', logo: 'crewai', logoColor: 'white' },
+  fireworksai: { color: 'FF6B35' },
+  faiss: { color: 'blue', logo: 'meta', logoColor: 'white' },
+  pinecone: { color: 'orange', logo: 'googledataproc', logoColor: 'white' },
+  optuna: { color: 'purple', logo: 'openaigym', logoColor: 'white' },
+  jupyternotebook: { color: 'orange', logo: 'jupyter', logoColor: 'white' },
+  mlflow: { color: 'blue', logo: 'mlflow', logoColor: 'white' },
+  weightsbiases: { color: 'FFBE00', logo: 'weightsandbiases', logoColor: 'black' },
+  prefect: { color: '0F766E', logo: 'prefect', logoColor: 'white' },
+  jax: { color: 'blue', logo: 'max', logoColor: 'white' },
+  onnx: { color: '005CED', logo: 'onnx', logoColor: 'white' },
+  xgboost: { color: 'EC7A08', logo: 'xgboost', logoColor: 'white' },
+  googlecolab: { color: 'blue', logo: 'googlecolab', logoColor: 'white' },
+  mysql: { color: 'blue', logo: 'mysql', logoColor: 'white' },
+  mongodb: { color: 'darkgreen', logo: 'mongodb', logoColor: 'white' },
+  postgresql: { color: 'blue', logo: 'postgresql', logoColor: 'white' },
+  microsoftsqlserver: { color: 'darkred', logo: 'sololearn', logoColor: 'white' },
+  neo4j: { color: 'yellow', logo: 'neo4j', logoColor: 'white' },
+  weaviate: { color: 'darkblue', logo: 'weblate', logoColor: 'white' },
+  firebase: { color: 'orange', logo: 'firebase', logoColor: 'white' },
+  supabase: { color: 'darkgreen', logo: 'supabase', logoColor: 'white' },
+  sqlite: { color: 'lightblue', logo: 'sqlite', logoColor: 'white' },
+  redis: { color: 'red', logo: 'redis', logoColor: 'white' },
+  oracledatabase: { color: 'red', logo: 'circle', logoColor: 'white' },
+  amazondynamodb: { color: 'darkblue', logo: 'databricks', logoColor: 'white' },
+  java: { color: 'red', logo: 'coffeescript', logoColor: 'white' },
+  cplusplus: { color: 'blue', logo: 'cplusplus', logoColor: 'white' },
+  c: { color: 'gray', logo: 'c', logoColor: 'white' },
+  assembly: { color: 'lightgrey', logo: 'assemblyscript', logoColor: 'white' },
+  python: { color: 'blue', logo: 'python', logoColor: 'white' },
+  javascript: { color: 'gold', logo: 'javascript', logoColor: 'white' },
+  typescript: { color: 'blue', logo: 'typescript', logoColor: 'white' },
+  rust: { color: '000000', logo: 'rust', logoColor: 'white' },
+  php: { color: 'purple', logo: 'php', logoColor: 'white' },
+  kotlin: { color: 'purple', logo: 'kotlin', logoColor: 'white' },
+  swift: { color: 'orange', logo: 'swift', logoColor: 'white' },
+  shell: { color: 'black', logo: 'gnu-bash', logoColor: 'white' },
+  makefile: { color: 'darkblue', logo: 'gnu', logoColor: 'white' },
+  powerbi: { color: 'yellow', logo: 'gotomeeting', logoColor: 'white' },
+  tableau: { color: 'blue', logo: 'airtable', logoColor: 'white' },
+  stata: { color: 'lightblue', logo: 'statamic', logoColor: 'white' },
+  sas: { color: 'lightblue', logo: 'sanic', logoColor: 'white' },
+  rstudio: { color: 'blue', logo: 'r', logoColor: 'white' },
+  pandas: { color: '150458', logo: 'pandas', logoColor: 'white' },
+  microsoftexcel: { color: 'darkgreen', logo: 'micropython', logoColor: 'white' },
+  matlab: { color: 'orange', logo: 'matrix', logoColor: 'white' },
+  spark: { color: 'red', logo: 'apachespark', logoColor: 'white' },
+  hadoop: { color: 'darkgreen', logo: 'apachehadoop', logoColor: 'white' },
+  apachespark: { color: 'red', logo: 'apachespark', logoColor: 'white' },
+  apachehadoop: { color: 'darkgreen', logo: 'apachehadoop', logoColor: 'white' },
+  android: { color: 'darkgreen', logo: 'android', logoColor: 'white' },
+  ios: { color: 'silver', logo: 'swift', logoColor: 'white' },
+  objectivec: { color: 'blue', logo: 'apple', logoColor: 'white' },
+  androidstudio: { color: 'darkgreen', logo: 'androidstudio', logoColor: 'white' },
+  xcode: { color: 'darkblue', logo: 'xcode', logoColor: 'white' },
+  apachecordova: { color: 'blueviolet', logo: 'apachecordova', logoColor: 'white' },
+  git: { color: 'orange', logo: 'git', logoColor: 'white' },
+  githubactions: { color: 'lightgrey', logo: 'githubactions', logoColor: 'white' },
+  gitlabci: { color: 'FC6D26', logo: 'gitlab', logoColor: 'white' },
+  travisci: { color: '3EAAAF', logo: 'travisci', logoColor: 'white' },
+  jenkins: { color: 'blue', logo: 'jenkins', logoColor: 'white' },
+  ansible: { color: 'red', logo: 'ansible', logoColor: 'white' },
+  docker: { color: 'blue', logo: 'docker', logoColor: 'white' },
+  kubernetes: { color: '326CE5', logo: 'kubernetes', logoColor: 'white' },
+  k8s: { color: '326CE5', logo: 'kubernetes', logoColor: 'white' },
+  helm: { color: '0F1689', logo: 'helm', logoColor: 'white' },
+  fluxcd: { color: '5468FF', logo: 'flux', logoColor: 'white' },
+  argocd: { color: 'EF7B4D', logo: 'argo', logoColor: 'white' },
+  argorollouts: { color: '456787', logo: 'argo', logoColor: 'white' },
+  canary: { color: '16A34A' },
+  bluegreendeployments: { color: '16A34A' },
+  vercel: { color: 'black', logo: 'vercel', logoColor: 'white' },
+  heroku: { color: 'purple', logo: 'hermes', logoColor: 'white' },
+  netlify: { color: 'darkgreen', logo: 'netlify', logoColor: 'white' },
+  aws: { color: 'orange', logo: 'task', logoColor: 'white' },
+  gcp: { color: 'blue', logo: 'googlecloud', logoColor: 'white' },
+  microsoftazure: { color: 'blue', logo: 'micropython', logoColor: 'white' },
+  azure: { color: 'blue', logo: 'micropython', logoColor: 'white' },
+  oci: { color: 'C74634', logo: 'circle', logoColor: 'white' },
+  oraclecloudinfrastructure: { color: 'C74634', logo: 'circle', logoColor: 'white' },
+  terraform: { color: '623CE4', logo: 'terraform', logoColor: 'white' },
+  hashicorp: { color: '999888', logo: 'hashicorp', logoColor: 'white' },
+  podman: { color: '892CA0', logo: 'podman', logoColor: 'white' },
+  prometheus: { color: 'orange', logo: 'prometheus', logoColor: 'white' },
+  grafana: { color: 'F46800', logo: 'grafana', logoColor: 'white' },
+  linux: { color: 'black', logo: 'linux', logoColor: 'white' },
+  wsl: { color: 'darkblue', logo: 'windsurf', logoColor: 'white' },
+  jira: { color: 'blue', logo: 'jira', logoColor: 'white' },
+  confluence: { color: 'blue', logo: 'jira', logoColor: 'white' },
+  adobeillustrator: { color: 'orange', logo: 'milvus', logoColor: 'white' },
+  adobephotoshop: { color: 'blue', logo: 'googlephotos', logoColor: 'white' },
+  figma: { color: 'black', logo: 'figma', logoColor: 'white' },
+  blender: { color: 'orange', logo: 'blender', logoColor: 'white' },
+};
+
+function pickShieldStyle(label) {
+  const normalizedLabel = normalizeSkillTag(label);
+  if (SHIELD_STYLE_HINTS[normalizedLabel]) {
+    return SHIELD_STYLE_HINTS[normalizedLabel];
+  }
+
+  const chunks = label
+    .replace(/\([^)]*\)/g, match => `|${match.replace(/[()]/g, '')}|`)
+    .replace(/\s+\+\s+/g, '|')
+    .replace(/\s*&\s*/g, '|')
+    .replace(/\s+and\s+/gi, '|')
+    .replace(/\s*\/\s*/g, '|')
+    .replace(/\s*,\s*/g, '|')
+    .split('|')
+    .map(chunk => chunk.trim())
+    .filter(Boolean);
+
+  for (const chunk of chunks) {
+    const normalizedChunk = normalizeSkillTag(chunk);
+    if (SHIELD_STYLE_HINTS[normalizedChunk]) {
+      return SHIELD_STYLE_HINTS[normalizedChunk];
+    }
+  }
+
+  return { color: skillBadgeColor(label), logo: 'github', logoColor: 'white' };
+}
+
+function createCdnBadgeUrl(label) {
+  const badgeLabel = label
+    .replace(/Server-Sent Events/gi, 'Server Sent Events')
+    .replace(/Blue-Green/gi, 'Blue/Green')
+    .replace(/ORMs and ODMs\s*\(.*/i, 'ORMs & ODMs');
+
+  const style = pickShieldStyle(label);
+  let url = `https://img.shields.io/badge/${encodeURIComponent(badgeLabel)}-${style.color}`;
+  if (style.logo) {
+    url += `?logo=${encodeURIComponent(style.logo)}`;
+    if (style.logoColor) {
+      url += `&logoColor=${encodeURIComponent(style.logoColor)}`;
+    }
+  }
+  return url;
+}
+
+function extractSkillTags(label) {
+  return [label];
+}
+
+function renderSkillNameBadges() {
+  const skillNames = document.querySelectorAll('.skills__name');
+
+  skillNames.forEach(nameEl => {
+    if (nameEl.dataset.badgesRendered === 'true') {
+      return;
+    }
+
+    const label = nameEl.textContent.trim();
+    const tags = extractSkillTags(label);
+
+    const tagsHtml = tags
+      .map(tag => `<img class="skills__badge-img" src="${createCdnBadgeUrl(tag)}" alt="${escapeHtml(tag)} badge" loading="lazy" decoding="async" />`)
+      .join('');
+
+    nameEl.innerHTML = `
+      <span class="skills__name-text">${escapeHtml(label)}</span>
+      <span class="skills__badges">${tagsHtml}</span>
+    `;
+    nameEl.dataset.badgesRendered = 'true';
+  });
+}
+
+function animateSkillNumber(element, target, duration = 850) {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion) {
+    element.textContent = `${target}%`;
+    return;
+  }
+
+  const startTime = performance.now();
+
+  function tick(currentTime) {
+    const progress = Math.min((currentTime - startTime) / duration, 1);
+    const value = Math.round(target * progress);
+    element.textContent = `${value}%`;
+
+    if (progress < 1) {
+      requestAnimationFrame(tick);
+    }
+  }
+
+  requestAnimationFrame(tick);
+}
+
+function animateSkillSection(section) {
+  const bars = section.querySelectorAll('.skills__percentage');
+  const numbers = section.querySelectorAll('.skills__number');
+
+  bars.forEach(bar => {
+    bar.classList.remove('skills__percentage--animate');
+    void bar.offsetWidth;
+    bar.classList.add('skills__percentage--animate');
+  });
+
+  numbers.forEach(numberEl => {
+    if (!numberEl.dataset.targetValue) {
+      numberEl.dataset.targetValue = String(parseInt(numberEl.textContent, 10) || 0);
+    }
+
+    const target = parseInt(numberEl.dataset.targetValue, 10) || 0;
+    animateSkillNumber(numberEl, target);
+  });
+}
+
+function toggleSkills(currentSection) {
+  const isAlreadyOpen = currentSection.classList.contains('skills__open');
+
+  if (isAlreadyOpen) {
+    currentSection.classList.remove('skills__open');
+    currentSection.classList.add('skills__close');
+    currentSection.querySelectorAll('.skills__percentage').forEach(bar => {
+      bar.classList.remove('skills__percentage--animate');
+    });
+  } else {
+    currentSection.classList.remove('skills__close');
+    currentSection.classList.add('skills__open');
+    animateSkillSection(currentSection);
   }
 }
 
-skillsHeader.forEach(header => {
-  header.addEventListener('click', toggleSkills);
+skillsContent.forEach(content => {
+  content.addEventListener('click', event => {
+    const isOpen = content.classList.contains('skills__open');
+    const clickedHeader = Boolean(event.target.closest('.skills__header'));
+
+    // When expanded, only header clicks should toggle close.
+    if (isOpen && !clickedHeader) {
+      return;
+    }
+
+    toggleSkills(content);
+  });
 });
+
+renderSkillNameBadges();
 
 const tabs = document.querySelectorAll('[data-target]'),
   tabContents = document.querySelectorAll('[data-content]');
