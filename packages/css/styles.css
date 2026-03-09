@@ -2335,9 +2335,14 @@ body.dark-theme .publication__card {
   align-items: center;
   margin: 10px auto;
   max-width: 95% !important;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
 }
 #chatbotInputContainer #chatbotInput {
-  flex: 1;
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 0;
   height: 40px;
   padding: 10px;
   border: none;
@@ -2349,6 +2354,7 @@ body.dark-theme .publication__card {
   box-sizing: border-box;
 }
 #chatbotInputContainer #chatbotButton {
+  flex: 0 0 auto;
   margin-left: 0.5rem;
   padding: 10px;
   border: none;
@@ -3627,6 +3633,7 @@ body.dark-theme .waves.waves--mirror .wave3 {
 #chatbotModal #chatbotInput {
   flex: 1 1 auto;
   min-width: 0;
+  width: 0;
   padding: 10px;
   border: none;
   border-radius: 8px;
@@ -3661,6 +3668,7 @@ body.dark-theme .waves.waves--mirror .wave3 {
 }
 
 #chatbotModal #chatbotButton1 {
+  flex: 0 0 auto;
   margin-left: 0.5rem;
   padding: 10px;
   border: none;
