@@ -60,116 +60,152 @@ if (navClose) {
   });
 }
 
-const ctx = document.getElementById('skillsChart').getContext('2d');
-const skillsChart = new Chart(ctx, {
-  type: 'radar',
-  data: {
-    labels: [
-      'Languages',
-      'Front-End Development',
-      'Back-End Development',
-      'Databases',
-      'Data Analytics',
-      'AI & ML',
-      'Mobile Development',
-      'Development Tools',
-      'Design Tools',
-    ],
-    datasets: [
-      {
-        label: 'Skill Level (%)',
-        data: [86, 93, 96, 89, 84, 92, 78, 90, 76],
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 2,
-        pointBackgroundColor: 'rgba(75, 192, 192, 1)',
-        pointBorderColor: '#fff',
-        pointHoverBackgroundColor: '#fff',
-        pointHoverBorderColor: 'rgba(75, 192, 192, 1)',
-      },
-      {
-        label: 'Delivery Confidence (%)',
-        data: [83, 92, 90, 87, 79, 88, 72, 85, 70],
-        backgroundColor: 'rgba(147, 112, 219, 0.15)',
-        borderColor: 'rgba(147, 112, 219, 1)',
-        borderWidth: 2,
-        pointBackgroundColor: 'rgba(147, 112, 219, 1)',
-        pointBorderColor: '#fff',
-        pointHoverBackgroundColor: '#fff',
-        pointHoverBorderColor: 'rgba(147, 112, 219, 1)',
-      },
-      {
-        label: 'Learning Agility (%)',
-        data: [92, 96, 94, 92, 89, 95, 81, 89, 82],
-        backgroundColor: 'rgba(255, 159, 64, 0.15)',
-        borderColor: 'rgba(255, 159, 64, 1)',
-        borderWidth: 2,
-        pointBackgroundColor: 'rgba(255, 159, 64, 1)',
-        pointBorderColor: '#fff',
-        pointHoverBackgroundColor: '#fff',
-        pointHoverBorderColor: 'rgba(255, 159, 64, 1)',
-      },
-    ],
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      r: {
-        angleLines: {
-          display: true,
-          color: 'rgba(128, 128, 128, 0.3)',
+let skillsChart = null;
+
+function createSkillsChart(ctx) {
+  return new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: [
+        'Languages',
+        'Front-End Development',
+        'Back-End Development',
+        'Databases',
+        'Data Analytics',
+        'AI & ML',
+        'Mobile Development',
+        'Development Tools',
+        'Design Tools',
+      ],
+      datasets: [
+        {
+          label: 'Skill Level (%)',
+          data: [86, 93, 96, 89, 84, 92, 78, 90, 76],
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 2,
+          pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgba(75, 192, 192, 1)',
         },
-        suggestedMin: 0,
-        suggestedMax: 100,
-        ticks: {
-          display: false,
-          font: {
-            family: 'Poppins',
+        {
+          label: 'Delivery Confidence (%)',
+          data: [83, 92, 90, 87, 79, 88, 72, 85, 70],
+          backgroundColor: 'rgba(147, 112, 219, 0.15)',
+          borderColor: 'rgba(147, 112, 219, 1)',
+          borderWidth: 2,
+          pointBackgroundColor: 'rgba(147, 112, 219, 1)',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgba(147, 112, 219, 1)',
+        },
+        {
+          label: 'Learning Agility (%)',
+          data: [92, 96, 94, 92, 89, 95, 81, 89, 82],
+          backgroundColor: 'rgba(255, 159, 64, 0.15)',
+          borderColor: 'rgba(255, 159, 64, 1)',
+          borderWidth: 2,
+          pointBackgroundColor: 'rgba(255, 159, 64, 1)',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgba(255, 159, 64, 1)',
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        r: {
+          angleLines: {
+            display: true,
+            color: 'rgba(128, 128, 128, 0.3)',
+          },
+          suggestedMin: 0,
+          suggestedMax: 100,
+          ticks: {
+            display: false,
+            font: {
+              family: 'Poppins',
+            },
+          },
+          grid: {
+            color: 'rgba(128, 128, 128, 0.2)',
           },
         },
-        grid: {
-          color: 'rgba(128, 128, 128, 0.2)',
+      },
+      font: {
+        family: 'Poppins',
+      },
+      plugins: {
+        legend: {
+          position: 'top',
+          labels: {
+            color: 'rgba(75, 192, 192, 1)',
+            font: {
+              family: 'Poppins',
+            },
+          },
+          title: {
+            display: true,
+            font: {
+              family: 'Poppins',
+              weight: 'bold',
+            },
+          },
+        },
+        tooltip: {
+          bodyFont: {
+            family: 'Poppins',
+          },
+          titleFont: {
+            family: 'Poppins',
+          },
+          enabled: true,
+          callbacks: {
+            label: function (context) {
+              return context.dataset.label + ': ' + context.formattedValue + '%';
+            },
+          },
         },
       },
     },
-    font: {
-      family: 'Poppins',
+  });
+}
+
+function initSkillsChartOnView() {
+  const chartCanvas = document.getElementById('skillsChart');
+  if (!chartCanvas || typeof Chart === 'undefined') return;
+
+  const renderChart = () => {
+    if (skillsChart) return;
+    const ctx = chartCanvas.getContext('2d');
+    if (!ctx) return;
+    skillsChart = createSkillsChart(ctx);
+  };
+
+  if (!('IntersectionObserver' in window)) {
+    renderChart();
+    return;
+  }
+
+  const chartObserver = new IntersectionObserver(
+    entries => {
+      const [entry] = entries;
+      if (!entry || !entry.isIntersecting) return;
+      renderChart();
+      chartObserver.disconnect();
     },
-    plugins: {
-      legend: {
-        position: 'top',
-        labels: {
-          color: 'rgba(75, 192, 192, 1)',
-          font: {
-            family: 'Poppins',
-          },
-        },
-        title: {
-          display: true,
-          font: {
-            family: 'Poppins',
-            weight: 'bold',
-          },
-        },
-      },
-      tooltip: {
-        bodyFont: {
-          family: 'Poppins',
-        },
-        titleFont: {
-          family: 'Poppins',
-        },
-        enabled: true,
-        callbacks: {
-          label: function (context) {
-            return context.dataset.label + ': ' + context.formattedValue + '%';
-          },
-        },
-      },
-    },
-  },
-});
+    {
+      threshold: 0.25,
+    }
+  );
+
+  chartObserver.observe(chartCanvas);
+}
+
+initSkillsChartOnView();
 
 const navLink = document.querySelectorAll('.nav__link');
 
