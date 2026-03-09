@@ -927,12 +927,15 @@ body.dark-theme .scroll-progress {
 }
 
 .skills__content {
+  display: grid;
+  grid-template-rows: auto 0fr;
   background: var(--container-color);
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.06);
   padding: 0.9rem 1rem;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
   transition:
+    grid-template-rows 0.36s cubic-bezier(0.2, 0.7, 0.25, 1),
     background-color 0.35s ease,
     border-color 0.25s ease,
     box-shadow 0.25s ease,
@@ -988,10 +991,16 @@ body.dark-theme .scroll-progress {
 .skills__list {
   row-gap: 0.85rem;
   padding-left: 0;
-  padding-top: 0.35rem;
+  padding-top: 0;
+  min-height: 0;
   overflow: hidden;
-  transition: max-height 0.4s ease;
-  max-height: 0;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition:
+    opacity 0.24s ease,
+    transform 0.36s cubic-bezier(0.2, 0.7, 0.25, 1),
+    padding-top 0.36s cubic-bezier(0.2, 0.7, 0.25, 1),
+    margin-bottom 0.36s cubic-bezier(0.2, 0.7, 0.25, 1);
 }
 
 .skills__list > .skills__data:first-child {
@@ -1164,15 +1173,18 @@ body.dark-theme .scroll-progress {
 }
 
 .skills__close .skills__list {
-  height: 0;
-  overflow: hidden;
+  margin-bottom: 0;
+}
+
+.skills__open {
+  grid-template-rows: auto 1fr;
 }
 
 .skills__open .skills__list {
-  height: max-content;
+  opacity: 1;
+  transform: translateY(0);
+  padding-top: 0.35rem;
   margin-bottom: var(--mb-2-5);
-  max-height: 2000px;
-  overflow: visible;
 }
 
 .skills__open .skills__arrow {
