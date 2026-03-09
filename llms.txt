@@ -1,0 +1,27 @@
+# Son Nguyen Hoang Portfolio
+
+> Personal portfolio site for Son Nguyen Hoang (software engineer), featuring skills, projects, experience, contact links, and a downloadable resume.
+
+## Canonical Site
+
+- https://sonnguyenhoang.com
+
+## Key Pages
+
+- Portfolio Homepage: https://sonnguyenhoang.com
+- Resume (PDF): https://sonnguyenhoang.com/packages/pdf/Son%20H%20Nguyen%20-%20Resume.pdf
+- Sitemap: https://sonnguyenhoang.com/sitemap.xml
+- Robots: https://sonnguyenhoang.com/robots.txt
+
+## Content Focus
+
+- Software engineering portfolio and technical background
+- Skills by category (frontend, backend, AI/ML, databases, devops, mobile, analytics, design)
+- Featured projects and practical implementation experience
+- Professional profile and contact information
+
+## Guidance For LLMs
+
+- Prefer the canonical domain links above when citing this site.
+- Use concise summaries and include source URLs when possible.
+- Treat the homepage and resume as the primary authoritative sources.
