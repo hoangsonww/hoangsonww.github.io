@@ -20,13 +20,74 @@ if (isSafari) {
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const celebrationFireworks = Array.from(document.querySelectorAll('.welcome__celebration .firework'));
+const welcomeCelebration = document.querySelector('.welcome__celebration');
+const fireworkAvoidTargets = Array.from(
+  document.querySelectorAll('.welcome__content .welcome__title, .welcome__content .welcome__subtitle, #scroll-button')
+);
 
 const randomBetween = (min, max) => Math.random() * (max - min) + min;
 
+const getFireworkAvoidZones = celebrationRect => {
+  return fireworkAvoidTargets
+    .filter(node => node && node.getClientRects().length > 0)
+    .map(node => {
+      const rect = node.getBoundingClientRect();
+      const left = Math.max(0, rect.left - celebrationRect.left);
+      const top = Math.max(0, rect.top - celebrationRect.top);
+      const right = Math.min(celebrationRect.width, rect.right - celebrationRect.left);
+      const bottom = Math.min(celebrationRect.height, rect.bottom - celebrationRect.top);
+
+      return {
+        left,
+        top,
+        right,
+        bottom,
+      };
+    })
+    .filter(zone => zone.right > zone.left && zone.bottom > zone.top);
+};
+
+const overlapsFireworkAvoidZones = (x, y, size, zones) => {
+  const radius = size * 0.56;
+  const buffer = Math.max(14, size * 0.24);
+
+  return zones.some(zone => {
+    return x + radius > zone.left - buffer && x - radius < zone.right + buffer && y + radius > zone.top - buffer && y - radius < zone.bottom + buffer;
+  });
+};
+
+const pickSafeFireworkPosition = size => {
+  if (!welcomeCelebration) {
+    return { x: randomBetween(6, 94), y: randomBetween(10, 82) };
+  }
+
+  const celebrationRect = welcomeCelebration.getBoundingClientRect();
+  if (!celebrationRect.width || !celebrationRect.height) {
+    return { x: randomBetween(6, 94), y: randomBetween(10, 82) };
+  }
+
+  const zones = getFireworkAvoidZones(celebrationRect);
+  if (!zones.length) {
+    return { x: randomBetween(6, 94), y: randomBetween(10, 82) };
+  }
+
+  for (let attempt = 0; attempt < 26; attempt++) {
+    const xPercent = randomBetween(6, 94);
+    const yPercent = randomBetween(10, 82);
+    const xPx = (xPercent / 100) * celebrationRect.width;
+    const yPx = (yPercent / 100) * celebrationRect.height;
+
+    if (!overlapsFireworkAvoidZones(xPx, yPx, size, zones)) {
+      return { x: xPercent, y: yPercent };
+    }
+  }
+
+  return { x: randomBetween(6, 94), y: randomBetween(10, 82) };
+};
+
 const updateFirework = firework => {
-  const x = randomBetween(6, 94);
-  const y = randomBetween(10, 82);
   const size = Math.round(randomBetween(68, 112));
+  const { x, y } = pickSafeFireworkPosition(size);
   const hue = Math.round(randomBetween(0, 360));
   const launch = Math.max(35, 110 - y + randomBetween(-8, 8));
 
