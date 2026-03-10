@@ -2390,6 +2390,7 @@ body.dark-theme .publication__card {
 /*===== Container & buttons =====*/
 #chatbotContainer {
   position: relative;
+  display: none;
 }
 #minimizeButton {
   position: absolute;
@@ -2815,8 +2816,10 @@ body.dark-theme .welcome {
     0 3px 10px rgba(8, 18, 36, 0.1);
   backdrop-filter: blur(10px);
   overflow: hidden;
-  opacity: 0.92;
-  animation: mac-window-float 7.5s ease-in-out infinite;
+  opacity: 0;
+  animation:
+    mac-window-enter 0.9s cubic-bezier(0.22, 0.8, 0.24, 1) forwards,
+    mac-window-float 7.5s ease-in-out infinite 1s;
 }
 
 .mac-window--code {
@@ -2830,7 +2833,7 @@ body.dark-theme .welcome {
   right: clamp(1rem, 5vw, 7rem);
   bottom: clamp(2.5rem, 6vh, 4.5rem);
   transform: rotate(4deg);
-  animation-delay: -2.4s;
+  animation-delay: 0.2s, 1s;
 }
 
 .mac-window__toolbar {
@@ -2922,6 +2925,19 @@ body.dark-theme .welcome {
   background: linear-gradient(90deg, #30abc2, #5a9dff);
 }
 
+@keyframes mac-window-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(24px) scale(0.94) rotate(var(--window-tilt, 0deg));
+    filter: blur(3px);
+  }
+  100% {
+    opacity: 0.92;
+    transform: translateY(0) scale(1) rotate(var(--window-tilt, 0deg));
+    filter: blur(0);
+  }
+}
+
 @keyframes mac-window-float {
   0%,
   100% {
@@ -2963,7 +2979,6 @@ body.dark-theme .mac-window__stat {
 @media screen and (max-width: 968px) {
   .mac-window {
     width: min(320px, 86vw);
-    opacity: 0.86;
   }
 
   .mac-window--metrics {
@@ -2983,7 +2998,6 @@ body.dark-theme .mac-window__stat {
 @media screen and (max-width: 640px) {
   .mac-window {
     width: min(330px, 90vw);
-    opacity: 0.84;
   }
 
   .mac-window--metrics {
@@ -2993,6 +3007,14 @@ body.dark-theme .mac-window__stat {
   .mac-window--code {
     top: clamp(26.5rem, 81vh, 39rem);
     --window-tilt: -1.5deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mac-window {
+    animation: none;
+    opacity: 0.92;
+    transform: rotate(var(--window-tilt, 0deg));
   }
 }
 
