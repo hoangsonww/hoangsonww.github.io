@@ -80,7 +80,7 @@
     <meta name="msapplication-TileColor" content="#ffffff" />
 
     <!--==================== DEVTOOLS GUARD ====================-->
-    <script src="./packages/js/devtools-guard.js"></script>
+    <!-- <script src="./packages/js/devtools-guard.js"></script> -->
 
     <!-- ==================== JSON-LD SCHEMA ==================== -->
     <script type="application/ld+json">
@@ -587,7 +587,7 @@
     <header class="header" id="header" style="z-index: 100000000000">
       <div class="scroll-progress" id="scroll-progress"></div>
       <nav class="nav container">
-        <a href="#" class="nav__logo">Son Nguyen's Portfolio</a>
+        <a href="#welcome" class="nav__logo">Son Nguyen's Portfolio</a>
         <div class="nav__menu" id="nav-menu">
           <ul class="nav__list grid">
             <li class="nav__item">
@@ -629,15 +629,18 @@
           </ul>
           <i class="uil uil-times nav__close" id="nav-close"></i>
         </div>
-        <div class="nav__btns" style="margin-left: 9px">
+        <div class="nav__btns">
           <!-- Back to Top btn -->
           <div class="nav__toggle" id="back-to-top-btn" title="Back to Top">
             <i class="uil uil-arrow-up"></i>
           </div>
 
-          <!-- Mobile spawn critters -->
-          <div class="nav__toggle" id="spawn-btn-mobile" title="Spawn Critters" style="margin-right: 1rem">
+          <!-- Mobile critter controls -->
+          <div class="nav__toggle" id="spawn-btn-mobile" title="Spawn Critters">
             <i class="uil uil-plane"></i>
+          </div>
+          <div class="nav__toggle" id="clear-all-btn-mobile" title="Clear Critters">
+            <i class="uil uil-times"></i>
           </div>
 
           <!-- Chatbot btn -->
@@ -5810,7 +5813,7 @@
 
     <!-- Mobile Chatbot Modal -->
     <div id="chatbotModal" style="display: none">
-      <div id="chatbotContainer" style="position: relative">
+      <div id="chatbotContainerMobile" style="position: relative">
         <!-- Clear history button -->
         <div id="clearButton" onclick="clearHistory()" data-tooltip="Clear Chat">
           <i class="uil uil-trash-alt"></i>
@@ -5829,16 +5832,18 @@
       </div>
     </div>
 
-    <button id="spawn-btn" title="Spawn critters" data-tooltip="Spawn Critters">
-      <i class="uil uil-plane"></i>
-    </button>
+    <div class="critter-controls" aria-label="Critter controls">
+      <button id="spawn-btn" title="Spawn critters" data-tooltip="Spawn Critters">
+        <i class="uil uil-plane"></i>
+      </button>
 
-    <button id="clear-all-btn" title="Clear All Critters" data-tooltip="Clear Critters">
-      <i class="uil uil-times"></i>
-    </button>
+      <button id="clear-all-btn" title="Clear All Critters" data-tooltip="Clear Critters">
+        <i class="uil uil-times"></i>
+      </button>
+    </div>
 
     <!--==================== SCROLL TO TOP ====================-->
-    <a class="scrollup" style="display: block" id="back-to-top" title="Back to Top" data-tooltip="Back to Top"><i class="fa fa-arrow-up"></i></a>
+    <a class="scrollup" id="back-to-top" title="Back to Top" data-tooltip="Back to Top"><i class="fa fa-arrow-up"></i></a>
 
     <!--==================== SWIPER JS ====================-->
     <script src="./packages/js/swiper-bundle.min.js"></script>
@@ -5878,17 +5883,18 @@
         ];
 
         const icons = [];
-        // grab both desktop and mobile buttons (if present)
-        const spawnBtns = [document.getElementById('spawn-btn'), document.getElementById('spawn-btn-mobile')].filter(btn => btn !== null);
-
-        const clearBtn = document.getElementById('clear-all-btn');
+        const spawnBtns = [document.getElementById('spawn-btn'), document.getElementById('spawn-btn-mobile')].filter(Boolean);
+        const clearBtns = [document.getElementById('clear-all-btn'), document.getElementById('clear-all-btn-mobile')].filter(Boolean);
 
         function updateClearBtn() {
-          if (!clearBtn) return;
-          clearBtn.style.display = icons.length ? 'block' : 'none';
+          const isMobile = window.matchMedia('(max-width: 768px)').matches;
+          clearBtns.forEach(btn => {
+            const isMobileBtn = btn.id === 'clear-all-btn-mobile';
+            const shouldShow = icons.length > 0 && (isMobile ? isMobileBtn : !isMobileBtn);
+            btn.style.display = shouldShow ? 'flex' : 'none';
+          });
         }
 
-        // attach spawn logic to each button
         spawnBtns.forEach(spawnBtn => {
           spawnBtn.addEventListener('click', () => {
             const rect = spawnBtn.getBoundingClientRect();
@@ -5924,7 +5930,7 @@
           });
         });
 
-        if (clearBtn) {
+        clearBtns.forEach(clearBtn => {
           clearBtn.addEventListener('click', () => {
             for (let obj of icons) {
               obj.el.remove();
@@ -5932,9 +5938,10 @@
             icons.length = 0;
             updateClearBtn();
           });
-        }
+        });
 
         updateClearBtn();
+        window.addEventListener('resize', updateClearBtn);
 
         function animate() {
           const ICON_SIZE = 30;

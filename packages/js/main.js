@@ -269,6 +269,7 @@ function initSkillsChartOnView() {
 initSkillsChartOnView();
 
 const navLink = document.querySelectorAll('.nav__link');
+const navLogo = document.querySelector('.nav__logo');
 
 function linkAction() {
   const navMenu = document.getElementById('nav-menu');
@@ -276,6 +277,18 @@ function linkAction() {
 }
 
 navLink.forEach(n => n.addEventListener('click', linkAction));
+
+if (navLogo) {
+  navLogo.addEventListener('click', event => {
+    event.preventDefault();
+    navMenu.classList.remove('show-menu');
+    document.body.classList.remove('menu-open');
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.body.scrollTo({ top: 0, behavior: 'smooth' });
+    document.documentElement.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
 
 const skillsContent = document.querySelectorAll('.skills__content');
 
@@ -1597,18 +1610,38 @@ window.onload = () => {
 };
 
 const backToTopButton = document.getElementById('back-to-top');
-backToTopButton.addEventListener('click', () => {
-  document.getElementById('home').scrollIntoView({ behavior: 'smooth' });
-});
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 50) {
-    chatbotContainer.style.display = 'block';
-    backToTopButton.style.bottom = '10px';
-  } else {
-    chatbotContainer.style.display = 'none';
-    backToTopButton.style.bottom = '-20%';
+const footerElement = document.querySelector('footer');
+
+if (backToTopButton) {
+  backToTopButton.addEventListener('click', event => {
+    event.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.body.scrollTo({ top: 0, behavior: 'smooth' });
+    document.documentElement.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
+function updateFloatingUi() {
+  const shouldShow = window.scrollY > 50;
+
+  if (chatbotContainer) {
+    chatbotContainer.style.display = shouldShow ? 'block' : 'none';
   }
-});
+
+  if (backToTopButton) {
+    backToTopButton.classList.toggle('is-visible', shouldShow);
+
+    if (footerElement) {
+      const footerPosition = footerElement.getBoundingClientRect().top + window.scrollY;
+      const scrollPosition = window.scrollY + window.innerHeight;
+      backToTopButton.classList.toggle('is-near-footer', scrollPosition >= footerPosition);
+    }
+  }
+}
+
+window.addEventListener('scroll', updateFloatingUi, { passive: true });
+window.addEventListener('resize', updateFloatingUi);
+document.addEventListener('DOMContentLoaded', updateFloatingUi);
 
 window.addEventListener('resize', checkModalHeight);
 document.addEventListener('DOMContentLoaded', checkModalHeight);
@@ -1626,20 +1659,6 @@ function checkModalHeight() {
     modalContent.style.overflowY = 'hidden';
   }
 }
-
-document.addEventListener('scroll', function () {
-  let scrollUpButton = document.getElementById('back-to-top');
-  let footer = document.querySelector('footer');
-
-  let footerPosition = footer.getBoundingClientRect().top + window.scrollY;
-  let scrollPosition = window.scrollY + window.innerHeight;
-
-  if (scrollPosition >= footerPosition) {
-    scrollUpButton.style.color = 'white';
-  } else {
-    scrollUpButton.style.color = '';
-  }
-});
 
 document.addEventListener('DOMContentLoaded', function () {
   let chatbotContainer = document.getElementById('chatbotContainer');
