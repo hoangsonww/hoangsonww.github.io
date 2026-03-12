@@ -1684,6 +1684,116 @@ body.dark-theme .publication__card {
   margin-bottom: var(--mb-0-75);
 }
 
+.portfolio__topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  justify-content: center;
+  margin: 0.75rem auto 1.25rem;
+  max-width: 960px;
+}
+
+.portfolio__topic-btn {
+  border: 1px solid rgba(86, 201, 224, 0.35);
+  background: linear-gradient(135deg, rgba(86, 201, 224, 0.12), rgba(21, 85, 115, 0.08));
+  color: var(--title-color);
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-family: var(--body-font);
+  font-weight: var(--font-medium);
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transform: translateY(0) scale(1);
+  transition:
+    transform 0.24s cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow 0.26s ease,
+    border-color 0.22s ease,
+    background-color 0.22s ease,
+    color 0.2s ease;
+}
+
+.portfolio__topic-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  border-color: rgba(86, 201, 224, 0.6);
+  box-shadow: 0 10px 20px rgba(24, 132, 173, 0.2);
+}
+
+.portfolio__topic-btn.is-active {
+  color: #fff;
+  border-color: rgba(86, 201, 224, 0.8);
+  background: linear-gradient(135deg, #0b8bc2, #0d6d99);
+  transform: translateY(-1px) scale(1.015);
+  box-shadow: 0 12px 24px rgba(13, 109, 153, 0.34);
+}
+
+.portfolio__topic-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: -0.1rem 0 0.4rem;
+}
+
+.portfolio__topic-chip {
+  border-radius: 999px;
+  padding: 0.2rem 0.58rem;
+  font-size: 0.7rem;
+  font-family: var(--body-font);
+  font-weight: var(--font-medium);
+  letter-spacing: 0.015em;
+  color: #fff;
+  background: linear-gradient(135deg, rgba(12, 137, 190, 0.95), rgba(12, 86, 130, 0.96));
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 16px rgba(12, 88, 130, 0.25);
+  animation: portfolioChipFadeIn 0.28s ease both;
+}
+
+.portfolio__content--spotlight {
+  animation: portfolioSpotlightPulse 1s ease;
+}
+
+@keyframes portfolioSpotlightPulse {
+  0% {
+    transform: translateY(0);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    border-color: rgba(255, 255, 255, 0.06);
+  }
+  40% {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 22px 48px rgba(9, 128, 175, 0.28);
+    border-color: rgba(86, 201, 224, 0.52);
+  }
+  100% {
+    transform: translateY(0);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    border-color: rgba(255, 255, 255, 0.06);
+  }
+}
+
+@keyframes portfolioChipFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(4px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+body.dark-theme .portfolio__topic-btn {
+  color: #e6f7ff;
+  background: linear-gradient(135deg, rgba(17, 70, 92, 0.52), rgba(14, 44, 66, 0.5));
+  border-color: rgba(112, 212, 238, 0.35);
+}
+
+body.dark-theme .portfolio__topic-btn.is-active {
+  color: #fff;
+  border-color: rgba(129, 225, 251, 0.82);
+  background: linear-gradient(135deg, #109ad7, #116f9c);
+  box-shadow: 0 14px 28px rgba(10, 97, 140, 0.45);
+}
+
 .portfolio_ {
   display: flex;
   flex-wrap: wrap;
@@ -1735,6 +1845,12 @@ body.dark-theme .publication__card {
 .swiper-button-next,
 .swiper-pagination-bullet {
   outline: none;
+}
+
+.portfolio__container .swiper-button-prev.swiper-button-disabled,
+.portfolio__container .swiper-button-next.swiper-button-disabled {
+  pointer-events: auto;
+  opacity: 1;
 }
 
 .swiper-pagination-bullet {
@@ -1813,6 +1929,17 @@ body.dark-theme .publication__card {
 }
 
 @media screen and (max-width: 768px) {
+  .portfolio__topics {
+    justify-content: flex-start;
+    margin-top: 0.6rem;
+    margin-bottom: 1rem;
+    overflow-x: auto;
+    white-space: nowrap;
+    flex-wrap: nowrap;
+    padding: 0.2rem 0.15rem 0.35rem;
+    scrollbar-width: thin;
+  }
+
   .portfolio__bullet-preview {
     display: none;
   }
@@ -2353,9 +2480,14 @@ body.dark-theme .publication__card {
 }
 
 /* For large devices */
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 1201px) {
   body {
     margin: 0;
+  }
+
+  .nav__btns > #theme-button.change-theme {
+    margin-left: 1rem;
+    margin-right: 0;
   }
 
   .header,

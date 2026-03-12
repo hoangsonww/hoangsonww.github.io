@@ -733,7 +733,17 @@ let modal = function (modalClick) {
   modalEl.classList.add('active-modal');
 };
 
-const portfolioPreviewData = getPortfolioPreviewData();
+const portfolioTopicPriority = ['All', 'Full-Stack', 'AI', 'Agentic AI', 'ML', 'Data', 'Backend/API', 'Mobile', 'Game', 'Productivity', 'E-Commerce'];
+const portfolioTopicState = {
+  activeTopic: 'All',
+};
+const portfolioPreviewState = {
+  projectData: [],
+  observer: null,
+  listenersBound: false,
+  behaviorBound: false,
+};
+const portfolioSlideLibrary = getPortfolioSlideLibrary();
 
 modalBtns.forEach((modalBtn, i) => {
   modalBtn.addEventListener('click', () => {
@@ -776,6 +786,230 @@ function getPortfolioPreviewData() {
   });
 }
 
+function getPortfolioSlideLibrary() {
+  const slides = Array.from(document.querySelectorAll('.portfolio__container .swiper-wrapper > .portfolio__content')).filter(
+    slide => !slide.classList.contains('swiper-slide-duplicate')
+  );
+
+  return slides.map(slide => {
+    const normalizedSlide = slide.cloneNode(true);
+    normalizedSlide.classList.remove('scroll-animation', 'scroll-in-view', 'active');
+    normalizedSlide.removeAttribute('style');
+
+    const title = normalizedSlide.querySelector('.portfolio__title')?.textContent.trim() || 'Project';
+    const description = normalizedSlide.querySelector('.portfolio__description')?.textContent.trim() || '';
+    const image = normalizedSlide.querySelector('.portfolio__img')?.getAttribute('src') || '';
+    const topics = detectPortfolioTopics(title, description);
+
+    return {
+      title,
+      description,
+      image,
+      topics,
+      html: normalizedSlide.outerHTML,
+    };
+  });
+}
+
+function detectPortfolioTopics(title, description) {
+  const text = `${title} ${description}`.toLowerCase();
+  const topics = new Set();
+
+  if (/(agentic|autonomous agents|orchestrator|multi-agent)/.test(text)) {
+    topics.add('Agentic AI');
+    topics.add('AI');
+  }
+  if (/(\bai\b|\bllm\b|genai|rag|chatbot|transformer|gpt)/.test(text)) topics.add('AI');
+  if (/(\bml\b|machine learning|classifier|prediction|predictor)/.test(text)) topics.add('ML');
+  if (/(data pipeline|analytics|etl|dataset|data)/.test(text)) topics.add('Data');
+  if (/(full-stack|fullstack|mern|nestjs|supabase|next\\.js|web app|web application)/.test(text)) topics.add('Full-Stack');
+  if (/(api|backend|graphql|rest)/.test(text)) topics.add('Backend/API');
+  if (/(react native|ios|swift|mobile)/.test(text)) topics.add('Mobile');
+  if (/(game|wordle|puzzle|flappy|tic-tac-toe)/.test(text)) topics.add('Game');
+  if (/(productivity|task|clipboard|study|note)/.test(text)) topics.add('Productivity');
+  if (/(e-commerce|ecommerce|store|shop)/.test(text)) topics.add('E-Commerce');
+
+  if (topics.size === 0) {
+    topics.add('Full-Stack');
+  }
+
+  return [...topics];
+}
+
+function renderPortfolioTopicChips(slide, topics) {
+  const body = slide.querySelector('.portfolio_');
+  const titleEl = slide.querySelector('.portfolio__title');
+  if (!body || !titleEl) return;
+
+  let topicList = body.querySelector('.portfolio__topic-list');
+  if (!topicList) {
+    topicList = document.createElement('div');
+    topicList.className = 'portfolio__topic-list';
+    titleEl.insertAdjacentElement('afterend', topicList);
+  }
+
+  topicList.innerHTML = '';
+  topics.forEach(topic => {
+    const chip = document.createElement('span');
+    chip.className = 'portfolio__topic-chip';
+    chip.textContent = topic;
+    topicList.appendChild(chip);
+  });
+}
+
+function buildPortfolioPreviewDataFromSource(source) {
+  return source.map(project => ({
+    title: project.title,
+    description: trimProjectText(project.description),
+    image: project.image,
+  }));
+}
+
+function getPortfolioSlidesByTopic(topic) {
+  if (!topic || topic === 'All') {
+    return portfolioSlideLibrary;
+  }
+
+  return portfolioSlideLibrary.filter(project => project.topics.includes(topic));
+}
+
+function hydratePortfolioTopicChipsFromSource(source) {
+  const slides = Array.from(document.querySelectorAll('.portfolio__container .swiper-wrapper > .portfolio__content'));
+  slides.forEach((slide, index) => {
+    const project = source[index];
+    if (!project) return;
+    renderPortfolioTopicChips(slide, project.topics);
+  });
+}
+
+function updatePortfolioTopicButtons(activeTopic) {
+  const topicNav = document.getElementById('portfolio-topics');
+  if (!topicNav) return;
+  topicNav.querySelectorAll('.portfolio__topic-btn').forEach(node => {
+    node.classList.toggle('is-active', node.dataset.topic === activeTopic);
+  });
+}
+
+function resetPortfolioSwiperAfterFilter(swiper, shouldResumeAutoplay) {
+  if (!swiper) return;
+
+  if (typeof swiper.updateSize === 'function') {
+    swiper.updateSize();
+  }
+  if (typeof swiper.updateSlides === 'function') {
+    swiper.updateSlides();
+  }
+  swiper.update();
+  const minTranslate = typeof swiper.minTranslate === 'function' ? swiper.minTranslate() : 0;
+
+  if (typeof swiper.setTransition === 'function') {
+    swiper.setTransition(0);
+  }
+  if (swiper.wrapperEl) {
+    swiper.wrapperEl.style.transform = 'translate3d(0px, 0px, 0px)';
+  }
+  swiper.translate = minTranslate;
+  swiper.allowSlideNext = true;
+  swiper.allowSlidePrev = true;
+  if (typeof swiper.updateProgress === 'function') {
+    swiper.updateProgress(minTranslate);
+  }
+  if (typeof swiper.slideTo === 'function') {
+    swiper.slideTo(0, 0, false);
+  }
+  if (typeof swiper.updateSlidesClasses === 'function') {
+    swiper.updateSlidesClasses();
+  }
+
+  if (swiper.pagination) {
+    swiper.pagination.render();
+    swiper.pagination.update();
+  }
+
+  if (shouldResumeAutoplay && swiper.autoplay) {
+    swiper.autoplay.start();
+  }
+  syncPortfolioNavAvailability(swiper);
+}
+
+function applyPortfolioTopicFilter(swiper, topic, spotlight = true) {
+  if (!swiper) return;
+
+  const targetSlides = getPortfolioSlidesByTopic(topic);
+  if (!targetSlides.length) return;
+
+  portfolioTopicState.activeTopic = topic;
+  updatePortfolioTopicButtons(topic);
+
+  const shouldResumeAutoplay = Boolean(swiper.autoplay && swiper.autoplay.running);
+  if (shouldResumeAutoplay) {
+    swiper.autoplay.stop();
+  }
+  if (swiper.__wrapCleanupTimer) {
+    clearTimeout(swiper.__wrapCleanupTimer);
+    swiper.__wrapCleanupTimer = null;
+  }
+  swiper.__isWrapping = false;
+  removePortfolioWrapClones(swiper);
+
+  if (swiper.wrapperEl) {
+    swiper.wrapperEl.innerHTML = targetSlides.map(project => project.html).join('');
+  }
+  hydratePortfolioTopicChipsFromSource(targetSlides);
+  resetPortfolioSwiperAfterFilter(swiper, shouldResumeAutoplay);
+
+  const previewData = buildPortfolioPreviewDataFromSource(targetSlides);
+  setupPortfolioBulletPreviews(swiper, previewData);
+  requestAnimationFrame(() => {
+    resetPortfolioSwiperAfterFilter(swiper, false);
+    setupPortfolioBulletPreviews(swiper, previewData);
+  });
+
+  if (!spotlight || topic === 'All') return;
+
+  setTimeout(() => {
+    const activeSlide = document.querySelector('.portfolio__container .swiper-slide-active');
+    if (!activeSlide) return;
+    activeSlide.classList.add('portfolio__content--spotlight');
+    setTimeout(() => activeSlide.classList.remove('portfolio__content--spotlight'), 860);
+  }, 180);
+}
+
+function setupPortfolioTopics(swiper) {
+  const topicNav = document.getElementById('portfolio-topics');
+  if (!topicNav || !portfolioSlideLibrary.length) return;
+
+  hydratePortfolioTopicChipsFromSource(portfolioSlideLibrary);
+
+  const topicSet = new Set();
+  portfolioSlideLibrary.forEach(project => project.topics.forEach(topic => topicSet.add(topic)));
+
+  const orderedTopics = [
+    ...portfolioTopicPriority.filter(topic => topic !== 'All' && topicSet.has(topic)),
+    ...[...topicSet].filter(topic => !portfolioTopicPriority.includes(topic)),
+  ];
+
+  const buttons = ['All', ...orderedTopics];
+  topicNav.innerHTML = buttons
+    .map(topic => `<button type="button" class="portfolio__topic-btn${topic === 'All' ? ' is-active' : ''}" data-topic="${topic}">${topic}</button>`)
+    .join('');
+
+  if (topicNav.dataset.bound === 'true') {
+    applyPortfolioTopicFilter(swiper, portfolioTopicState.activeTopic || 'All', false);
+    return;
+  }
+
+  topicNav.dataset.bound = 'true';
+  topicNav.addEventListener('click', event => {
+    const button = event.target.closest('.portfolio__topic-btn');
+    if (!button) return;
+
+    const topic = button.dataset.topic;
+    if (!topic) return;
+    applyPortfolioTopicFilter(swiper, topic, true);
+  });
+}
+
 function trimProjectText(text, maxLength = 150) {
   if (text.length <= maxLength) {
     return text;
@@ -795,6 +1029,7 @@ function setupPortfolioBulletPreviews(swiper, projectData) {
   if (!paginationEl || !projectData || !projectData.length) {
     return;
   }
+  portfolioPreviewState.projectData = projectData;
 
   let preview = document.querySelector('.portfolio__bullet-preview');
   if (!preview) {
@@ -820,21 +1055,26 @@ function setupPortfolioBulletPreviews(swiper, projectData) {
   const updateBulletData = () => {
     const bullets = paginationEl.querySelectorAll('.swiper-pagination-bullet');
     bullets.forEach((bullet, index) => {
-      const dataIndex = Math.min(index, projectData.length - 1);
+      const dataIndex = Math.min(index, portfolioPreviewState.projectData.length - 1);
+      const current = portfolioPreviewState.projectData[dataIndex];
+      if (!current) return;
       bullet.dataset.portfolioIndex = String(dataIndex);
-      bullet.setAttribute('aria-label', `Preview ${projectData[dataIndex].title}`);
-      bullet.setAttribute('title', projectData[dataIndex].title);
+      bullet.setAttribute('aria-label', `Preview ${current.title}`);
+      bullet.setAttribute('title', current.title);
     });
   };
 
   updateBulletData();
 
-  const observer = new MutationObserver(updateBulletData);
-  observer.observe(paginationEl, { childList: true });
+  if (portfolioPreviewState.observer) {
+    portfolioPreviewState.observer.disconnect();
+  }
+  portfolioPreviewState.observer = new MutationObserver(updateBulletData);
+  portfolioPreviewState.observer.observe(paginationEl, { childList: true });
 
   const showFromBullet = bullet => {
     if (!bullet || !bullet.dataset.portfolioIndex) return;
-    const project = projectData[Number(bullet.dataset.portfolioIndex)];
+    const project = portfolioPreviewState.projectData[Number(bullet.dataset.portfolioIndex)];
     if (!project) return;
 
     previewTitle.textContent = project.title;
@@ -861,13 +1101,19 @@ function setupPortfolioBulletPreviews(swiper, projectData) {
     if (bullet) showFromBullet(bullet);
   };
 
-  document.addEventListener('mouseover', delegatedHover, true);
-  document.addEventListener('focusin', delegatedHover, true);
-  document.addEventListener('mouseleave', hidePreview, true);
-  document.addEventListener('focusout', hidePreview, true);
-  swiper.on('slideChange', hidePreview);
-  window.addEventListener('resize', hidePreview);
-  window.addEventListener('scroll', hidePreview, true);
+  if (!portfolioPreviewState.listenersBound) {
+    document.addEventListener('mouseover', delegatedHover, true);
+    document.addEventListener('focusin', delegatedHover, true);
+    document.addEventListener('mouseleave', hidePreview, true);
+    document.addEventListener('focusout', hidePreview, true);
+    portfolioPreviewState.listenersBound = true;
+  }
+  if (!portfolioPreviewState.behaviorBound) {
+    swiper.on('slideChange', hidePreview);
+    window.addEventListener('resize', hidePreview);
+    window.addEventListener('scroll', hidePreview, true);
+    portfolioPreviewState.behaviorBound = true;
+  }
 }
 
 function setupPortfolioAutoplayOnView(swiper) {
@@ -895,6 +1141,249 @@ function setupPortfolioAutoplayOnView(swiper) {
   );
 
   observer.observe(portfolioSection);
+}
+
+function getPortfolioRealSlides(swiper) {
+  if (!swiper?.wrapperEl) return [];
+  return Array.from(swiper.wrapperEl.children).filter(node => node.classList?.contains('swiper-slide') && node.dataset.portfolioWrapClone !== 'true');
+}
+
+function getPortfolioLastIndex(swiper) {
+  return Math.max(getPortfolioRealSlides(swiper).length - 1, 0);
+}
+
+function getPortfolioNavElements(swiper) {
+  const nextElRaw = swiper?.navigation?.nextEl;
+  const prevElRaw = swiper?.navigation?.prevEl;
+  const nextEl = Array.isArray(nextElRaw) ? nextElRaw[0] : nextElRaw;
+  const prevEl = Array.isArray(prevElRaw) ? prevElRaw[0] : prevElRaw;
+  return { nextEl, prevEl };
+}
+
+function syncPortfolioNavAvailability(swiper) {
+  if (!swiper) return;
+
+  const { nextEl, prevEl } = getPortfolioNavElements(swiper);
+  const hasMultipleSlides = getPortfolioLastIndex(swiper) > 0;
+
+  if (swiper.navigation && typeof swiper.navigation.update === 'function') {
+    swiper.navigation.update();
+  }
+
+  [nextEl, prevEl].forEach(button => {
+    if (!button) return;
+
+    button.classList.remove('swiper-button-lock');
+    if (hasMultipleSlides) {
+      button.classList.remove('swiper-button-disabled');
+      button.setAttribute('aria-disabled', 'false');
+      button.style.pointerEvents = 'auto';
+      button.style.opacity = '';
+      button.tabIndex = 0;
+      return;
+    }
+
+    button.classList.add('swiper-button-disabled');
+    button.setAttribute('aria-disabled', 'true');
+    button.style.pointerEvents = 'none';
+    button.style.opacity = '0.45';
+    button.tabIndex = -1;
+  });
+}
+
+function updatePortfolioSwiperMetrics(swiper) {
+  if (!swiper) return;
+  if (typeof swiper.updateSize === 'function') swiper.updateSize();
+  if (typeof swiper.updateSlides === 'function') swiper.updateSlides();
+  swiper.update();
+  if (typeof swiper.updateSlidesClasses === 'function') swiper.updateSlidesClasses();
+}
+
+function removePortfolioWrapClones(swiper) {
+  if (!swiper?.wrapperEl) return;
+  swiper.wrapperEl.querySelectorAll('[data-portfolio-wrap-clone="true"]').forEach(node => node.remove());
+}
+
+function runPortfolioEdgeWrapAnimation(swiper, direction, speed = 320) {
+  if (!swiper || swiper.__isWrapping) return;
+
+  const realSlides = getPortfolioRealSlides(swiper);
+  const realCount = realSlides.length;
+  if (realCount <= 1 || !swiper.wrapperEl) return;
+
+  swiper.__isWrapping = true;
+
+  const edgeSlide = direction === 'next' ? realSlides[0] : realSlides[realCount - 1];
+  const wrapClone = edgeSlide.cloneNode(true);
+  wrapClone.dataset.portfolioWrapClone = 'true';
+
+  if (direction === 'next') {
+    swiper.wrapperEl.appendChild(wrapClone);
+  } else {
+    swiper.wrapperEl.insertBefore(wrapClone, swiper.wrapperEl.firstChild);
+  }
+
+  updatePortfolioSwiperMetrics(swiper);
+
+  if (direction === 'prev') {
+    swiper.slideTo(1, 0, false);
+  }
+
+  let done = false;
+  const cleanup = () => {
+    if (done) return;
+    done = true;
+
+    if (swiper.__wrapCleanupTimer) {
+      clearTimeout(swiper.__wrapCleanupTimer);
+      swiper.__wrapCleanupTimer = null;
+    }
+
+    removePortfolioWrapClones(swiper);
+    updatePortfolioSwiperMetrics(swiper);
+    swiper.slideTo(direction === 'next' ? 0 : realCount - 1, 0, false);
+    swiper.__isWrapping = false;
+    syncPortfolioNavAvailability(swiper);
+  };
+
+  if (typeof swiper.once === 'function') {
+    swiper.once('transitionEnd', cleanup);
+  }
+  swiper.__wrapCleanupTimer = setTimeout(cleanup, Math.max(260, speed + 140));
+
+  requestAnimationFrame(() => {
+    if (direction === 'next') {
+      swiper.slideTo(realCount, speed, false);
+      return;
+    }
+    swiper.slideTo(0, speed, false);
+  });
+}
+
+function slidePortfolioWithWrap(swiper, direction, speed = 320) {
+  if (!swiper || swiper.__isWrapping || swiper.animating) return;
+
+  const lastIndex = getPortfolioLastIndex(swiper);
+  if (lastIndex <= 0) return;
+
+  if (direction === 'next') {
+    if (swiper.activeIndex >= lastIndex || swiper.isEnd) {
+      runPortfolioEdgeWrapAnimation(swiper, 'next', speed);
+      return;
+    }
+    swiper.slideNext(speed);
+    return;
+  }
+
+  if (swiper.activeIndex <= 0 || swiper.isBeginning) {
+    runPortfolioEdgeWrapAnimation(swiper, 'prev', speed);
+    return;
+  }
+  swiper.slidePrev(speed);
+}
+
+function setupPortfolioWrapAroundNavigation(swiper) {
+  if (!swiper || swiper.__wrapAroundBound) {
+    return;
+  }
+
+  const { nextEl, prevEl } = getPortfolioNavElements(swiper);
+
+  const interceptNext = event => {
+    if (!(swiper.isEnd || swiper.activeIndex >= getPortfolioLastIndex(swiper))) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    slidePortfolioWithWrap(swiper, 'next');
+  };
+
+  const interceptPrev = event => {
+    if (!(swiper.isBeginning || swiper.activeIndex <= 0)) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    slidePortfolioWithWrap(swiper, 'prev');
+  };
+
+  nextEl?.addEventListener('click', interceptNext, true);
+  prevEl?.addEventListener('click', interceptPrev, true);
+
+  const syncNav = () => syncPortfolioNavAvailability(swiper);
+  swiper.on('slideChange', syncNav);
+  swiper.on('transitionEnd', syncNav);
+  swiper.on('update', syncNav);
+  swiper.on('resize', syncNav);
+  syncNav();
+
+  document.addEventListener(
+    'keydown',
+    event => {
+      const target = event.target;
+      const isTypingField =
+        target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT' || target.isContentEditable);
+      if (isTypingField) return;
+
+      const rect = swiper.el?.getBoundingClientRect();
+      if (!rect) return;
+      const inViewport = rect.bottom > window.innerHeight * 0.2 && rect.top < window.innerHeight * 0.8;
+      if (!inViewport) return;
+
+      if (event.key === 'ArrowRight' && (swiper.isEnd || swiper.activeIndex >= getPortfolioLastIndex(swiper))) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        slidePortfolioWithWrap(swiper, 'next');
+      }
+
+      if (event.key === 'ArrowLeft' && (swiper.isBeginning || swiper.activeIndex <= 0)) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        slidePortfolioWithWrap(swiper, 'prev');
+      }
+    },
+    true
+  );
+
+  swiper.__wrapAroundBound = true;
+}
+
+function setupPortfolioTouchEdgeWrap(swiper) {
+  if (!swiper || swiper.__touchEdgeWrapBound) {
+    return;
+  }
+
+  const swipeThreshold = 28;
+
+  swiper.on('touchStart', () => {
+    swiper.__touchStartIndex = swiper.activeIndex;
+    swiper.__touchStartX = swiper.touches?.startX ?? 0;
+    swiper.__touchStartY = swiper.touches?.startY ?? 0;
+  });
+
+  swiper.on('touchEnd', () => {
+    const lastIndex = getPortfolioLastIndex(swiper);
+    if (lastIndex <= 0) return;
+
+    const startIndex = Number.isFinite(swiper.__touchStartIndex) ? swiper.__touchStartIndex : swiper.activeIndex;
+    const startX = Number.isFinite(swiper.__touchStartX) ? swiper.__touchStartX : 0;
+    const startY = Number.isFinite(swiper.__touchStartY) ? swiper.__touchStartY : 0;
+    const currentX = Number.isFinite(swiper.touches?.currentX) ? swiper.touches.currentX : startX;
+    const currentY = Number.isFinite(swiper.touches?.currentY) ? swiper.touches.currentY : startY;
+    const deltaX = currentX - startX;
+    const deltaY = currentY - startY;
+
+    if (Math.abs(deltaX) < swipeThreshold || Math.abs(deltaX) < Math.abs(deltaY)) {
+      return;
+    }
+
+    if (startIndex === 0 && deltaX > 0) {
+      runPortfolioEdgeWrapAnimation(swiper, 'prev');
+      return;
+    }
+
+    if (startIndex === lastIndex && deltaX < 0) {
+      runPortfolioEdgeWrapAnimation(swiper, 'next');
+    }
+  });
+
+  swiper.__touchEdgeWrapBound = true;
 }
 
 function setupHorizontalScrollForCarousel(swiper) {
@@ -932,9 +1421,9 @@ function setupHorizontalScrollForCarousel(swiper) {
       event.preventDefault();
 
       if (horizontalDelta > 0) {
-        swiper.slideNext();
+        slidePortfolioWithWrap(swiper, 'next');
       } else {
-        swiper.slidePrev();
+        slidePortfolioWithWrap(swiper, 'prev');
       }
     },
     { passive: false }
@@ -945,8 +1434,7 @@ document.addEventListener('DOMContentLoaded', scrollActive);
 document.addEventListener('DOMContentLoaded', setupQualificationCardLinks);
 
 const swiperPortfolio = new Swiper('.portfolio__container', {
-  loop: true,
-  loopAdditionalSlides: 3,
+  loop: false,
   slidesPerView: 1,
   spaceBetween: 3500,
   navigation: {
@@ -967,19 +1455,14 @@ const swiperPortfolio = new Swiper('.portfolio__container', {
     init: function () {
       this.autoplay.stop();
       setupPortfolioAutoplayOnView(this);
+      setupPortfolioWrapAroundNavigation(this);
+      setupPortfolioTouchEdgeWrap(this);
       setupHorizontalScrollForCarousel(this);
-      setTimeout(() => setupPortfolioBulletPreviews(this, portfolioPreviewData), 50);
+      setupPortfolioTopics(this);
+      setTimeout(() => setupPortfolioBulletPreviews(this, getPortfolioPreviewData()), 50);
     },
     paginationUpdate: function () {
-      setTimeout(() => setupPortfolioBulletPreviews(this, portfolioPreviewData), 50);
-    },
-    reachBeginning: function () {
-      this.loopDestroy();
-      this.loopCreate();
-    },
-    reachEnd: function () {
-      this.loopDestroy();
-      this.loopCreate();
+      setTimeout(() => setupPortfolioBulletPreviews(this, getPortfolioPreviewData()), 50);
     },
   },
 });
