@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
     <url>
-        <loc>https://sonnguyenhoang.com</loc>
-        <lastmod>2026-03-09</lastmod>
+        <loc>https://sonnguyenhoang.com/</loc>
+        <lastmod>2026-03-12</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.00</priority>
         <image:image>
@@ -12,14 +12,20 @@
     </url>
     <url>
         <loc>https://sonnguyenhoang.com/packages/pdf/Son%20H%20Nguyen%20-%20Resume.pdf</loc>
-        <lastmod>2026-03-09</lastmod>
+        <lastmod>2026-03-12</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.70</priority>
     </url>
     <url>
         <loc>https://sonnguyenhoang.com/llms.txt</loc>
-        <lastmod>2026-03-09</lastmod>
+        <lastmod>2026-03-12</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.60</priority>
+    </url>
+    <url>
+        <loc>https://sonnguyenhoang.com/robots.txt</loc>
+        <lastmod>2026-03-12</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.40</priority>
     </url>
 </urlset>

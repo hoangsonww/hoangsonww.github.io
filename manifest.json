@@ -24,9 +24,15 @@
     }
   ],
   "start_url": "/",
+  "id": "/",
+  "lang": "en-US",
+  "dir": "ltr",
   "background_color": "#ffffff",
   "display": "standalone",
   "scope": "/",
+  "orientation": "portrait-primary",
   "theme_color": "#ffffff",
-  "description": "Son Nguyen Hoang's professional portfolio showcasing skills in software engineering, business analysis, and a wide range of projects."
+  "description": "Software engineer portfolio of Son Nguyen Hoang featuring production-grade projects, technical skills, publications, and professional experience.",
+  "categories": ["portfolio", "productivity", "developer"],
+  "prefer_related_applications": false
 }

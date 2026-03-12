@@ -4,4 +4,9 @@ Disallow: /backend/
 Disallow: /project-config/
 Disallow: /shell-scripts/
 Disallow: /node_modules/
+Disallow: /npm-debug.log*
+Disallow: /yarn-error.log*
+Disallow: /.git/
+
+Host: sonnguyenhoang.com
 Sitemap: https://sonnguyenhoang.com/sitemap.xml
