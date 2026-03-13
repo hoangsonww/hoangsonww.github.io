@@ -649,6 +649,7 @@ const qualificationWorkTab = document.getElementById('qualification-tab-work');
 const qualificationWorkCta = document.getElementById('qualification-work-cta');
 const qualificationWorkCtaText = document.getElementById('qualification-work-cta-text');
 const qualificationWorkCtaBtn = document.getElementById('qualification-work-cta-btn');
+const qualificationTabsContainer = document.querySelector('.qualification__tabs');
 
 function syncQualificationCrossCta(activeTab) {
   if (!qualificationWorkCta || !qualificationWorkCtaBtn || !activeTab) return;
@@ -663,7 +664,22 @@ function syncQualificationCrossCta(activeTab) {
   qualificationWorkCtaBtn.dataset.target = isEducationActive ? '#work' : '#education';
 }
 
-function setActiveQualificationTab(activeTab) {
+function scrollQualificationTabsIntoView() {
+  if (!qualificationTabsContainer) return;
+
+  const header = document.getElementById('header');
+  const headerOffset = header ? header.getBoundingClientRect().height : 0;
+  const tabsTop = qualificationTabsContainer.getBoundingClientRect().top + window.scrollY;
+  const targetTop = Math.max(0, tabsTop - headerOffset - 10);
+
+  window.scrollTo({
+    top: targetTop,
+    behavior: 'smooth',
+  });
+}
+
+function setActiveQualificationTab(activeTab, options = {}) {
+  const { scrollToTabs = false } = options;
   if (!activeTab) return;
   const targetSelector = activeTab.dataset.target;
   if (!targetSelector) return;
@@ -684,6 +700,10 @@ function setActiveQualificationTab(activeTab) {
   activeTab.classList.add('qualification__active');
   activeTab.setAttribute('aria-selected', 'true');
   syncQualificationCrossCta(activeTab);
+
+  if (scrollToTabs) {
+    scrollQualificationTabsIntoView();
+  }
 }
 
 qualificationTabs.forEach(tab => {
@@ -692,13 +712,13 @@ qualificationTabs.forEach(tab => {
   tab.setAttribute('aria-selected', tab.classList.contains('qualification__active') ? 'true' : 'false');
 
   tab.addEventListener('click', () => {
-    setActiveQualificationTab(tab);
+    setActiveQualificationTab(tab, { scrollToTabs: true });
   });
 
   tab.addEventListener('keydown', event => {
     if (event.key !== 'Enter' && event.key !== ' ') return;
     event.preventDefault();
-    setActiveQualificationTab(tab);
+    setActiveQualificationTab(tab, { scrollToTabs: true });
   });
 });
 
@@ -713,7 +733,7 @@ if (qualificationWorkCtaBtn) {
     const targetTab = Array.from(qualificationTabs).find(tab => tab.dataset.target === targetSelector);
     if (!targetTab) return;
 
-    setActiveQualificationTab(targetTab);
+    setActiveQualificationTab(targetTab, { scrollToTabs: true });
     targetTab.focus({ preventScroll: true });
   });
 }

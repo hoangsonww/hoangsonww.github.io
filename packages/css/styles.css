@@ -3329,7 +3329,7 @@ body.dark-theme .welcome {
   top: clamp(4rem, 13vh, 10rem);
   bottom: auto;
   transform: rotate(-5deg);
-  --window-enter-delay: 0.05s;
+  --window-enter-delay: 0.18s;
   --window-enter-duration: 0.82s;
   --window-enter-x: -22px;
   --window-rebound-x: 1.5px;
@@ -3340,7 +3340,7 @@ body.dark-theme .welcome {
   right: clamp(1rem, 5vw, 7rem);
   bottom: clamp(2.5rem, 6vh, 4.5rem);
   transform: rotate(4deg);
-  --window-enter-delay: 0.54s;
+  --window-enter-delay: 0.58s;
   --window-enter-duration: 0.92s;
   --window-enter-x: 24px;
   --window-rebound-x: -1.5px;
