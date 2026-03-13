@@ -2000,6 +2000,18 @@ body.dark-theme .portfolio__topic-btn.is-active {
   opacity: 1;
 }
 
+.portfolio__container .swiper-button-prev,
+.portfolio__container .swiper-button-next,
+.portfolio__container .swiper-button-prev *,
+.portfolio__container .swiper-button-next * {
+  pointer-events: auto !important;
+}
+
+.portfolio__container .swiper-button-prev,
+.portfolio__container .swiper-button-next {
+  z-index: 24;
+}
+
 .swiper-pagination-bullet {
   width: 10px;
   height: 10px;

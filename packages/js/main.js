@@ -872,11 +872,14 @@ const portfolioTopicPriority = [
   'Full-Stack',
   'AI',
   'Agentic AI',
+  'RAG',
   'ML',
+  'MLOps',
   'Cross-Platform',
   'Data',
   'Database',
   'Backend/API',
+  'Realtime',
   'Mobile',
   'Game',
   'Productivity',
@@ -886,42 +889,42 @@ const portfolioTopicState = {
   activeTopic: 'All',
 };
 const portfolioProjectTopicMap = {
-  'The MovieVerse App': ['Full-Stack', 'Data'],
-  'EstateWise - A Real Estate Chatbot': ['Agentic AI', 'AI', 'Full-Stack', 'Data'],
-  'SynthoraAI - AI-Powered Article Curator': ['AI', 'Full-Stack'],
-  'DocuThinker - AI-Powered Document Analysis App': ['AI', 'Full-Stack', 'Productivity'],
-  'WealthWise - A Personal Finance Management App': ['AI', 'Full-Stack', 'Agentic AI'],
-  'PetSwipe - A Matchmaking App for Pet Adoption': ['AI', 'Full-Stack'],
-  'SymptomSync - A Health Management App': ['AI', 'Full-Stack'],
-  'Customizable AI Chatbot': ['AI', 'Full-Stack'],
-  'Meadows - A Social Media for Gen-Z': ['Full-Stack'],
-  'Urlvy - A URL Shortening Service': ['AI', 'Full-Stack', 'Productivity'],
+  'The MovieVerse App': ['Full-Stack', 'Data', 'Database'],
+  'EstateWise - A Real Estate Chatbot': ['Agentic AI', 'AI', 'RAG', 'Full-Stack', 'Data'],
+  'SynthoraAI - AI-Powered Article Curator': ['AI', 'Data', 'Full-Stack', 'Productivity'],
+  'DocuThinker - AI-Powered Document Analysis App': ['AI', 'RAG', 'Full-Stack', 'Productivity'],
+  'WealthWise - A Personal Finance Management App': ['Agentic AI', 'AI', 'Data', 'Full-Stack'],
+  'PetSwipe - A Matchmaking App for Pet Adoption': ['AI', 'Full-Stack', 'Productivity'],
+  'SymptomSync - A Health Management App': ['AI', 'Full-Stack', 'Productivity'],
+  'Customizable AI Chatbot': ['AI', 'RAG', 'Full-Stack'],
+  'Meadows - A Social Media for Gen-Z': ['Full-Stack', 'Realtime'],
+  'Urlvy - A URL Shortening Service': ['Full-Stack', 'Backend/API', 'Productivity'],
   'Collabify - A Project Management Tool': ['Full-Stack', 'Productivity'],
-  'MetaWave - A MP3 Music Editor': ['Full-Stack'],
+  'MetaWave - A MP3 Music Editor': ['Full-Stack', 'Productivity'],
   'Boxed - Inventory Management App': ['Full-Stack', 'Productivity'],
-  'Moodify - AI-Powered Music Recommendation App': ['AI', 'ML', 'Full-Stack'],
-  'Budget Management Backend API': ['Backend/API'],
-  'Agentic AI - Autonomous Agents': ['Agentic AI', 'AI'],
-  'Agentic RAG AI System': ['Agentic AI', 'AI'],
-  'Spot the Scam - AI Job Fraud Detection': ['AI', 'ML', 'Full-Stack'],
-  'YouTube Success Predictor - AI-Powered YouTube Analytics': ['AI', 'ML', 'Data', 'Full-Stack'],
-  'End-to-End Data Pipeline': ['AI', 'ML', 'Data', 'Database'],
+  'Moodify - AI-Powered Music Recommendation App': ['AI', 'ML', 'Data', 'Full-Stack'],
+  'Budget Management Backend API': ['Backend/API', 'Full-Stack'],
+  'Agentic AI - Autonomous Agents': ['Agentic AI', 'AI', 'MLOps'],
+  'Agentic RAG AI System': ['Agentic AI', 'AI', 'RAG'],
+  'Spot the Scam - AI Job Fraud Detection': ['AI', 'ML', 'MLOps', 'Data'],
+  'YouTube Success Predictor - AI-Powered YouTube Analytics': ['AI', 'ML', 'MLOps', 'Data'],
+  'End-to-End Data Pipeline': ['AI', 'ML', 'MLOps', 'Data', 'Database'],
   'AI Multipurpose Classifiers': ['AI', 'ML', 'Backend/API'],
-  'Lumina AI - The Ultimate AI Chatbot': ['Agentic AI', 'AI', 'Full-Stack'],
-  'AI Coding Agents Orchestrator': ['Agentic AI', 'AI'],
+  'Lumina AI - The Ultimate AI Chatbot': ['Agentic AI', 'AI', 'RAG', 'Full-Stack'],
+  'AI Coding Agents Orchestrator': ['Agentic AI', 'AI', 'Realtime'],
   'Employee Management Fullstack App': ['Full-Stack'],
-  'LatticeDB Next-Gen DBMS': ['Database'],
+  'LatticeDB Next-Gen DBMS': ['Database', 'Backend/API'],
   'Fusion Electronics E-Commerce Website': ['Full-Stack', 'E-Commerce'],
   'React Native Task Management App': ['Mobile', 'Productivity'],
   'Flowlist - A Productivity Task App': ['Productivity', 'Full-Stack'],
   'ClipChronicle - Clipboard Assistant': ['Productivity', 'Cross-Platform'],
   'StudySync Study Buddy App': ['Productivity', 'Full-Stack'],
   'MermaidGenie - AI-Powered Mermaid Diagram Generator': ['AI', 'Productivity', 'Full-Stack'],
-  'Pokedex - A Pokemon Database': ['Full-Stack'],
-  'Claude Code AI Agents Monitoring Dashboard': ['Agentic AI', 'AI', 'Productivity', 'Full-Stack'],
+  'Pokedex - A Pokemon Database': ['Full-Stack', 'Data', 'Database'],
+  'Claude Code AI Agents Monitoring Dashboard': ['Agentic AI', 'AI', 'Productivity', 'Full-Stack', 'Realtime'],
   'Tic-Tac-Toe Fullstack Game': ['AI', 'Game', 'Full-Stack'],
   'Learning Management System (LMS)': ['Full-Stack', 'Productivity'],
-  'CollabNote - A Realtime Note-Taking App': ['Full-Stack', 'Productivity'],
+  'CollabNote - A Realtime Note-Taking App': ['Full-Stack', 'Realtime', 'Productivity'],
   'PuzzleForge - A Puzzle Collection': ['Game', 'Full-Stack'],
   'The Maze Game': ['Game'],
   'The 2048 Game': ['Game'],
@@ -1022,8 +1025,11 @@ function detectPortfolioTopics(title, description) {
     topics.add('AI');
   }
   if (/(\bai\b|\bllm\b|genai|rag|chatbot|transformer|gpt)/.test(text)) topics.add('AI');
+  if (/(rag|retrieval-augmented|langchain|faiss|pinecone|vector db)/.test(text)) topics.add('RAG');
   if (/(\bml\b|machine learning|classifier|prediction|predictor)/.test(text)) topics.add('ML');
+  if (/(mlops|model deployment|orchestration|airflow|prefect|kubeflow)/.test(text)) topics.add('MLOps');
   if (/(data pipeline|analytics|etl|dataset|data)/.test(text)) topics.add('Data');
+  if (/(realtime|real-time|websocket|socket\\.io|server-sent events|sse|live collaboration)/.test(text)) topics.add('Realtime');
   if (/(full-stack|fullstack|mern|nestjs|supabase|next\\.js|web app|web application)/.test(text)) topics.add('Full-Stack');
   if (/(api|backend|graphql|rest)/.test(text)) topics.add('Backend/API');
   if (/(react native|ios|swift|mobile)/.test(text)) topics.add('Mobile');
@@ -1376,6 +1382,8 @@ function syncPortfolioNavAvailability(swiper) {
     if (!button) return;
 
     button.classList.remove('swiper-button-lock');
+    button.classList.remove('portfolio-swiper-nav-lock');
+    button.classList.remove('portfolio-swiper-nav-disabled');
     if (hasMultipleSlides) {
       button.classList.remove('swiper-button-disabled');
       button.setAttribute('aria-disabled', 'false');
@@ -1463,25 +1471,26 @@ function runPortfolioEdgeWrapAnimation(swiper, direction, speed = 320) {
 }
 
 function slidePortfolioWithWrap(swiper, direction, speed = 320) {
-  if (!swiper || swiper.__isWrapping || swiper.animating) return;
+  if (!swiper || swiper.__isWrapping) return;
 
   const lastIndex = getPortfolioLastIndex(swiper);
   if (lastIndex <= 0) return;
+  const currentIndex = Math.max(0, Math.min(swiper.activeIndex, lastIndex));
 
   if (direction === 'next') {
-    if (swiper.activeIndex >= lastIndex || swiper.isEnd) {
+    if (currentIndex >= lastIndex) {
       runPortfolioEdgeWrapAnimation(swiper, 'next', speed);
       return;
     }
-    swiper.slideNext(speed);
+    swiper.slideTo(currentIndex + 1, speed, false);
     return;
   }
 
-  if (swiper.activeIndex <= 0 || swiper.isBeginning) {
+  if (currentIndex <= 0) {
     runPortfolioEdgeWrapAnimation(swiper, 'prev', speed);
     return;
   }
-  swiper.slidePrev(speed);
+  swiper.slideTo(currentIndex - 1, speed, false);
 }
 
 function setupPortfolioWrapAroundNavigation(swiper) {
@@ -1489,24 +1498,57 @@ function setupPortfolioWrapAroundNavigation(swiper) {
     return;
   }
 
-  const { nextEl, prevEl } = getPortfolioNavElements(swiper);
+  const delegatedNavClick = event => {
+    const lastIndex = getPortfolioLastIndex(swiper);
+    if (lastIndex <= 0) return;
 
-  const interceptNext = event => {
-    if (!(swiper.isEnd || swiper.activeIndex >= getPortfolioLastIndex(swiper))) return;
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    slidePortfolioWithWrap(swiper, 'next');
+    const nextButton = event.target.closest('.swiper-button-next');
+    if (nextButton && swiper.el?.contains(nextButton)) {
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+      slidePortfolioWithWrap(swiper, 'next');
+      return;
+    }
+
+    const prevButton = event.target.closest('.swiper-button-prev');
+    if (prevButton && swiper.el?.contains(prevButton)) {
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+      slidePortfolioWithWrap(swiper, 'prev');
+    }
   };
 
-  const interceptPrev = event => {
-    if (!(swiper.isBeginning || swiper.activeIndex <= 0)) return;
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    slidePortfolioWithWrap(swiper, 'prev');
-  };
+  swiper.el?.addEventListener('click', delegatedNavClick, true);
+  swiper.el?.addEventListener(
+    'keydown',
+    event => {
+      const key = event.key;
+      if (key !== 'Enter' && key !== ' ') return;
 
-  nextEl?.addEventListener('click', interceptNext, true);
-  prevEl?.addEventListener('click', interceptPrev, true);
+      const lastIndex = getPortfolioLastIndex(swiper);
+      if (lastIndex <= 0) return;
+
+      const nextButton = event.target.closest('.swiper-button-next');
+      if (nextButton && swiper.el?.contains(nextButton)) {
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+        slidePortfolioWithWrap(swiper, 'next');
+        return;
+      }
+
+      const prevButton = event.target.closest('.swiper-button-prev');
+      if (prevButton && swiper.el?.contains(prevButton)) {
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+        slidePortfolioWithWrap(swiper, 'prev');
+      }
+    },
+    true
+  );
 
   const syncNav = () => syncPortfolioNavAvailability(swiper);
   swiper.on('slideChange', syncNav);
@@ -1525,16 +1567,16 @@ function setupPortfolioWrapAroundNavigation(swiper) {
 
       const rect = swiper.el?.getBoundingClientRect();
       if (!rect) return;
-      const inViewport = rect.bottom > window.innerHeight * 0.2 && rect.top < window.innerHeight * 0.8;
+      const inViewport = rect.bottom > 0 && rect.top < window.innerHeight;
       if (!inViewport) return;
 
-      if (event.key === 'ArrowRight' && (swiper.isEnd || swiper.activeIndex >= getPortfolioLastIndex(swiper))) {
+      if (event.key === 'ArrowRight') {
         event.preventDefault();
         event.stopImmediatePropagation();
         slidePortfolioWithWrap(swiper, 'next');
       }
 
-      if (event.key === 'ArrowLeft' && (swiper.isBeginning || swiper.activeIndex <= 0)) {
+      if (event.key === 'ArrowLeft') {
         event.preventDefault();
         event.stopImmediatePropagation();
         slidePortfolioWithWrap(swiper, 'prev');
@@ -1642,6 +1684,8 @@ const swiperPortfolio = new Swiper('.portfolio__container', {
   navigation: {
     nextEl: '.swiper-button-next',
     prevEl: '.swiper-button-prev',
+    disabledClass: 'portfolio-swiper-nav-disabled',
+    lockClass: 'portfolio-swiper-nav-lock',
   },
   pagination: {
     el: '.swiper-pagination',
