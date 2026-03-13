@@ -1520,6 +1520,10 @@ body.dark-theme .qualification__discover-action:hover {
 }
 
 /*==================== PUBLICATIONS ====================*/
+.publications .section__title {
+  margin-top: 20px;
+}
+
 .publications__container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
