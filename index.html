@@ -2633,17 +2633,20 @@
 
         <div class="qualification__container container">
           <div class="qualification__tabs">
-            <div class="qualification__button scroll-animation button--flex qualification__active" data-target="#education">
+            <div
+              class="qualification__button scroll-animation button--flex qualification__active"
+              id="qualification-tab-education"
+              data-target="#education"
+            >
               <i class="uil uil-graduation-cap qualification__icon"></i>
               Education
             </div>
 
-            <div class="qualification__button scroll-animation button--flex" data-target="#work">
+            <div class="qualification__button scroll-animation button--flex" id="qualification-tab-work" data-target="#work">
               <i class="uil uil-briefcase-alt qualification__icon"></i>
               Work
             </div>
           </div>
-
           <div class="qualification__sections">
             <!--==================== QUALIFICATION CONTENT 1 ====================-->
             <div class="qualification__content qualification__active" data-content id="education">
@@ -4419,6 +4422,11 @@
                 </div>
               </div>
             </div>
+          </div>
+          <div class="qualification__discover-cta scroll-animation" id="qualification-work-cta" role="note" aria-live="polite">
+            <i class="uil uil-lightbulb-alt qualification__discover-icon" aria-hidden="true"></i>
+            <span class="qualification__discover-text" id="qualification-work-cta-text">Want to see industry experience too?</span>
+            <button type="button" class="qualification__discover-action" id="qualification-work-cta-btn">Explore Work Experience</button>
           </div>
         </div>
       </section>

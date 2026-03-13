@@ -642,22 +642,81 @@ skillsContent.forEach(content => {
 
 renderSkillNameBadges();
 
-const tabs = document.querySelectorAll('[data-target]'),
-  tabContents = document.querySelectorAll('[data-content]');
+const qualificationTabs = document.querySelectorAll('.qualification__button[data-target]');
+const qualificationContents = document.querySelectorAll('.qualification__content[data-content]');
+const qualificationEducationTab = document.getElementById('qualification-tab-education');
+const qualificationWorkTab = document.getElementById('qualification-tab-work');
+const qualificationWorkCta = document.getElementById('qualification-work-cta');
+const qualificationWorkCtaText = document.getElementById('qualification-work-cta-text');
+const qualificationWorkCtaBtn = document.getElementById('qualification-work-cta-btn');
 
-tabs.forEach(tab => {
+function syncQualificationCrossCta(activeTab) {
+  if (!qualificationWorkCta || !qualificationWorkCtaBtn || !activeTab) return;
+
+  const isEducationActive = activeTab.dataset.target === '#education';
+
+  if (qualificationWorkCtaText) {
+    qualificationWorkCtaText.textContent = isEducationActive ? 'Want to see industry experience too?' : 'Want to see education background too?';
+  }
+
+  qualificationWorkCtaBtn.textContent = isEducationActive ? 'Explore Work Experience' : 'Explore Education';
+  qualificationWorkCtaBtn.dataset.target = isEducationActive ? '#work' : '#education';
+}
+
+function setActiveQualificationTab(activeTab) {
+  if (!activeTab) return;
+  const targetSelector = activeTab.dataset.target;
+  if (!targetSelector) return;
+
+  const target = document.querySelector(targetSelector);
+  if (!target) return;
+
+  qualificationContents.forEach(content => {
+    content.classList.remove('qualification__active');
+  });
+  target.classList.add('qualification__active');
+
+  qualificationTabs.forEach(tab => {
+    tab.classList.remove('qualification__active');
+    tab.setAttribute('aria-selected', 'false');
+  });
+
+  activeTab.classList.add('qualification__active');
+  activeTab.setAttribute('aria-selected', 'true');
+  syncQualificationCrossCta(activeTab);
+}
+
+qualificationTabs.forEach(tab => {
+  tab.setAttribute('role', 'button');
+  tab.setAttribute('tabindex', '0');
+  tab.setAttribute('aria-selected', tab.classList.contains('qualification__active') ? 'true' : 'false');
+
   tab.addEventListener('click', () => {
-    const target = document.querySelector(tab.dataset.target);
-    tabContents.forEach(tabContent => {
-      tabContent.classList.remove('qualification__active');
-    });
-    target.classList.add('qualification__active');
-    tabs.forEach(tab => {
-      tab.classList.remove('qualification__active');
-    });
-    tab.classList.add('qualification__active');
+    setActiveQualificationTab(tab);
+  });
+
+  tab.addEventListener('keydown', event => {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    event.preventDefault();
+    setActiveQualificationTab(tab);
   });
 });
+
+if (qualificationTabs.length) {
+  const defaultActiveTab = Array.from(qualificationTabs).find(tab => tab.classList.contains('qualification__active')) || qualificationTabs[0];
+  syncQualificationCrossCta(defaultActiveTab);
+}
+
+if (qualificationWorkCtaBtn) {
+  qualificationWorkCtaBtn.addEventListener('click', () => {
+    const targetSelector = qualificationWorkCtaBtn.dataset.target;
+    const targetTab = Array.from(qualificationTabs).find(tab => tab.dataset.target === targetSelector);
+    if (!targetTab) return;
+
+    setActiveQualificationTab(targetTab);
+    targetTab.focus({ preventScroll: true });
+  });
+}
 
 function setupQualificationCardLinks() {
   const allowedTitles = [
