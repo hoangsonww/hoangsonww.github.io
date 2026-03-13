@@ -867,9 +867,68 @@ let modal = function (modalClick) {
   modalEl.classList.add('active-modal');
 };
 
-const portfolioTopicPriority = ['All', 'Full-Stack', 'AI', 'Agentic AI', 'ML', 'Data', 'Backend/API', 'Mobile', 'Game', 'Productivity', 'E-Commerce'];
+const portfolioTopicPriority = [
+  'All',
+  'Full-Stack',
+  'AI',
+  'Agentic AI',
+  'ML',
+  'Cross-Platform',
+  'Data',
+  'Database',
+  'Backend/API',
+  'Mobile',
+  'Game',
+  'Productivity',
+  'E-Commerce',
+];
 const portfolioTopicState = {
   activeTopic: 'All',
+};
+const portfolioProjectTopicMap = {
+  'The MovieVerse App': ['Full-Stack', 'Data'],
+  'EstateWise - A Real Estate Chatbot': ['Agentic AI', 'AI', 'Full-Stack', 'Data'],
+  'SynthoraAI - AI-Powered Article Curator': ['AI', 'Full-Stack'],
+  'DocuThinker - AI-Powered Document Analysis App': ['AI', 'Full-Stack', 'Productivity'],
+  'WealthWise - A Personal Finance Management App': ['AI', 'Full-Stack', 'Agentic AI'],
+  'PetSwipe - A Matchmaking App for Pet Adoption': ['AI', 'Full-Stack'],
+  'SymptomSync - A Health Management App': ['AI', 'Full-Stack'],
+  'Customizable AI Chatbot': ['AI', 'Full-Stack'],
+  'Meadows - A Social Media for Gen-Z': ['Full-Stack'],
+  'Urlvy - A URL Shortening Service': ['AI', 'Full-Stack', 'Productivity'],
+  'Collabify - A Project Management Tool': ['Full-Stack', 'Productivity'],
+  'MetaWave - A MP3 Music Editor': ['Full-Stack'],
+  'Boxed - Inventory Management App': ['Full-Stack', 'Productivity'],
+  'Moodify - AI-Powered Music Recommendation App': ['AI', 'ML', 'Full-Stack'],
+  'Budget Management Backend API': ['Backend/API'],
+  'Agentic AI - Autonomous Agents': ['Agentic AI', 'AI'],
+  'Agentic RAG AI System': ['Agentic AI', 'AI'],
+  'Spot the Scam - AI Job Fraud Detection': ['AI', 'ML', 'Full-Stack'],
+  'YouTube Success Predictor - AI-Powered YouTube Analytics': ['AI', 'ML', 'Data', 'Full-Stack'],
+  'End-to-End Data Pipeline': ['AI', 'ML', 'Data', 'Database'],
+  'AI Multipurpose Classifiers': ['AI', 'ML', 'Backend/API'],
+  'Lumina AI - The Ultimate AI Chatbot': ['Agentic AI', 'AI', 'Full-Stack'],
+  'AI Coding Agents Orchestrator': ['Agentic AI', 'AI'],
+  'Employee Management Fullstack App': ['Full-Stack'],
+  'LatticeDB Next-Gen DBMS': ['Database'],
+  'Fusion Electronics E-Commerce Website': ['Full-Stack', 'E-Commerce'],
+  'React Native Task Management App': ['Mobile', 'Productivity'],
+  'Flowlist - A Productivity Task App': ['Productivity', 'Full-Stack'],
+  'ClipChronicle - Clipboard Assistant': ['Productivity', 'Cross-Platform'],
+  'StudySync Study Buddy App': ['Productivity', 'Full-Stack'],
+  'MermaidGenie - AI-Powered Mermaid Diagram Generator': ['AI', 'Productivity', 'Full-Stack'],
+  'Pokedex - A Pokemon Database': ['Full-Stack'],
+  'Claude Code AI Agents Monitoring Dashboard': ['Agentic AI', 'AI', 'Productivity', 'Full-Stack'],
+  'Tic-Tac-Toe Fullstack Game': ['AI', 'Game', 'Full-Stack'],
+  'Learning Management System (LMS)': ['Full-Stack', 'Productivity'],
+  'CollabNote - A Realtime Note-Taking App': ['Full-Stack', 'Productivity'],
+  'PuzzleForge - A Puzzle Collection': ['Game', 'Full-Stack'],
+  'The Maze Game': ['Game'],
+  'The 2048 Game': ['Game'],
+  'The Flappy Bird Game': ['Game'],
+  'The StickyNotes App': ['Productivity'],
+  'The WeatherMate App': ['Full-Stack'],
+  'The RecipeGenie App': ['AI', 'Full-Stack'],
 };
 const portfolioPreviewState = {
   projectData: [],
@@ -933,7 +992,7 @@ function getPortfolioSlideLibrary() {
     const title = normalizedSlide.querySelector('.portfolio__title')?.textContent.trim() || 'Project';
     const description = normalizedSlide.querySelector('.portfolio__description')?.textContent.trim() || '';
     const image = normalizedSlide.querySelector('.portfolio__img')?.getAttribute('src') || '';
-    const topics = detectPortfolioTopics(title, description);
+    const topics = getPortfolioTopicsForProject(title, description);
 
     return {
       title,
@@ -943,6 +1002,15 @@ function getPortfolioSlideLibrary() {
       html: normalizedSlide.outerHTML,
     };
   });
+}
+
+function getPortfolioTopicsForProject(title, description) {
+  const manualTopics = portfolioProjectTopicMap[title];
+  if (Array.isArray(manualTopics) && manualTopics.length) {
+    return [...new Set(manualTopics)];
+  }
+
+  return detectPortfolioTopics(title, description);
 }
 
 function detectPortfolioTopics(title, description) {
