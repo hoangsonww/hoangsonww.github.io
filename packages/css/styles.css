@@ -410,7 +410,7 @@ body.dark-theme .critter-controls {
   z-index: 1000;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .critter-controls {
     display: none;
   }
@@ -1691,6 +1691,9 @@ body.dark-theme .publication__card {
   justify-content: center;
   margin: 0.75rem auto 1.25rem;
   max-width: 960px;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  box-sizing: border-box;
 }
 
 .portfolio__topic-btn {
@@ -1732,6 +1735,9 @@ body.dark-theme .publication__card {
   flex-wrap: wrap;
   gap: 0.4rem;
   margin: -0.1rem 0 0.4rem;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .portfolio__topic-chip {
@@ -1746,6 +1752,9 @@ body.dark-theme .publication__card {
   border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: 0 8px 16px rgba(12, 88, 130, 0.25);
   animation: portfolioChipFadeIn 0.28s ease both;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .portfolio__content--spotlight {
@@ -1930,14 +1939,27 @@ body.dark-theme .portfolio__topic-btn.is-active {
 
 @media screen and (max-width: 768px) {
   .portfolio__topics {
-    justify-content: flex-start;
+    justify-content: center;
+    align-items: stretch;
     margin-top: 0.6rem;
     margin-bottom: 1rem;
-    overflow-x: auto;
-    white-space: nowrap;
-    flex-wrap: nowrap;
-    padding: 0.2rem 0.15rem 0.35rem;
-    scrollbar-width: thin;
+    width: 100%;
+    max-width: 100%;
+    overflow: visible;
+    white-space: normal;
+    flex-wrap: wrap;
+    gap: 0.42rem;
+    padding: 0.2rem 0.7rem 0.35rem;
+    box-sizing: border-box;
+  }
+
+  .portfolio__topic-btn {
+    flex: 0 1 auto;
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.18;
+    padding: 0.3rem 0.65rem;
   }
 
   .portfolio__bullet-preview {
@@ -2475,6 +2497,45 @@ body.dark-theme .portfolio__topic-btn.is-active {
 
     .active-link::after {
       bottom: -10px;
+    }
+
+    .portfolio__container {
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+      box-sizing: border-box;
+    }
+
+    .portfolio__content {
+      grid-template-columns: 1fr;
+      row-gap: 1rem;
+      align-items: start;
+      max-width: 760px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 1.15rem;
+    }
+
+    .portfolio__img {
+      width: min(100%, 520px);
+      height: clamp(220px, 30vw, 270px);
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .swiper-button-prev {
+      left: 0.25rem;
+    }
+
+    .swiper-button-next {
+      right: 0.25rem;
+    }
+
+    .swiper-portfolio-icon {
+      font-size: 2.35rem;
+    }
+
+    .swiper-container-horizontal > .swiper-pagination-bullets {
+      bottom: -3.1rem;
     }
   }
 }

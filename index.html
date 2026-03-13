@@ -6127,7 +6127,7 @@
         const clearBtns = [document.getElementById('clear-all-btn'), document.getElementById('clear-all-btn-mobile')].filter(Boolean);
 
         function updateClearBtn() {
-          const isMobile = window.matchMedia('(max-width: 768px)').matches;
+          const isMobile = window.matchMedia('(max-width: 767px)').matches;
           clearBtns.forEach(btn => {
             const isMobileBtn = btn.id === 'clear-all-btn-mobile';
             const shouldShow = icons.length > 0 && (isMobile ? isMobileBtn : !isMobileBtn);
