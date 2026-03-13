@@ -649,6 +649,7 @@ const qualificationWorkTab = document.getElementById('qualification-tab-work');
 const qualificationWorkCta = document.getElementById('qualification-work-cta');
 const qualificationWorkCtaText = document.getElementById('qualification-work-cta-text');
 const qualificationWorkCtaBtn = document.getElementById('qualification-work-cta-btn');
+const qualificationSection = document.getElementById('qualifications');
 const qualificationTabsContainer = document.querySelector('.qualification__tabs');
 
 function syncQualificationCrossCta(activeTab) {
@@ -664,22 +665,63 @@ function syncQualificationCrossCta(activeTab) {
   qualificationWorkCtaBtn.dataset.target = isEducationActive ? '#work' : '#education';
 }
 
-function scrollQualificationTabsIntoView() {
+function getQualificationScrollOffset() {
+  const header = document.getElementById('header');
+  let headerOffset = 10;
+  if (header) {
+    const headerStyles = window.getComputedStyle(header);
+    const isTopPinnedHeader = headerStyles.position === 'fixed' && headerStyles.top !== 'auto' && parseFloat(headerStyles.top || '0') >= 0;
+
+    if (isTopPinnedHeader) {
+      headerOffset = header.getBoundingClientRect().height + 10;
+    }
+  }
+  return headerOffset;
+}
+
+function scrollQualificationTabsIntoView(behavior = 'smooth') {
   if (!qualificationTabsContainer) return;
 
-  const header = document.getElementById('header');
-  const headerOffset = header ? header.getBoundingClientRect().height : 0;
+  const headerOffset = getQualificationScrollOffset();
   const tabsTop = qualificationTabsContainer.getBoundingClientRect().top + window.scrollY;
-  const targetTop = Math.max(0, tabsTop - headerOffset - 10);
+  const targetTop = Math.max(0, Math.round(tabsTop - headerOffset));
 
   window.scrollTo({
     top: targetTop,
-    behavior: 'smooth',
+    behavior,
   });
 }
 
-function setActiveQualificationTab(activeTab, options = {}) {
-  const { scrollToTabs = false } = options;
+function forceScrollToQualificationTop(behavior = 'auto') {
+  if (!qualificationSection) return;
+
+  const headerOffset = getQualificationScrollOffset();
+  const targetTop = Math.max(0, Math.round(qualificationSection.getBoundingClientRect().top + window.scrollY - headerOffset));
+
+  window.scrollTo({
+    top: targetTop,
+    behavior,
+  });
+
+  if (behavior === 'auto') {
+    if (document.scrollingElement) {
+      document.scrollingElement.scrollTop = targetTop;
+    }
+    document.documentElement.scrollTop = targetTop;
+    if (document.body) {
+      document.body.scrollTop = targetTop;
+    }
+  }
+
+  return targetTop;
+}
+
+function mobileScrollToQualificationSection() {
+  forceScrollToQualificationTop('auto');
+  requestAnimationFrame(() => forceScrollToQualificationTop('auto'));
+}
+
+function setActiveQualificationTab(activeTab) {
   if (!activeTab) return;
   const targetSelector = activeTab.dataset.target;
   if (!targetSelector) return;
@@ -700,10 +742,6 @@ function setActiveQualificationTab(activeTab, options = {}) {
   activeTab.classList.add('qualification__active');
   activeTab.setAttribute('aria-selected', 'true');
   syncQualificationCrossCta(activeTab);
-
-  if (scrollToTabs) {
-    scrollQualificationTabsIntoView();
-  }
 }
 
 qualificationTabs.forEach(tab => {
@@ -712,13 +750,25 @@ qualificationTabs.forEach(tab => {
   tab.setAttribute('aria-selected', tab.classList.contains('qualification__active') ? 'true' : 'false');
 
   tab.addEventListener('click', () => {
-    setActiveQualificationTab(tab, { scrollToTabs: true });
+    setActiveQualificationTab(tab);
+    const isMobileViewport = window.matchMedia('(max-width: 767px)').matches;
+    if (isMobileViewport) {
+      mobileScrollToQualificationSection();
+    } else {
+      scrollQualificationTabsIntoView('smooth');
+    }
   });
 
   tab.addEventListener('keydown', event => {
     if (event.key !== 'Enter' && event.key !== ' ') return;
     event.preventDefault();
-    setActiveQualificationTab(tab, { scrollToTabs: true });
+    setActiveQualificationTab(tab);
+    const isMobileViewport = window.matchMedia('(max-width: 767px)').matches;
+    if (isMobileViewport) {
+      mobileScrollToQualificationSection();
+    } else {
+      scrollQualificationTabsIntoView('smooth');
+    }
   });
 });
 
@@ -733,8 +783,13 @@ if (qualificationWorkCtaBtn) {
     const targetTab = Array.from(qualificationTabs).find(tab => tab.dataset.target === targetSelector);
     if (!targetTab) return;
 
-    setActiveQualificationTab(targetTab, { scrollToTabs: true });
-    targetTab.focus({ preventScroll: true });
+    const isMobileViewport = window.matchMedia('(max-width: 767px)').matches;
+    setActiveQualificationTab(targetTab);
+    if (isMobileViewport) {
+      mobileScrollToQualificationSection();
+    } else {
+      window.setTimeout(() => scrollQualificationTabsIntoView('smooth'), 30);
+    }
   });
 }
 
