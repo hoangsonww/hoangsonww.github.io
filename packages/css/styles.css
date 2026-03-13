@@ -3319,8 +3319,9 @@ body.dark-theme .welcome {
   overflow: hidden;
   opacity: 0;
   animation:
-    mac-window-enter 0.9s cubic-bezier(0.22, 0.8, 0.24, 1) forwards,
-    mac-window-float 7.5s ease-in-out infinite 1s;
+    mac-window-enter var(--window-enter-duration, 0.9s) cubic-bezier(0.2, 0.84, 0.24, 1) var(--window-enter-delay, 0s) both,
+    mac-window-float var(--window-float-duration, 7.5s) ease-in-out infinite
+      calc(var(--window-enter-delay, 0s) + var(--window-enter-duration, 0.9s) + 0.15s);
 }
 
 .mac-window--code {
@@ -3328,13 +3329,22 @@ body.dark-theme .welcome {
   top: clamp(4rem, 13vh, 10rem);
   bottom: auto;
   transform: rotate(-5deg);
+  --window-enter-delay: 0.05s;
+  --window-enter-duration: 0.82s;
+  --window-enter-x: -22px;
+  --window-rebound-x: 1.5px;
+  --window-float-duration: 7.2s;
 }
 
 .mac-window--metrics {
   right: clamp(1rem, 5vw, 7rem);
   bottom: clamp(2.5rem, 6vh, 4.5rem);
   transform: rotate(4deg);
-  animation-delay: 0.2s, 1s;
+  --window-enter-delay: 0.54s;
+  --window-enter-duration: 0.92s;
+  --window-enter-x: 24px;
+  --window-rebound-x: -1.5px;
+  --window-float-duration: 7.9s;
 }
 
 .mac-window__toolbar {
@@ -3429,12 +3439,17 @@ body.dark-theme .welcome {
 @keyframes mac-window-enter {
   0% {
     opacity: 0;
-    transform: translateY(24px) scale(0.94) rotate(var(--window-tilt, 0deg));
+    transform: translate3d(var(--window-enter-x, 0), 24px, 0) scale(0.92) rotate(var(--window-tilt, 0deg));
     filter: blur(3px);
+  }
+  60% {
+    opacity: 0.95;
+    transform: translate3d(var(--window-rebound-x, 0), -3px, 0) scale(1.015) rotate(var(--window-tilt, 0deg));
+    filter: blur(0.5px);
   }
   100% {
     opacity: 0.92;
-    transform: translateY(0) scale(1) rotate(var(--window-tilt, 0deg));
+    transform: translate3d(0, 0, 0) scale(1) rotate(var(--window-tilt, 0deg));
     filter: blur(0);
   }
 }
