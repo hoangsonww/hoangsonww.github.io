@@ -894,8 +894,8 @@ const portfolioProjectTopicMap = {
   'SynthoraAI - AI-Powered Article Curator': ['AI', 'Data', 'Full-Stack', 'Productivity'],
   'DocuThinker - AI-Powered Document Analysis App': ['AI', 'RAG', 'Full-Stack', 'Productivity'],
   'WealthWise - A Personal Finance Management App': ['Agentic AI', 'AI', 'Data', 'Full-Stack'],
-  'PetSwipe - A Matchmaking App for Pet Adoption': ['AI', 'Full-Stack', 'Productivity'],
-  'SymptomSync - A Health Management App': ['AI', 'Full-Stack', 'Productivity'],
+  'PetSwipe - A Matchmaking App for Pet Adoption': ['AI', 'Full-Stack'],
+  'SymptomSync - A Health Management App': ['AI', 'Full-Stack'],
   'Customizable AI Chatbot': ['AI', 'RAG', 'Full-Stack'],
   'Meadows - A Social Media for Gen-Z': ['Full-Stack', 'Realtime'],
   'Urlvy - A URL Shortening Service': ['Full-Stack', 'Backend/API', 'Productivity'],
@@ -904,7 +904,7 @@ const portfolioProjectTopicMap = {
   'Boxed - Inventory Management App': ['Full-Stack', 'Productivity'],
   'Moodify - AI-Powered Music Recommendation App': ['AI', 'ML', 'Data', 'Full-Stack'],
   'Budget Management Backend API': ['Backend/API', 'Full-Stack'],
-  'Agentic AI - Autonomous Agents': ['Agentic AI', 'AI', 'MLOps'],
+  'Agentic AI - Autonomous Agents': ['Agentic AI', 'AI'],
   'Agentic RAG AI System': ['Agentic AI', 'AI', 'RAG'],
   'Spot the Scam - AI Job Fraud Detection': ['AI', 'ML', 'MLOps', 'Data'],
   'YouTube Success Predictor - AI-Powered YouTube Analytics': ['AI', 'ML', 'MLOps', 'Data'],
@@ -916,7 +916,7 @@ const portfolioProjectTopicMap = {
   'LatticeDB Next-Gen DBMS': ['Database', 'Backend/API'],
   'Fusion Electronics E-Commerce Website': ['Full-Stack', 'E-Commerce'],
   'React Native Task Management App': ['Mobile', 'Productivity'],
-  'Flowlist - A Productivity Task App': ['Productivity', 'Full-Stack'],
+  'Flowlist - A Productivity Task App': ['Full-Stack', 'Productivity'],
   'ClipChronicle - Clipboard Assistant': ['Productivity', 'Cross-Platform'],
   'StudySync Study Buddy App': ['Productivity', 'Full-Stack'],
   'MermaidGenie - AI-Powered Mermaid Diagram Generator': ['AI', 'Productivity', 'Full-Stack'],
@@ -928,7 +928,7 @@ const portfolioProjectTopicMap = {
   'PuzzleForge - A Puzzle Collection': ['Game', 'Full-Stack'],
   'The Maze Game': ['Game'],
   'The 2048 Game': ['Game'],
-  'The Flappy Bird Game': ['Game'],
+  'The Flappy Bird Game': ['Game', 'Mobile'],
   'The StickyNotes App': ['Productivity'],
   'The WeatherMate App': ['Full-Stack'],
   'The RecipeGenie App': ['AI', 'Full-Stack'],
@@ -1134,8 +1134,8 @@ function resetPortfolioSwiperAfterFilter(swiper, shouldResumeAutoplay) {
     swiper.pagination.update();
   }
 
-  if (shouldResumeAutoplay && swiper.autoplay) {
-    swiper.autoplay.start();
+  if (shouldResumeAutoplay) {
+    startPortfolioAutoplay(swiper);
   }
   syncPortfolioNavAvailability(swiper);
 }
@@ -1149,9 +1149,9 @@ function applyPortfolioTopicFilter(swiper, topic, spotlight = true) {
   portfolioTopicState.activeTopic = topic;
   updatePortfolioTopicButtons(topic);
 
-  const shouldResumeAutoplay = Boolean(swiper.autoplay && swiper.autoplay.running);
+  const shouldResumeAutoplay = Boolean(swiper.__portfolioAutoplayRunning);
   if (shouldResumeAutoplay) {
-    swiper.autoplay.stop();
+    stopPortfolioAutoplay(swiper);
   }
   if (swiper.__wrapCleanupTimer) {
     clearTimeout(swiper.__wrapCleanupTimer);
@@ -1326,16 +1326,16 @@ function setupPortfolioBulletPreviews(swiper, projectData) {
 
 function setupPortfolioAutoplayOnView(swiper) {
   const portfolioSection = document.getElementById('portfolio');
-  if (!swiper || !swiper.autoplay || !portfolioSection) {
+  if (!swiper || !portfolioSection) {
     return;
   }
 
   const updateAutoplay = isVisible => {
     if (isVisible) {
-      swiper.autoplay.start();
+      startPortfolioAutoplay(swiper);
       return;
     }
-    swiper.autoplay.stop();
+    stopPortfolioAutoplay(swiper);
   };
 
   const observer = new IntersectionObserver(
@@ -1349,6 +1349,39 @@ function setupPortfolioAutoplayOnView(swiper) {
   );
 
   observer.observe(portfolioSection);
+
+  swiper.el?.addEventListener('mouseenter', () => stopPortfolioAutoplay(swiper));
+  swiper.el?.addEventListener('mouseleave', () => startPortfolioAutoplay(swiper));
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      stopPortfolioAutoplay(swiper);
+    } else {
+      const rect = swiper.el?.getBoundingClientRect();
+      const inViewport = Boolean(rect && rect.bottom > 0 && rect.top < window.innerHeight);
+      if (inViewport) {
+        startPortfolioAutoplay(swiper);
+      }
+    }
+  });
+}
+
+function startPortfolioAutoplay(swiper) {
+  if (!swiper || swiper.__portfolioAutoplayRunning) return;
+  const delay = 3000;
+  swiper.__portfolioAutoplayRunning = true;
+  swiper.__portfolioAutoplayTimer = window.setInterval(() => {
+    if (document.hidden || swiper.__isWrapping) return;
+    slidePortfolioWithWrap(swiper, 'next', 320);
+  }, delay);
+}
+
+function stopPortfolioAutoplay(swiper) {
+  if (!swiper || !swiper.__portfolioAutoplayRunning) return;
+  swiper.__portfolioAutoplayRunning = false;
+  if (swiper.__portfolioAutoplayTimer) {
+    clearInterval(swiper.__portfolioAutoplayTimer);
+    swiper.__portfolioAutoplayTimer = null;
+  }
 }
 
 function getPortfolioRealSlides(swiper) {
@@ -1691,15 +1724,10 @@ const swiperPortfolio = new Swiper('.portfolio__container', {
     el: '.swiper-pagination',
     clickable: true,
   },
-  autoplay: {
-    delay: 3000,
-    disableOnInteraction: false,
-  },
   keyboard: true,
   threshold: 20,
   on: {
     init: function () {
-      this.autoplay.stop();
       setupPortfolioAutoplayOnView(this);
       setupPortfolioWrapAroundNavigation(this);
       setupPortfolioTouchEdgeWrap(this);
