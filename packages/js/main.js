@@ -1350,6 +1350,14 @@ function setupPortfolioAutoplayOnView(swiper) {
 
   observer.observe(portfolioSection);
 
+  if (!swiper.__portfolioAutoplaySlideChangeBound) {
+    swiper.on('slideChange', () => {
+      if (swiper.__isAutoplayAdvancing) return;
+      resetPortfolioAutoplayClock(swiper);
+    });
+    swiper.__portfolioAutoplaySlideChangeBound = true;
+  }
+
   swiper.el?.addEventListener('mouseenter', () => stopPortfolioAutoplay(swiper));
   swiper.el?.addEventListener('mouseleave', () => startPortfolioAutoplay(swiper));
   document.addEventListener('visibilitychange', () => {
@@ -1371,7 +1379,15 @@ function startPortfolioAutoplay(swiper) {
   swiper.__portfolioAutoplayRunning = true;
   swiper.__portfolioAutoplayTimer = window.setInterval(() => {
     if (document.hidden || swiper.__isWrapping) return;
+    swiper.__isAutoplayAdvancing = true;
     slidePortfolioWithWrap(swiper, 'next', 320);
+    if (swiper.__portfolioAutoplayAdvanceResetTimer) {
+      clearTimeout(swiper.__portfolioAutoplayAdvanceResetTimer);
+    }
+    swiper.__portfolioAutoplayAdvanceResetTimer = window.setTimeout(() => {
+      swiper.__isAutoplayAdvancing = false;
+      swiper.__portfolioAutoplayAdvanceResetTimer = null;
+    }, 500);
   }, delay);
 }
 
@@ -1382,6 +1398,17 @@ function stopPortfolioAutoplay(swiper) {
     clearInterval(swiper.__portfolioAutoplayTimer);
     swiper.__portfolioAutoplayTimer = null;
   }
+  if (swiper.__portfolioAutoplayAdvanceResetTimer) {
+    clearTimeout(swiper.__portfolioAutoplayAdvanceResetTimer);
+    swiper.__portfolioAutoplayAdvanceResetTimer = null;
+  }
+  swiper.__isAutoplayAdvancing = false;
+}
+
+function resetPortfolioAutoplayClock(swiper) {
+  if (!swiper || !swiper.__portfolioAutoplayRunning) return;
+  stopPortfolioAutoplay(swiper);
+  startPortfolioAutoplay(swiper);
 }
 
 function getPortfolioRealSlides(swiper) {
