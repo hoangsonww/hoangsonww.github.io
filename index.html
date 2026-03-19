@@ -88,6 +88,9 @@
     <!--==================== CHART JS ====================-->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    <!--==================== D3.JS ====================-->
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+
     <!--==================== SWIPER CSS ====================-->
     <link rel="stylesheet" href="./packages/css/swiper-bundle.min.css" />
     <link rel="stylesheet" href="./packages/css/styles.css" />
@@ -2625,6 +2628,15 @@
               </div>
             </div>
           </div>
+        </div>
+
+        <!-- Skills Interconnection Graph -->
+        <div class="tech-graph__container container scroll-animation">
+          <div class="tech-graph__legend">
+            <span class="tech-graph__legend-item"><span class="tech-graph__dot tech-graph__dot--domain"></span> Domain</span>
+            <span class="tech-graph__legend-item"><span class="tech-graph__dot tech-graph__dot--tech"></span> Technology</span>
+          </div>
+          <div id="tech-graph-svg-wrap"></div>
         </div>
       </section>
 
@@ -5715,127 +5727,170 @@
           <a href="https://www.researchgate.net/profile/Son-Nguyen-128" target="_blank" rel="noopener noreferrer" class="link">ResearchGate</a>.
         </span>
 
-        <div class="publications__container container">
-          <article class="publication__card scroll-animation">
-            <div class="publication__meta">
-              <span class="publication__pill">Computer Science</span>
-              <span class="publication__date"><i class="uil uil-calendar-alt"></i> Jul 4, 2025</span>
-            </div>
-            <h3 class="publication__title">An AI-Driven, Cloud-Native Architecture for End-to-End Travel Planning: A System Design Study</h3>
-            <p class="publication__venue">University of North Carolina at Chapel Hill, Department of Computer Science</p>
-            <p class="publication__description">
-              A cloud-native architecture study for an AI travel agent built on Google Cloud Platform, using Vertex AI, Dialogflow CX, Pub/Sub, and
-              stateless microservices to support itinerary generation, booking orchestration, and real-time disruption management.
-            </p>
-            <a
-              href="https://www.researchgate.net/publication/392525972_An_AI-Driven_Cloud-Native_Architecture_for_End-to-End_Travel_Planning_A_System_Design_Study_Research_Insights_on_Micro-Agent_Orchestration_and_Scalable_GCP_Integration_Table_of_Content"
-              class="button button--flex button--small publication__button"
-              target="_blank"
-              rel="noopener noreferrer"
+        <div class="pub-spotlight container scroll-animation">
+          <!-- ── Stage: one card visible at a time ── -->
+          <div class="pub-spotlight__stage">
+            <div
+              class="pub-spotlight__card is-active"
+              data-accent="cs"
+              data-url="https://www.researchgate.net/publication/392525972_An_AI-Driven_Cloud-Native_Architecture_for_End-to-End_Travel_Planning_A_System_Design_Study_Research_Insights_on_Micro-Agent_Orchestration_and_Scalable_GCP_Integration_Table_of_Content"
             >
-              View Publication
-              <i class="uil uil-external-link-alt button__icon"></i>
-            </a>
-          </article>
+              <span class="pub-spotlight__number">01</span>
+              <div class="pub-spotlight__meta">
+                <span class="pub-spotlight__pill" data-accent="cs">Computer Science</span>
+                <span class="pub-spotlight__date"><i class="uil uil-calendar-alt"></i> Jul 2025</span>
+              </div>
+              <h3 class="pub-spotlight__title">An AI-Driven, Cloud-Native Architecture for End-to-End Travel Planning: A System Design Study</h3>
+              <p class="pub-spotlight__venue">UNC-Chapel Hill &middot; Department of Computer Science</p>
+              <p class="pub-spotlight__desc">
+                A cloud-native architecture study for an AI travel agent built on Google Cloud Platform, using Vertex AI, Dialogflow CX, Pub/Sub, and
+                stateless microservices to support itinerary generation, booking orchestration, and real-time disruption management.
+              </p>
+              <a
+                class="button button--flex button--small pub-spotlight__link"
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://www.researchgate.net/publication/392525972_An_AI-Driven_Cloud-Native_Architecture_for_End-to-End_Travel_Planning_A_System_Design_Study_Research_Insights_on_Micro-Agent_Orchestration_and_Scalable_GCP_Integration_Table_of_Content"
+              >
+                Read on ResearchGate <i class="uil uil-external-link-alt button__icon"></i>
+              </a>
+            </div>
 
-          <article class="publication__card scroll-animation">
-            <div class="publication__meta">
-              <span class="publication__pill">Computer Science</span>
-              <span class="publication__date"><i class="uil uil-calendar-alt"></i> Apr 14, 2025</span>
-            </div>
-            <h3 class="publication__title">
-              Optimizing Web Performance and Computational Efficiency: A Deep Dive into WebAssembly's Technical Advancements and Real-World
-              Applications
-            </h3>
-            <p class="publication__venue">University of North Carolina at Chapel Hill, Department of Computer Science</p>
-            <p class="publication__description">
-              An evaluation of recent WebAssembly advances, combining technical analysis with practical case studies to show how modern WASM
-              capabilities improve runtime performance and computational efficiency in production web applications.
-            </p>
-            <a
-              href="https://www.researchgate.net/publication/389517325_Optimizing_Web_Performance_and_Computational_Efficiency_A_Deep_Dive_into_WebAssembly%27s_Technical_Advancements_and_Real-World_Applications"
-              class="button button--flex button--small publication__button"
-              target="_blank"
-              rel="noopener noreferrer"
+            <div
+              class="pub-spotlight__card"
+              data-accent="cs"
+              data-url="https://www.researchgate.net/publication/389517325_Optimizing_Web_Performance_and_Computational_Efficiency_A_Deep_Dive_into_WebAssembly%27s_Technical_Advancements_and_Real-World_Applications"
             >
-              View Publication
-              <i class="uil uil-external-link-alt button__icon"></i>
-            </a>
-          </article>
+              <span class="pub-spotlight__number">02</span>
+              <div class="pub-spotlight__meta">
+                <span class="pub-spotlight__pill" data-accent="cs">Computer Science</span>
+                <span class="pub-spotlight__date"><i class="uil uil-calendar-alt"></i> Apr 2025</span>
+              </div>
+              <h3 class="pub-spotlight__title">
+                Optimizing Web Performance and Computational Efficiency: A Deep Dive into WebAssembly's Technical Advancements and Real-World
+                Applications
+              </h3>
+              <p class="pub-spotlight__venue">UNC-Chapel Hill &middot; Department of Computer Science</p>
+              <p class="pub-spotlight__desc">
+                An evaluation of recent WebAssembly advances, combining technical analysis with practical case studies to show how modern WASM
+                capabilities improve runtime performance and computational efficiency in production web applications.
+              </p>
+              <a
+                class="button button--flex button--small pub-spotlight__link"
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://www.researchgate.net/publication/389517325_Optimizing_Web_Performance_and_Computational_Efficiency_A_Deep_Dive_into_WebAssembly%27s_Technical_Advancements_and_Real-World_Applications"
+              >
+                Read on ResearchGate <i class="uil uil-external-link-alt button__icon"></i>
+              </a>
+            </div>
 
-          <article class="publication__card scroll-animation">
-            <div class="publication__meta">
-              <span class="publication__pill">AI Research</span>
-              <span class="publication__date"><i class="uil uil-calendar-alt"></i> Mar 14, 2025</span>
-            </div>
-            <h3 class="publication__title">
-              Enhancing the Robustness of Transformer-Based Code Generation Models Against Adversarial Perturbations: A Comprehensive Study
-            </h3>
-            <p class="publication__venue">University of North Carolina at Chapel Hill, Department of Computer Science</p>
-            <p class="publication__description">
-              A study of adversarial vulnerabilities in transformer-based code generation models, with a comparative review of hardening techniques
-              aimed at improving the resilience, reliability, and security of generated code.
-            </p>
-            <a
-              href="https://www.researchgate.net/publication/389517109_Enhancing_the_Robustness_of_Transformer-Based_Code_Generation_Models_Against_Adversarial_Perturbations_A_Comprehensive_Study"
-              class="button button--flex button--small publication__button"
-              target="_blank"
-              rel="noopener noreferrer"
+            <div
+              class="pub-spotlight__card"
+              data-accent="ai"
+              data-url="https://www.researchgate.net/publication/389517109_Enhancing_the_Robustness_of_Transformer-Based_Code_Generation_Models_Against_Adversarial_Perturbations_A_Comprehensive_Study"
             >
-              View Publication
-              <i class="uil uil-external-link-alt button__icon"></i>
-            </a>
-          </article>
+              <span class="pub-spotlight__number">03</span>
+              <div class="pub-spotlight__meta">
+                <span class="pub-spotlight__pill" data-accent="ai">AI Research</span>
+                <span class="pub-spotlight__date"><i class="uil uil-calendar-alt"></i> Mar 2025</span>
+              </div>
+              <h3 class="pub-spotlight__title">
+                Enhancing the Robustness of Transformer-Based Code Generation Models Against Adversarial Perturbations
+              </h3>
+              <p class="pub-spotlight__venue">UNC-Chapel Hill &middot; Department of Computer Science</p>
+              <p class="pub-spotlight__desc">
+                A study of adversarial vulnerabilities in transformer-based code generation models, with a comparative review of hardening techniques
+                aimed at improving the resilience, reliability, and security of generated code.
+              </p>
+              <a
+                class="button button--flex button--small pub-spotlight__link"
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://www.researchgate.net/publication/389517109_Enhancing_the_Robustness_of_Transformer-Based_Code_Generation_Models_Against_Adversarial_Perturbations_A_Comprehensive_Study"
+              >
+                Read on ResearchGate <i class="uil uil-external-link-alt button__icon"></i>
+              </a>
+            </div>
 
-          <article class="publication__card scroll-animation">
-            <div class="publication__meta">
-              <span class="publication__pill">Ethics Study</span>
-              <span class="publication__date"><i class="uil uil-calendar-alt"></i> Dec 12, 2024</span>
-            </div>
-            <h3 class="publication__title">
-              A Comprehensive Analysis of Assisted Suicide: The Technical, Ethical, and Moral Dimensions of Physician-Assisted and
-              Non-Physician-Assisted Suicide
-            </h3>
-            <p class="publication__venue">University of North Carolina at Chapel Hill, Department of Computer Science</p>
-            <p class="publication__description">
-              A cross-disciplinary analysis of assisted suicide that compares implementation methods, ethical tensions, and policy implications, with
-              emphasis on the tradeoffs between individual autonomy, medical responsibility, and broader social values.
-            </p>
-            <a
-              href="https://www.researchgate.net/publication/390768100_A_Comprehensive_Analysis_of_Assisted_Suicide_The_Technical_Ethical_and_Moral_Dimensions_of_Physician-Assisted_and_Non-Physician-Assisted_Suicide"
-              class="button button--flex button--small publication__button"
-              target="_blank"
-              rel="noopener noreferrer"
+            <div
+              class="pub-spotlight__card"
+              data-accent="ethics"
+              data-url="https://www.researchgate.net/publication/390768100_A_Comprehensive_Analysis_of_Assisted_Suicide_The_Technical_Ethical_and_Moral_Dimensions_of_Physician-Assisted_and_Non-Physician-Assisted_Suicide"
             >
-              View Publication
-              <i class="uil uil-external-link-alt button__icon"></i>
-            </a>
-          </article>
+              <span class="pub-spotlight__number">04</span>
+              <div class="pub-spotlight__meta">
+                <span class="pub-spotlight__pill" data-accent="ethics">Ethics Study</span>
+                <span class="pub-spotlight__date"><i class="uil uil-calendar-alt"></i> Dec 2024</span>
+              </div>
+              <h3 class="pub-spotlight__title">A Comprehensive Analysis of Assisted Suicide: The Technical, Ethical, and Moral Dimensions</h3>
+              <p class="pub-spotlight__venue">UNC-Chapel Hill &middot; Department of Computer Science</p>
+              <p class="pub-spotlight__desc">
+                A cross-disciplinary analysis of assisted suicide that compares implementation methods, ethical tensions, and policy implications,
+                with emphasis on the tradeoffs between individual autonomy, medical responsibility, and broader social values.
+              </p>
+              <a
+                class="button button--flex button--small pub-spotlight__link"
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://www.researchgate.net/publication/390768100_A_Comprehensive_Analysis_of_Assisted_Suicide_The_Technical_Ethical_and_Moral_Dimensions_of_Physician-Assisted_and_Non-Physician-Assisted_Suicide"
+              >
+                Read on ResearchGate <i class="uil uil-external-link-alt button__icon"></i>
+              </a>
+            </div>
 
-          <article class="publication__card scroll-animation">
-            <div class="publication__meta">
-              <span class="publication__pill">Economics</span>
-              <span class="publication__date"><i class="uil uil-calendar-alt"></i> May 10, 2024</span>
-            </div>
-            <h3 class="publication__title">
-              A Strategic Analysis of Highlands Coffee's Success: Upsell Techniques, Marketing Strategies, Store Design, Staff Training,
-              Sustainability Initiatives, and Pricing Strategies
-            </h3>
-            <p class="publication__venue">University of North Carolina at Chapel Hill, Department of Economics</p>
-            <p class="publication__description">
-              A strategy-focused analysis of the operating levers behind Highlands Coffee's growth, covering upsell mechanics, marketing, store
-              design, staff training, sustainability initiatives, and pricing decisions that drive profitability and customer satisfaction.
-            </p>
-            <a
-              href="https://www.researchgate.net/publication/388729071_A_Strategic_Analysis_of_Highlands_Coffee%27s_Success_Upsell_Techniques_Marketing_Strategies_Store_Design_Staff_Training_Sustainability_Initiatives_and_Pricing_Strategies"
-              class="button button--flex button--small publication__button"
-              target="_blank"
-              rel="noopener noreferrer"
+            <div
+              class="pub-spotlight__card"
+              data-accent="econ"
+              data-url="https://www.researchgate.net/publication/388729071_A_Strategic_Analysis_of_Highlands_Coffee%27s_Success_Upsell_Techniques_Marketing_Strategies_Store_Design_Staff_Training_Sustainability_Initiatives_and_Pricing_Strategies"
             >
-              View Publication
-              <i class="uil uil-external-link-alt button__icon"></i>
-            </a>
-          </article>
+              <span class="pub-spotlight__number">05</span>
+              <div class="pub-spotlight__meta">
+                <span class="pub-spotlight__pill" data-accent="econ">Economics</span>
+                <span class="pub-spotlight__date"><i class="uil uil-calendar-alt"></i> May 2024</span>
+              </div>
+              <h3 class="pub-spotlight__title">
+                A Strategic Analysis of Highlands Coffee's Success: Upsell Techniques, Marketing, and Pricing Strategies
+              </h3>
+              <p class="pub-spotlight__venue">UNC-Chapel Hill &middot; Department of Economics</p>
+              <p class="pub-spotlight__desc">
+                A strategy-focused analysis of the operating levers behind Highlands Coffee's growth, covering upsell mechanics, marketing, store
+                design, staff training, sustainability initiatives, and pricing decisions that drive profitability and customer satisfaction.
+              </p>
+              <a
+                class="button button--flex button--small pub-spotlight__link"
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://www.researchgate.net/publication/388729071_A_Strategic_Analysis_of_Highlands_Coffee%27s_Success_Upsell_Techniques_Marketing_Strategies_Store_Design_Staff_Training_Sustainability_Initiatives_and_Pricing_Strategies"
+              >
+                Read on ResearchGate <i class="uil uil-external-link-alt button__icon"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- ── Selector tabs + arrows ── -->
+          <div class="pub-spotlight__nav">
+            <button class="pub-spotlight__arrow pub-spotlight__arrow--prev" aria-label="Previous publication">
+              <i class="uil uil-angle-left"></i>
+            </button>
+            <div class="pub-spotlight__tabs">
+              <button class="pub-spotlight__tab is-active" data-index="0" data-accent="cs">
+                <span class="pub-spotlight__tab-num">01</span> Cloud-Native AI
+              </button>
+              <button class="pub-spotlight__tab" data-index="1" data-accent="cs"><span class="pub-spotlight__tab-num">02</span> WebAssembly</button>
+              <button class="pub-spotlight__tab" data-index="2" data-accent="ai">
+                <span class="pub-spotlight__tab-num">03</span> Adversarial ML
+              </button>
+              <button class="pub-spotlight__tab" data-index="3" data-accent="ethics"><span class="pub-spotlight__tab-num">04</span> Ethics</button>
+              <button class="pub-spotlight__tab" data-index="4" data-accent="econ"><span class="pub-spotlight__tab-num">05</span> Economics</button>
+            </div>
+            <button class="pub-spotlight__arrow pub-spotlight__arrow--next" aria-label="Next publication"><i class="uil uil-angle-right"></i></button>
+          </div>
+
+          <!-- ── Progress bar ── -->
+          <div class="pub-spotlight__progress">
+            <div class="pub-spotlight__progress-fill"></div>
+          </div>
         </div>
       </section>
 
@@ -6101,6 +6156,462 @@
 
     <!--==================== MAIN JS ====================-->
     <script type="module" src="./packages/js/main.js"></script>
+
+    <!--==================== PUBLICATION SPOTLIGHT ====================-->
+    <script>
+      (() => {
+        const cards = Array.from(document.querySelectorAll('.pub-spotlight__card'));
+        const tabs = Array.from(document.querySelectorAll('.pub-spotlight__tab'));
+        const prev = document.querySelector('.pub-spotlight__arrow--prev');
+        const next = document.querySelector('.pub-spotlight__arrow--next');
+        const fill = document.querySelector('.pub-spotlight__progress-fill');
+        if (!cards.length) return;
+
+        const ACCENT_COLORS = { cs: 'hsl(190,72%,52%)', ai: 'hsl(270,58%,58%)', ethics: 'hsl(32,85%,56%)', econ: 'hsl(152,55%,44%)' };
+        let current = 0;
+        let locked = false;
+        const AUTOPLAY_MS = 2500;
+        let autoTimer = null;
+
+        function goTo(idx) {
+          if (locked || idx === current) return;
+          locked = true;
+          const old = cards[current];
+          const nxt = cards[idx];
+          const dir = idx > current ? 1 : -1;
+
+          // Exit old
+          old.classList.remove('is-active');
+          old.classList.add('is-exiting');
+
+          // Prep new card offscreen (no transition so it jumps instantly)
+          nxt.style.transition = 'none';
+          nxt.style.opacity = '0';
+          nxt.style.transform = `translateX(${40 * dir}px) scale(0.97)`;
+          nxt.classList.remove('is-exiting');
+          nxt.classList.add('is-active');
+
+          // Force reflow, then clear inline styles so the .is-active class rules take over
+          void nxt.offsetWidth;
+          nxt.style.transition = '';
+          nxt.style.opacity = '';
+          nxt.style.transform = '';
+
+          setTimeout(() => {
+            old.classList.remove('is-exiting');
+            old.style.transform = '';
+            old.style.opacity = '';
+            locked = false;
+          }, 460);
+
+          // Update tabs
+          tabs.forEach(t => t.classList.remove('is-active'));
+          tabs[idx].classList.add('is-active');
+          const tabsWrap = tabs[idx].parentElement;
+          const tRect = tabs[idx].getBoundingClientRect();
+          const wRect = tabsWrap.getBoundingClientRect();
+          if (tRect.left < wRect.left || tRect.right > wRect.right) {
+            tabsWrap.scrollTo({ left: tabs[idx].offsetLeft - tabsWrap.offsetLeft - 12, behavior: 'smooth' });
+          }
+
+          // Progress bar
+          const accent = nxt.dataset.accent;
+          fill.style.width = ((idx + 1) / cards.length) * 100 + '%';
+          fill.style.background = ACCENT_COLORS[accent] || 'var(--first-color)';
+
+          current = idx;
+          resetAutoplay();
+        }
+
+        tabs.forEach(t => t.addEventListener('click', () => goTo(+t.dataset.index)));
+        prev.addEventListener('click', () => goTo((current - 1 + cards.length) % cards.length));
+        next.addEventListener('click', () => goTo((current + 1) % cards.length));
+
+        // Keyboard
+        document.querySelector('.pub-spotlight')?.addEventListener('keydown', e => {
+          if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            prev.click();
+          }
+          if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            next.click();
+          }
+        });
+
+        // Autoplay (pause on hover)
+        function resetAutoplay() {
+          clearInterval(autoTimer);
+          autoTimer = setInterval(() => goTo((current + 1) % cards.length), AUTOPLAY_MS);
+        }
+        const spotlight = document.querySelector('.pub-spotlight');
+        spotlight?.addEventListener('mouseenter', () => clearInterval(autoTimer));
+        spotlight?.addEventListener('mouseleave', resetAutoplay);
+        resetAutoplay();
+
+        // Init progress bar
+        fill.style.width = (1 / cards.length) * 100 + '%';
+        fill.style.background = ACCENT_COLORS[cards[0].dataset.accent] || 'var(--first-color)';
+      })();
+    </script>
+
+    <!--==================== SKILLS INTERCONNECTION D3 GRAPH ====================-->
+    <script>
+      (() => {
+        if (typeof d3 === 'undefined') return;
+
+        /* ── Data: skill domains as hubs, technologies as satellites ── */
+        /* Edges connect each tech to the domains it serves.            */
+        /* Cross-domain techs (Python, TypeScript, Docker…) bridge      */
+        /* clusters, revealing how skill areas overlap.                  */
+
+        const GRAPH_DATA = {
+          nodes: [
+            // Skill Domains (hubs)
+            { id: 'frontend', label: 'Front-End', type: 'domain' },
+            { id: 'backend', label: 'Back-End', type: 'domain' },
+            { id: 'ai-ml', label: 'AI & ML', type: 'domain' },
+            { id: 'data', label: 'Databases', type: 'domain' },
+            { id: 'devops', label: 'DevOps & Cloud', type: 'domain' },
+            { id: 'mobile', label: 'Mobile', type: 'domain' },
+            { id: 'languages', label: 'Languages', type: 'domain' },
+            { id: 'analytics', label: 'Data Analytics', type: 'domain' },
+
+            // Technologies
+            { id: 'react', label: 'React', type: 'tech' },
+            { id: 'nextjs', label: 'Next.js', type: 'tech' },
+            { id: 'vue', label: 'Vue', type: 'tech' },
+            { id: 'angular', label: 'Angular', type: 'tech' },
+            { id: 'tailwind', label: 'Tailwind', type: 'tech' },
+            { id: 'typescript', label: 'TypeScript', type: 'tech' },
+            { id: 'nodejs', label: 'Node.js', type: 'tech' },
+            { id: 'express', label: 'Express', type: 'tech' },
+            { id: 'django', label: 'Django', type: 'tech' },
+            { id: 'flask', label: 'Flask', type: 'tech' },
+            { id: 'graphql', label: 'GraphQL', type: 'tech' },
+            { id: 'python', label: 'Python', type: 'tech' },
+            { id: 'java', label: 'Java', type: 'tech' },
+            { id: 'go', label: 'Go', type: 'tech' },
+            { id: 'cpp', label: 'C / C++', type: 'tech' },
+            { id: 'rust', label: 'Rust', type: 'tech' },
+            { id: 'swift', label: 'Swift', type: 'tech' },
+            { id: 'kotlin', label: 'Kotlin', type: 'tech' },
+            { id: 'langchain', label: 'LangChain', type: 'tech' },
+            { id: 'pytorch', label: 'PyTorch', type: 'tech' },
+            { id: 'tensorflow', label: 'TensorFlow', type: 'tech' },
+            { id: 'faiss', label: 'FAISS', type: 'tech' },
+            { id: 'postgres', label: 'PostgreSQL', type: 'tech' },
+            { id: 'mongodb', label: 'MongoDB', type: 'tech' },
+            { id: 'redis', label: 'Redis', type: 'tech' },
+            { id: 'neo4j', label: 'Neo4j', type: 'tech' },
+            { id: 'pinecone', label: 'Pinecone', type: 'tech' },
+            { id: 'docker', label: 'Docker', type: 'tech' },
+            { id: 'k8s', label: 'Kubernetes', type: 'tech' },
+            { id: 'terraform', label: 'Terraform', type: 'tech' },
+            { id: 'aws', label: 'AWS', type: 'tech' },
+            { id: 'gcp', label: 'GCP', type: 'tech' },
+            { id: 'pandas', label: 'Pandas', type: 'tech' },
+            { id: 'spark', label: 'Spark', type: 'tech' },
+          ],
+          links: [
+            // Front-End
+            { source: 'react', target: 'frontend' },
+            { source: 'nextjs', target: 'frontend' },
+            { source: 'vue', target: 'frontend' },
+            { source: 'angular', target: 'frontend' },
+            { source: 'tailwind', target: 'frontend' },
+            { source: 'typescript', target: 'frontend' },
+
+            // Back-End
+            { source: 'nodejs', target: 'backend' },
+            { source: 'express', target: 'backend' },
+            { source: 'django', target: 'backend' },
+            { source: 'flask', target: 'backend' },
+            { source: 'graphql', target: 'backend' },
+            { source: 'go', target: 'backend' },
+            { source: 'java', target: 'backend' },
+
+            // AI & ML
+            { source: 'langchain', target: 'ai-ml' },
+            { source: 'pytorch', target: 'ai-ml' },
+            { source: 'tensorflow', target: 'ai-ml' },
+            { source: 'faiss', target: 'ai-ml' },
+            { source: 'python', target: 'ai-ml' },
+            { source: 'pinecone', target: 'ai-ml' },
+
+            // Databases
+            { source: 'postgres', target: 'data' },
+            { source: 'mongodb', target: 'data' },
+            { source: 'redis', target: 'data' },
+            { source: 'neo4j', target: 'data' },
+            { source: 'pinecone', target: 'data' },
+
+            // DevOps & Cloud
+            { source: 'docker', target: 'devops' },
+            { source: 'k8s', target: 'devops' },
+            { source: 'terraform', target: 'devops' },
+            { source: 'aws', target: 'devops' },
+            { source: 'gcp', target: 'devops' },
+
+            // Mobile
+            { source: 'swift', target: 'mobile' },
+            { source: 'kotlin', target: 'mobile' },
+            { source: 'react', target: 'mobile' }, // React Native
+
+            // Languages (core proficiency)
+            { source: 'python', target: 'languages' },
+            { source: 'java', target: 'languages' },
+            { source: 'typescript', target: 'languages' },
+            { source: 'go', target: 'languages' },
+            { source: 'cpp', target: 'languages' },
+            { source: 'rust', target: 'languages' },
+            { source: 'swift', target: 'languages' },
+            { source: 'kotlin', target: 'languages' },
+
+            // Data Analytics
+            { source: 'pandas', target: 'analytics' },
+            { source: 'spark', target: 'analytics' },
+            { source: 'python', target: 'analytics' },
+
+            // Cross-domain bridges (what makes the graph interesting)
+            { source: 'python', target: 'backend' },
+            { source: 'typescript', target: 'backend' },
+            { source: 'nextjs', target: 'backend' }, // SSR
+            { source: 'graphql', target: 'frontend' },
+            { source: 'docker', target: 'backend' },
+            { source: 'redis', target: 'backend' },
+            { source: 'aws', target: 'backend' },
+            { source: 'postgres', target: 'backend' },
+            { source: 'mongodb', target: 'backend' },
+          ],
+        };
+
+        const TYPE_CONFIG = {
+          domain: { r: 28, color: 'hsl(190, 69%, 61%)', stroke: 'hsl(190, 69%, 45%)' },
+          tech: { r: 14, color: 'hsl(142, 50%, 50%)', stroke: 'hsl(142, 50%, 36%)' },
+        };
+
+        function buildGraph(wrap) {
+          const rect = wrap.getBoundingClientRect();
+          const width = Math.max(rect.width, 320);
+          const height = Math.min(width * 0.72, 620);
+
+          const svg = d3.select(wrap).append('svg').attr('viewBox', `0 0 ${width} ${height}`).attr('preserveAspectRatio', 'xMidYMid meet');
+
+          const defs = svg.append('defs');
+          const filter = defs.append('filter').attr('id', 'graph-glow');
+          filter.append('feGaussianBlur').attr('stdDeviation', '3.5').attr('result', 'blur');
+          const fm = filter.append('feMerge');
+          fm.append('feMergeNode').attr('in', 'blur');
+          fm.append('feMergeNode').attr('in', 'SourceGraphic');
+
+          const nodes = GRAPH_DATA.nodes.map(d => ({ ...d }));
+          const links = GRAPH_DATA.links.map(d => ({ ...d }));
+
+          const adjacency = new Set();
+          links.forEach(l => {
+            adjacency.add(`${l.source}-${l.target}`);
+            adjacency.add(`${l.target}-${l.source}`);
+          });
+          const isLinked = (a, b) => a === b || adjacency.has(`${a}-${b}`);
+
+          // Count connections per node for sizing tech nodes
+          const degree = {};
+          links.forEach(l => {
+            degree[l.source] = (degree[l.source] || 0) + 1;
+            degree[l.target] = (degree[l.target] || 0) + 1;
+          });
+
+          const techRadius = d => {
+            if (d.type === 'domain') return TYPE_CONFIG.domain.r;
+            const deg = degree[d.id] || 1;
+            return Math.min(20, TYPE_CONFIG.tech.r + deg * 1.2);
+          };
+
+          const simulation = d3
+            .forceSimulation(nodes)
+            .force(
+              'link',
+              d3
+                .forceLink(links)
+                .id(d => d.id)
+                .distance(l => {
+                  const s = typeof l.source === 'object' ? l.source.type : '';
+                  const t = typeof l.target === 'object' ? l.target.type : '';
+                  return s === 'domain' || t === 'domain' ? 110 : 80;
+                })
+            )
+            .force(
+              'charge',
+              d3.forceManyBody().strength(d => (d.type === 'domain' ? -500 : -160))
+            )
+            .force('center', d3.forceCenter(width / 2, height / 2))
+            .force(
+              'collision',
+              d3.forceCollide().radius(d => techRadius(d) + 8)
+            )
+            .force('x', d3.forceX(width / 2).strength(0.05))
+            .force('y', d3.forceY(height / 2).strength(0.05));
+
+          // Edges
+          const link = svg
+            .append('g')
+            .selectAll('line')
+            .data(links)
+            .join('line')
+            .attr('stroke', 'var(--text-color-light)')
+            .attr('stroke-opacity', 0.22)
+            .attr('stroke-width', 1.2);
+
+          // Node groups
+          const node = svg
+            .append('g')
+            .selectAll('g')
+            .data(nodes)
+            .join('g')
+            .attr('cursor', 'grab')
+            .call(
+              d3
+                .drag()
+                .on('start', (e, d) => {
+                  if (!e.active) simulation.alphaTarget(0.3).restart();
+                  d.fx = d.x;
+                  d.fy = d.y;
+                })
+                .on('drag', (e, d) => {
+                  d.fx = e.x;
+                  d.fy = e.y;
+                })
+                .on('end', (e, d) => {
+                  if (!e.active) simulation.alphaTarget(0);
+                  d.fx = null;
+                  d.fy = null;
+                })
+            );
+
+          node
+            .append('circle')
+            .attr('r', d => techRadius(d))
+            .attr('fill', d => TYPE_CONFIG[d.type].color)
+            .attr('stroke', d => TYPE_CONFIG[d.type].stroke)
+            .attr('stroke-width', d => (d.type === 'domain' ? 2.5 : 1.8))
+            .attr('filter', d => (d.type === 'domain' ? 'url(#graph-glow)' : null));
+
+          node
+            .append('text')
+            .text(d => d.label)
+            .attr('text-anchor', 'middle')
+            .attr('dy', d => techRadius(d) + 14)
+            .attr('font-size', d => (d.type === 'domain' ? '11.5px' : '9px'))
+            .attr('font-weight', d => (d.type === 'domain' ? '600' : '400'))
+            .attr('font-family', 'Poppins, sans-serif')
+            .attr('fill', 'var(--text-color)')
+            .attr('pointer-events', 'none');
+
+          // Tooltip
+          const tooltip = d3
+            .select(wrap)
+            .append('div')
+            .style('position', 'absolute')
+            .style('padding', '8px 14px')
+            .style('background', 'var(--container-color)')
+            .style('border', '1px solid var(--first-color)')
+            .style('border-radius', '8px')
+            .style('font-size', '12px')
+            .style('font-family', 'Poppins, sans-serif')
+            .style('color', 'var(--text-color)')
+            .style('pointer-events', 'none')
+            .style('opacity', 0)
+            .style('transition', 'opacity 0.2s')
+            .style('z-index', '10')
+            .style('box-shadow', '0 4px 12px rgba(0,0,0,0.12)')
+            .style('max-width', '220px');
+
+          // Hover: highlight connected subgraph
+          node
+            .on('mouseenter', (e, d) => {
+              node
+                .select('circle')
+                .transition()
+                .duration(200)
+                .attr('opacity', o => (isLinked(d.id, o.id) ? 1 : 0.1));
+              node
+                .select('text')
+                .transition()
+                .duration(200)
+                .attr('opacity', o => (isLinked(d.id, o.id) ? 1 : 0.1));
+              link
+                .transition()
+                .duration(200)
+                .attr('stroke-opacity', l => (l.source.id === d.id || l.target.id === d.id ? 0.65 : 0.03))
+                .attr('stroke-width', l => (l.source.id === d.id || l.target.id === d.id ? 2.8 : 1));
+
+              // Build tooltip: show connected items
+              const connected = [];
+              links.forEach(l => {
+                if (l.source.id === d.id) connected.push(l.target.label);
+                else if (l.target.id === d.id) connected.push(l.source.label);
+              });
+              const tag = d.type === 'domain' ? 'Skill Domain' : 'Technology';
+              const connLabel = d.type === 'domain' ? 'Technologies' : 'Domains';
+              let html = `<strong>${d.label}</strong><br><span style="opacity:.6;font-size:11px">${tag}</span>`;
+              if (connected.length) html += `<br><span style="font-size:11px">${connLabel}: ${connected.join(', ')}</span>`;
+              tooltip.html(html).style('opacity', 1);
+            })
+            .on('mousemove', e => {
+              const wr = wrap.getBoundingClientRect();
+              tooltip.style('left', e.clientX - wr.left + 16 + 'px').style('top', e.clientY - wr.top - 12 + 'px');
+            })
+            .on('mouseleave', () => {
+              node.select('circle').transition().duration(300).attr('opacity', 1);
+              node.select('text').transition().duration(300).attr('opacity', 1);
+              link.transition().duration(300).attr('stroke-opacity', 0.22).attr('stroke-width', 1.2);
+              tooltip.style('opacity', 0);
+            });
+
+          simulation.on('tick', () => {
+            nodes.forEach(d => {
+              const r = techRadius(d);
+              d.x = Math.max(r + 4, Math.min(width - r - 4, d.x));
+              d.y = Math.max(r + 4, Math.min(height - r - 4, d.y));
+            });
+            link
+              .attr('x1', d => d.source.x)
+              .attr('y1', d => d.source.y)
+              .attr('x2', d => d.target.x)
+              .attr('y2', d => d.target.y);
+            node.attr('transform', d => `translate(${d.x},${d.y})`);
+          });
+        }
+
+        // Lazy init via IntersectionObserver
+        const wrap = document.getElementById('tech-graph-svg-wrap');
+        if (!wrap) return;
+        wrap.style.position = 'relative';
+
+        let built = false;
+        const init = () => {
+          if (built) return;
+          built = true;
+          buildGraph(wrap);
+        };
+
+        if (!('IntersectionObserver' in window)) {
+          init();
+          return;
+        }
+        const obs = new IntersectionObserver(
+          entries => {
+            if (entries[0] && entries[0].isIntersecting) {
+              init();
+              obs.disconnect();
+            }
+          },
+          { threshold: 0.1 }
+        );
+        obs.observe(wrap);
+      })();
+    </script>
 
     <script>
       (() => {
