@@ -6640,12 +6640,12 @@
           const isTablet = width >= 600 && width < 900;
           return {
             domain: {
-              r: isMobile ? 18 : isTablet ? 22 : 28,
+              r: isMobile ? 16 : isTablet ? 22 : 28,
               color: 'hsl(190, 69%, 61%)',
               stroke: 'hsl(190, 69%, 45%)',
             },
             tech: {
-              r: isMobile ? 9 : isTablet ? 11 : 14,
+              r: isMobile ? 8 : isTablet ? 11 : 14,
               color: 'hsl(142, 50%, 50%)',
               stroke: 'hsl(142, 50%, 36%)',
             },
@@ -6687,8 +6687,12 @@
           const techRadius = d => {
             if (d.type === 'domain') return TYPE_CONFIG.domain.r;
             const deg = degree[d.id] || 1;
-            return Math.min(20, TYPE_CONFIG.tech.r + deg * 1.2);
+            const maxTechRadius = width < 600 ? 18 : width < 900 ? 19 : 20;
+            return Math.min(maxTechRadius, TYPE_CONFIG.tech.r + deg * 1.2);
           };
+
+          const isMobileGraph = width < 600;
+          const domainClusterRadius = Math.min(width, height) * 0.28;
 
           const simulation = d3
             .forceSimulation(nodes)
@@ -6705,7 +6709,7 @@
             )
             .force(
               'charge',
-              d3.forceManyBody().strength(d => (d.type === 'domain' ? -350 : -120))
+              d3.forceManyBody().strength(d => (d.type === 'domain' ? (isMobileGraph ? -220 : -350) : isMobileGraph ? -95 : -120))
             )
             .force('center', d3.forceCenter(width / 2, height / 2))
             .force(
@@ -6714,12 +6718,19 @@
             )
             .force(
               'x',
-              d3.forceX(width / 2).strength(d => (d.type === 'domain' ? 0.15 : 0.04))
+              d3.forceX(width / 2).strength(d => (d.type === 'domain' ? (isMobileGraph ? 0.2 : 0.15) : isMobileGraph ? 0.05 : 0.04))
             )
             .force(
               'y',
-              d3.forceY(height / 2).strength(d => (d.type === 'domain' ? 0.15 : 0.04))
+              d3.forceY(height / 2).strength(d => (d.type === 'domain' ? (isMobileGraph ? 0.2 : 0.15) : isMobileGraph ? 0.05 : 0.04))
             );
+
+          if (isMobileGraph) {
+            simulation.force(
+              'domain-cluster',
+              d3.forceRadial(domainClusterRadius, width / 2, height / 2).strength(d => (d.type === 'domain' ? 0.16 : 0.015))
+            );
+          }
 
           // Edges
           const link = svg
@@ -6780,6 +6791,7 @@
           const tooltip = d3
             .select(wrap)
             .append('div')
+            .attr('class', 'tech-graph-tooltip')
             .style('position', 'absolute')
             .style('padding', '8px 14px')
             .style('background', 'var(--container-color)')
@@ -6858,10 +6870,55 @@
         wrap.style.position = 'relative';
 
         let built = false;
-        const init = () => {
-          if (built) return;
-          built = true;
+        let lastWrapWidth = 0;
+        let renderTimer = null;
+        let responsiveHandlersBound = false;
+
+        const renderGraph = () => {
+          const currentWidth = wrap.getBoundingClientRect().width;
+          if (built && Math.abs(currentWidth - lastWrapWidth) < 2) return;
+          lastWrapWidth = currentWidth;
+          wrap.querySelectorAll('svg, .tech-graph-tooltip').forEach(el => el.remove());
           buildGraph(wrap);
+          built = true;
+        };
+
+        const scheduleRender = () => {
+          if (!built) return;
+          window.clearTimeout(renderTimer);
+          renderTimer = window.setTimeout(() => {
+            renderGraph();
+          }, 120);
+        };
+
+        const bindResponsiveHandlers = () => {
+          if (responsiveHandlersBound) return;
+          responsiveHandlersBound = true;
+          window.addEventListener('resize', scheduleRender, { passive: true });
+          window.addEventListener('orientationchange', scheduleRender, { passive: true });
+          if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', scheduleRender);
+          }
+          window.addEventListener(
+            'load',
+            () => {
+              scheduleRender();
+            },
+            { once: true }
+          );
+        };
+
+        const init = () => {
+          if (!built) {
+            renderGraph();
+            // Mobile viewport metrics can settle a frame later after reload.
+            window.requestAnimationFrame(() => {
+              window.requestAnimationFrame(() => {
+                renderGraph();
+              });
+            });
+          }
+          bindResponsiveHandlers();
         };
 
         if (!('IntersectionObserver' in window)) {

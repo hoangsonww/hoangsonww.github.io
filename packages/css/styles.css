@@ -5050,8 +5050,49 @@ body.dark-theme .waves.waves--mirror .wave3 {
     grid-template-columns: 1fr;
   }
 
+  .project.section,
+  #useful-links {
+    margin-top: 5rem;
+  }
+
+  #qualifications {
+    margin-top: -3rem;
+  }
+
   .header {
     box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.08);
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 840px) {
+  .home__social {
+    padding-left: 0.75rem;
+  }
+}
+
+@media screen and (min-width: 568px) and (max-width: 675px) {
+  .qualification__sections {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .qualification__data {
+    grid-template-columns: minmax(0, 1fr) max-content minmax(0, 1fr);
+    column-gap: 0.9rem;
+  }
+
+  .qualification__data > div:nth-child(1),
+  .qualification__data > div:nth-child(3) {
+    min-width: 0;
+  }
+
+  .qualification__data > div:nth-child(1):not(:empty),
+  .qualification__data > div:nth-child(3):not(:empty) {
+    padding: 0.9rem;
+  }
+
+  .qualification__title,
+  .qualification__subtitle {
+    overflow-wrap: anywhere;
   }
 }
 
