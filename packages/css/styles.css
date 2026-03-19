@@ -2552,9 +2552,6 @@ body.dark-theme .portfolio__topic-btn.is-active {
   background-color: var(--input-color);
   border-radius: 0.5rem;
   padding: 0.75rem 1rem 0.25rem;
-  transition:
-    background-color 0.5s,
-    color 0.5s;
 }
 
 .contact__label {
@@ -2571,6 +2568,7 @@ body.dark-theme .portfolio__topic-btn.is-active {
   border: none;
   outline: none;
   padding: 0.25rem 0.5rem 0.5rem 0;
+  transition: background-color 0s;
 }
 
 /*==================== FOOTER ====================*/
@@ -2580,12 +2578,43 @@ body.dark-theme .portfolio__topic-btn.is-active {
 
 .footer__container {
   row-gap: 3.5rem;
+  position: relative;
+  z-index: 1;
 }
 
 .footer__bg {
-  background-color: var(--first-color-second);
+  background: linear-gradient(270deg, var(--first-color-second), hsl(210, 40%, 12%), hsl(260, 35%, 14%), var(--first-color-second));
+  background-size: 600% 600%;
+  animation: ctaGradientShift 12s ease infinite;
   padding: 2rem 0 3rem;
-  transition: background-color 0.5s;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer__bg::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -15%;
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, hsla(190, 70%, 55%, 0.12), transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: ctaOrbFloat 8s ease-in-out infinite;
+}
+
+.footer__bg::after {
+  content: '';
+  position: absolute;
+  bottom: -40%;
+  left: -10%;
+  width: 380px;
+  height: 380px;
+  background: radial-gradient(circle, hsla(260, 60%, 55%, 0.1), transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: ctaOrbFloat2 10s ease-in-out infinite;
 }
 
 .footer__title {
