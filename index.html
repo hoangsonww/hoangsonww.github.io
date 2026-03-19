@@ -6239,6 +6239,57 @@
           }
         });
 
+        // Drag / swipe on the stage
+        const stage = document.querySelector('.pub-spotlight__stage');
+        let dragStartX = null;
+        let isDragging = false;
+        const DRAG_THRESHOLD = 50;
+
+        function onDragStart(x) {
+          dragStartX = x;
+          isDragging = false;
+        }
+        function onDragMove(x) {
+          if (dragStartX !== null && Math.abs(x - dragStartX) > 8) isDragging = true;
+        }
+        function onDragEnd(x) {
+          if (dragStartX === null) return;
+          const delta = x - dragStartX;
+          dragStartX = null;
+          if (!isDragging) return;
+          if (delta < -DRAG_THRESHOLD) goTo((current + 1) % cards.length);
+          else if (delta > DRAG_THRESHOLD) goTo((current - 1 + cards.length) % cards.length);
+        }
+
+        // Mouse
+        stage.addEventListener('mousedown', e => {
+          stopAutoplay();
+          onDragStart(e.clientX);
+        });
+        window.addEventListener('mousemove', e => onDragMove(e.clientX));
+        window.addEventListener('mouseup', e => {
+          onDragEnd(e.clientX);
+          if (sectionVisible) startAutoplay();
+        });
+
+        // Touch
+        stage.addEventListener(
+          'touchstart',
+          e => {
+            stopAutoplay();
+            onDragStart(e.touches[0].clientX);
+          },
+          { passive: true }
+        );
+        stage.addEventListener('touchmove', e => onDragMove(e.touches[0].clientX), { passive: true });
+        stage.addEventListener('touchend', e => {
+          onDragEnd(e.changedTouches[0].clientX);
+          if (sectionVisible) startAutoplay();
+        });
+
+        // Prevent text selection while dragging
+        stage.addEventListener('dragstart', e => e.preventDefault());
+
         // Autoplay (only while section is visible, pause on hover)
         function startAutoplay() {
           clearInterval(autoTimer);

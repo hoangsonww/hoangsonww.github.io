@@ -1536,6 +1536,12 @@ body.dark-theme .qualification__discover-action:hover {
 .pub-spotlight__stage {
   position: relative;
   min-height: 280px;
+  cursor: grab;
+  user-select: none;
+}
+
+.pub-spotlight__stage:active {
+  cursor: grabbing;
 }
 
 .pub-spotlight__card {
