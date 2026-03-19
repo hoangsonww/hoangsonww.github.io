@@ -6239,15 +6239,38 @@
           }
         });
 
-        // Autoplay (pause on hover)
-        function resetAutoplay() {
+        // Autoplay (only while section is visible, pause on hover)
+        function startAutoplay() {
           clearInterval(autoTimer);
           autoTimer = setInterval(() => goTo((current + 1) % cards.length), AUTOPLAY_MS);
         }
+        function stopAutoplay() {
+          clearInterval(autoTimer);
+          autoTimer = null;
+        }
+        function resetAutoplay() {
+          if (autoTimer !== null) startAutoplay();
+        }
+
         const spotlight = document.querySelector('.pub-spotlight');
-        spotlight?.addEventListener('mouseenter', () => clearInterval(autoTimer));
-        spotlight?.addEventListener('mouseleave', resetAutoplay);
-        resetAutoplay();
+        spotlight?.addEventListener('mouseenter', stopAutoplay);
+        spotlight?.addEventListener('mouseleave', () => {
+          if (sectionVisible) startAutoplay();
+        });
+
+        // Start/stop autoplay based on whether section is in viewport
+        let sectionVisible = false;
+        const section = document.getElementById('publications');
+        if (section && 'IntersectionObserver' in window) {
+          new IntersectionObserver(
+            entries => {
+              sectionVisible = entries[0].isIntersecting;
+              if (sectionVisible) startAutoplay();
+              else stopAutoplay();
+            },
+            { threshold: 0.3 }
+          ).observe(section);
+        }
 
         // Init progress bar
         fill.style.width = (1 / cards.length) * 100 + '%';
