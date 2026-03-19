@@ -6386,74 +6386,201 @@
             { id: 'languages', label: 'Languages', type: 'domain' },
             { id: 'analytics', label: 'Data Analytics', type: 'domain' },
 
-            // Technologies
-            { id: 'react', label: 'React', type: 'tech' },
-            { id: 'nextjs', label: 'Next.js', type: 'tech' },
-            { id: 'vue', label: 'Vue', type: 'tech' },
-            { id: 'angular', label: 'Angular', type: 'tech' },
-            { id: 'tailwind', label: 'Tailwind', type: 'tech' },
-            { id: 'typescript', label: 'TypeScript', type: 'tech' },
-            { id: 'nodejs', label: 'Node.js', type: 'tech' },
-            { id: 'express', label: 'Express', type: 'tech' },
-            { id: 'django', label: 'Django', type: 'tech' },
-            { id: 'flask', label: 'Flask', type: 'tech' },
-            { id: 'graphql', label: 'GraphQL', type: 'tech' },
+            // Languages
             { id: 'python', label: 'Python', type: 'tech' },
             { id: 'java', label: 'Java', type: 'tech' },
+            { id: 'javascript', label: 'JavaScript', type: 'tech' },
+            { id: 'typescript', label: 'TypeScript', type: 'tech' },
             { id: 'go', label: 'Go', type: 'tech' },
-            { id: 'cpp', label: 'C / C++', type: 'tech' },
             { id: 'rust', label: 'Rust', type: 'tech' },
+            { id: 'cpp', label: 'C / C++', type: 'tech' },
             { id: 'swift', label: 'Swift', type: 'tech' },
             { id: 'kotlin', label: 'Kotlin', type: 'tech' },
-            { id: 'langchain', label: 'LangChain', type: 'tech' },
+            { id: 'php', label: 'PHP', type: 'tech' },
+            { id: 'shell', label: 'Shell', type: 'tech' },
+
+            // Front-End
+            { id: 'react', label: 'React', type: 'tech' },
+            { id: 'vue', label: 'Vue.js', type: 'tech' },
+            { id: 'angular', label: 'Angular', type: 'tech' },
+            { id: 'nextjs', label: 'Next.js', type: 'tech' },
+            { id: 'nuxt', label: 'Nuxt', type: 'tech' },
+            { id: 'tailwind', label: 'Tailwind', type: 'tech' },
+            { id: 'bootstrap', label: 'Bootstrap', type: 'tech' },
+            { id: 'wasm', label: 'WebAssembly', type: 'tech' },
+            { id: 'electron', label: 'Electron', type: 'tech' },
+            { id: 'redux', label: 'Redux', type: 'tech' },
+            { id: 'webpack', label: 'Webpack', type: 'tech' },
+            { id: 'vite', label: 'Vite', type: 'tech' },
+            { id: 'jest', label: 'Jest', type: 'tech' },
+            { id: 'cypress', label: 'Cypress', type: 'tech' },
+            { id: 'streamlit', label: 'Streamlit', type: 'tech' },
+
+            // Back-End
+            { id: 'nodejs', label: 'Node.js', type: 'tech' },
+            { id: 'express', label: 'Express', type: 'tech' },
+            { id: 'nestjs', label: 'NestJS', type: 'tech' },
+            { id: 'spring', label: 'Spring Boot', type: 'tech' },
+            { id: 'django', label: 'Django', type: 'tech' },
+            { id: 'flask', label: 'Flask', type: 'tech' },
+            { id: 'fastapi', label: 'FastAPI', type: 'tech' },
+            { id: 'graphql', label: 'GraphQL', type: 'tech' },
+            { id: 'grpc', label: 'gRPC', type: 'tech' },
+            { id: 'kafka', label: 'Kafka', type: 'tech' },
+            { id: 'rabbitmq', label: 'RabbitMQ', type: 'tech' },
+            { id: 'nginx', label: 'Nginx', type: 'tech' },
+            { id: 'prisma', label: 'Prisma', type: 'tech' },
+            { id: 'elasticsearch', label: 'Elasticsearch', type: 'tech' },
+
+            // AI & ML
             { id: 'pytorch', label: 'PyTorch', type: 'tech' },
             { id: 'tensorflow', label: 'TensorFlow', type: 'tech' },
+            { id: 'keras', label: 'Keras', type: 'tech' },
+            { id: 'langchain', label: 'LangChain', type: 'tech' },
+            { id: 'langgraph', label: 'LangGraph', type: 'tech' },
+            { id: 'crewai', label: 'CrewAI', type: 'tech' },
+            { id: 'mcp', label: 'MCP', type: 'tech' },
             { id: 'faiss', label: 'FAISS', type: 'tech' },
+            { id: 'rag', label: 'RAG', type: 'tech' },
+            { id: 'sklearn', label: 'scikit-learn', type: 'tech' },
+            { id: 'opencv', label: 'OpenCV', type: 'tech' },
+            { id: 'transformers', label: 'Transformers', type: 'tech' },
+            { id: 'mlflow', label: 'MLflow', type: 'tech' },
+            { id: 'wandb', label: 'W&B', type: 'tech' },
+            { id: 'xgboost', label: 'XGBoost', type: 'tech' },
+            { id: 'yolo', label: 'YOLO', type: 'tech' },
+
+            // Databases
             { id: 'postgres', label: 'PostgreSQL', type: 'tech' },
+            { id: 'mysql', label: 'MySQL', type: 'tech' },
             { id: 'mongodb', label: 'MongoDB', type: 'tech' },
             { id: 'redis', label: 'Redis', type: 'tech' },
             { id: 'neo4j', label: 'Neo4j', type: 'tech' },
             { id: 'pinecone', label: 'Pinecone', type: 'tech' },
+            { id: 'weaviate', label: 'Weaviate', type: 'tech' },
+            { id: 'chromadb', label: 'ChromaDB', type: 'tech' },
+            { id: 'supabase', label: 'Supabase', type: 'tech' },
+            { id: 'firebase', label: 'Firebase', type: 'tech' },
+            { id: 'dynamodb', label: 'DynamoDB', type: 'tech' },
+
+            // DevOps & Cloud
             { id: 'docker', label: 'Docker', type: 'tech' },
             { id: 'k8s', label: 'Kubernetes', type: 'tech' },
             { id: 'terraform', label: 'Terraform', type: 'tech' },
             { id: 'aws', label: 'AWS', type: 'tech' },
             { id: 'gcp', label: 'GCP', type: 'tech' },
+            { id: 'azure', label: 'Azure', type: 'tech' },
+            { id: 'githubactions', label: 'GitHub Actions', type: 'tech' },
+            { id: 'jenkins', label: 'Jenkins', type: 'tech' },
+            { id: 'argocd', label: 'ArgoCD', type: 'tech' },
+            { id: 'ansible', label: 'Ansible', type: 'tech' },
+            { id: 'vercel', label: 'Vercel', type: 'tech' },
+            { id: 'prometheus', label: 'Prometheus', type: 'tech' },
+            { id: 'grafana', label: 'Grafana', type: 'tech' },
+            { id: 'linux', label: 'Linux', type: 'tech' },
+
+            // Mobile
+            { id: 'reactnative', label: 'React Native', type: 'tech' },
+            { id: 'xcode', label: 'Xcode', type: 'tech' },
+            { id: 'androidstudio', label: 'Android Studio', type: 'tech' },
+
+            // Data Analytics
             { id: 'pandas', label: 'Pandas', type: 'tech' },
             { id: 'spark', label: 'Spark', type: 'tech' },
+            { id: 'hadoop', label: 'Hadoop', type: 'tech' },
+            { id: 'tableau', label: 'Tableau', type: 'tech' },
+            { id: 'powerbi', label: 'PowerBI', type: 'tech' },
+            { id: 'r', label: 'R', type: 'tech' },
+            { id: 'jupyter', label: 'Jupyter', type: 'tech' },
           ],
           links: [
+            // Languages
+            { source: 'python', target: 'languages' },
+            { source: 'java', target: 'languages' },
+            { source: 'javascript', target: 'languages' },
+            { source: 'typescript', target: 'languages' },
+            { source: 'go', target: 'languages' },
+            { source: 'rust', target: 'languages' },
+            { source: 'cpp', target: 'languages' },
+            { source: 'swift', target: 'languages' },
+            { source: 'kotlin', target: 'languages' },
+            { source: 'php', target: 'languages' },
+            { source: 'shell', target: 'languages' },
+
             // Front-End
             { source: 'react', target: 'frontend' },
-            { source: 'nextjs', target: 'frontend' },
             { source: 'vue', target: 'frontend' },
             { source: 'angular', target: 'frontend' },
+            { source: 'nextjs', target: 'frontend' },
+            { source: 'nuxt', target: 'frontend' },
             { source: 'tailwind', target: 'frontend' },
+            { source: 'bootstrap', target: 'frontend' },
+            { source: 'wasm', target: 'frontend' },
+            { source: 'electron', target: 'frontend' },
+            { source: 'redux', target: 'frontend' },
+            { source: 'webpack', target: 'frontend' },
+            { source: 'vite', target: 'frontend' },
+            { source: 'jest', target: 'frontend' },
+            { source: 'cypress', target: 'frontend' },
             { source: 'typescript', target: 'frontend' },
+            { source: 'javascript', target: 'frontend' },
+            { source: 'streamlit', target: 'frontend' },
 
             // Back-End
             { source: 'nodejs', target: 'backend' },
             { source: 'express', target: 'backend' },
+            { source: 'nestjs', target: 'backend' },
+            { source: 'spring', target: 'backend' },
             { source: 'django', target: 'backend' },
             { source: 'flask', target: 'backend' },
+            { source: 'fastapi', target: 'backend' },
             { source: 'graphql', target: 'backend' },
-            { source: 'go', target: 'backend' },
+            { source: 'grpc', target: 'backend' },
+            { source: 'kafka', target: 'backend' },
+            { source: 'rabbitmq', target: 'backend' },
+            { source: 'nginx', target: 'backend' },
+            { source: 'prisma', target: 'backend' },
+            { source: 'elasticsearch', target: 'backend' },
+            { source: 'python', target: 'backend' },
             { source: 'java', target: 'backend' },
+            { source: 'go', target: 'backend' },
+            { source: 'typescript', target: 'backend' },
+            { source: 'php', target: 'backend' },
 
             // AI & ML
-            { source: 'langchain', target: 'ai-ml' },
             { source: 'pytorch', target: 'ai-ml' },
             { source: 'tensorflow', target: 'ai-ml' },
+            { source: 'keras', target: 'ai-ml' },
+            { source: 'langchain', target: 'ai-ml' },
+            { source: 'langgraph', target: 'ai-ml' },
+            { source: 'crewai', target: 'ai-ml' },
+            { source: 'mcp', target: 'ai-ml' },
             { source: 'faiss', target: 'ai-ml' },
+            { source: 'rag', target: 'ai-ml' },
+            { source: 'sklearn', target: 'ai-ml' },
+            { source: 'opencv', target: 'ai-ml' },
+            { source: 'transformers', target: 'ai-ml' },
+            { source: 'mlflow', target: 'ai-ml' },
+            { source: 'wandb', target: 'ai-ml' },
+            { source: 'xgboost', target: 'ai-ml' },
+            { source: 'yolo', target: 'ai-ml' },
             { source: 'python', target: 'ai-ml' },
             { source: 'pinecone', target: 'ai-ml' },
+            { source: 'weaviate', target: 'ai-ml' },
+            { source: 'chromadb', target: 'ai-ml' },
 
             // Databases
             { source: 'postgres', target: 'data' },
+            { source: 'mysql', target: 'data' },
             { source: 'mongodb', target: 'data' },
             { source: 'redis', target: 'data' },
             { source: 'neo4j', target: 'data' },
             { source: 'pinecone', target: 'data' },
+            { source: 'weaviate', target: 'data' },
+            { source: 'chromadb', target: 'data' },
+            { source: 'supabase', target: 'data' },
+            { source: 'firebase', target: 'data' },
+            { source: 'dynamodb', target: 'data' },
 
             // DevOps & Cloud
             { source: 'docker', target: 'devops' },
@@ -6461,49 +6588,75 @@
             { source: 'terraform', target: 'devops' },
             { source: 'aws', target: 'devops' },
             { source: 'gcp', target: 'devops' },
+            { source: 'azure', target: 'devops' },
+            { source: 'githubactions', target: 'devops' },
+            { source: 'jenkins', target: 'devops' },
+            { source: 'argocd', target: 'devops' },
+            { source: 'ansible', target: 'devops' },
+            { source: 'vercel', target: 'devops' },
+            { source: 'prometheus', target: 'devops' },
+            { source: 'grafana', target: 'devops' },
+            { source: 'linux', target: 'devops' },
 
             // Mobile
             { source: 'swift', target: 'mobile' },
             { source: 'kotlin', target: 'mobile' },
-            { source: 'react', target: 'mobile' }, // React Native
-
-            // Languages (core proficiency)
-            { source: 'python', target: 'languages' },
-            { source: 'java', target: 'languages' },
-            { source: 'typescript', target: 'languages' },
-            { source: 'go', target: 'languages' },
-            { source: 'cpp', target: 'languages' },
-            { source: 'rust', target: 'languages' },
-            { source: 'swift', target: 'languages' },
-            { source: 'kotlin', target: 'languages' },
+            { source: 'reactnative', target: 'mobile' },
+            { source: 'xcode', target: 'mobile' },
+            { source: 'androidstudio', target: 'mobile' },
 
             // Data Analytics
             { source: 'pandas', target: 'analytics' },
             { source: 'spark', target: 'analytics' },
+            { source: 'hadoop', target: 'analytics' },
+            { source: 'tableau', target: 'analytics' },
+            { source: 'powerbi', target: 'analytics' },
+            { source: 'r', target: 'analytics' },
+            { source: 'jupyter', target: 'analytics' },
             { source: 'python', target: 'analytics' },
 
-            // Cross-domain bridges (what makes the graph interesting)
-            { source: 'python', target: 'backend' },
-            { source: 'typescript', target: 'backend' },
-            { source: 'nextjs', target: 'backend' }, // SSR
+            // Cross-domain bridges
+            { source: 'nextjs', target: 'backend' },
             { source: 'graphql', target: 'frontend' },
             { source: 'docker', target: 'backend' },
             { source: 'redis', target: 'backend' },
             { source: 'aws', target: 'backend' },
             { source: 'postgres', target: 'backend' },
             { source: 'mongodb', target: 'backend' },
+            { source: 'firebase', target: 'backend' },
+            { source: 'supabase', target: 'backend' },
+            { source: 'react', target: 'mobile' },
+            { source: 'rust', target: 'backend' },
+            { source: 'cpp', target: 'backend' },
+            { source: 'wasm', target: 'backend' },
+            { source: 'tensorflow', target: 'analytics' },
+            { source: 'pytorch', target: 'analytics' },
+            { source: 'sklearn', target: 'analytics' },
           ],
         };
 
-        const TYPE_CONFIG = {
-          domain: { r: 28, color: 'hsl(190, 69%, 61%)', stroke: 'hsl(190, 69%, 45%)' },
-          tech: { r: 14, color: 'hsl(142, 50%, 50%)', stroke: 'hsl(142, 50%, 36%)' },
-        };
+        function getTypeConfig(width) {
+          const isMobile = width < 600;
+          const isTablet = width >= 600 && width < 900;
+          return {
+            domain: {
+              r: isMobile ? 18 : isTablet ? 22 : 28,
+              color: 'hsl(190, 69%, 61%)',
+              stroke: 'hsl(190, 69%, 45%)',
+            },
+            tech: {
+              r: isMobile ? 9 : isTablet ? 11 : 14,
+              color: 'hsl(142, 50%, 50%)',
+              stroke: 'hsl(142, 50%, 36%)',
+            },
+          };
+        }
 
         function buildGraph(wrap) {
           const rect = wrap.getBoundingClientRect();
           const width = Math.max(rect.width, 320);
           const height = Math.min(width * 0.72, 620);
+          const TYPE_CONFIG = getTypeConfig(width);
 
           const svg = d3.select(wrap).append('svg').attr('viewBox', `0 0 ${width} ${height}`).attr('preserveAspectRatio', 'xMidYMid meet');
 
@@ -6547,20 +6700,26 @@
                 .distance(l => {
                   const s = typeof l.source === 'object' ? l.source.type : '';
                   const t = typeof l.target === 'object' ? l.target.type : '';
-                  return s === 'domain' || t === 'domain' ? 110 : 80;
+                  return s === 'domain' || t === 'domain' ? 70 : 50;
                 })
             )
             .force(
               'charge',
-              d3.forceManyBody().strength(d => (d.type === 'domain' ? -500 : -160))
+              d3.forceManyBody().strength(d => (d.type === 'domain' ? -350 : -120))
             )
             .force('center', d3.forceCenter(width / 2, height / 2))
             .force(
               'collision',
-              d3.forceCollide().radius(d => techRadius(d) + 8)
+              d3.forceCollide().radius(d => techRadius(d) + 6)
             )
-            .force('x', d3.forceX(width / 2).strength(0.05))
-            .force('y', d3.forceY(height / 2).strength(0.05));
+            .force(
+              'x',
+              d3.forceX(width / 2).strength(d => (d.type === 'domain' ? 0.15 : 0.04))
+            )
+            .force(
+              'y',
+              d3.forceY(height / 2).strength(d => (d.type === 'domain' ? 0.15 : 0.04))
+            );
 
           // Edges
           const link = svg
