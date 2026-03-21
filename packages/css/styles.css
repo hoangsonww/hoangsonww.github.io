@@ -1545,6 +1545,8 @@ body.dark-theme .qualification__discover-action:hover {
 .pub-spotlight {
   --pub-cs: hsl(190, 72%, 52%);
   --pub-ai: hsl(270, 58%, 58%);
+  --pub-cloud: hsl(210, 78%, 56%);
+  --pub-adv: hsl(350, 74%, 56%);
   --pub-ethics: hsl(32, 85%, 56%);
   --pub-econ: hsl(152, 55%, 44%);
 }
@@ -1611,6 +1613,12 @@ body.dark-theme .qualification__discover-action:hover {
 .pub-spotlight__card[data-accent='ai']::before {
   background: linear-gradient(90deg, var(--pub-ai), hsl(290, 55%, 65%));
 }
+.pub-spotlight__card[data-accent='cloud']::before {
+  background: linear-gradient(90deg, var(--pub-cloud), hsl(224, 74%, 64%));
+}
+.pub-spotlight__card[data-accent='adv']::before {
+  background: linear-gradient(90deg, var(--pub-adv), hsl(10, 78%, 62%));
+}
 .pub-spotlight__card[data-accent='ethics']::before {
   background: linear-gradient(90deg, var(--pub-ethics), hsl(18, 80%, 58%));
 }
@@ -1653,6 +1661,12 @@ body.dark-theme .qualification__discover-action:hover {
 }
 .pub-spotlight__pill[data-accent='ai'] {
   background: var(--pub-ai);
+}
+.pub-spotlight__pill[data-accent='cloud'] {
+  background: var(--pub-cloud);
+}
+.pub-spotlight__pill[data-accent='adv'] {
+  background: var(--pub-adv);
 }
 .pub-spotlight__pill[data-accent='ethics'] {
   background: var(--pub-ethics);
@@ -1776,6 +1790,12 @@ body.dark-theme .qualification__discover-action:hover {
 }
 .pub-spotlight__tab.is-active[data-accent='ai'] {
   background: var(--pub-ai);
+}
+.pub-spotlight__tab.is-active[data-accent='cloud'] {
+  background: var(--pub-cloud);
+}
+.pub-spotlight__tab.is-active[data-accent='adv'] {
+  background: var(--pub-adv);
 }
 .pub-spotlight__tab.is-active[data-accent='ethics'] {
   background: var(--pub-ethics);
