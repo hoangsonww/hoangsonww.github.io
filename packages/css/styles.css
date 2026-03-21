@@ -2192,6 +2192,19 @@ body.dark-theme .portfolio__topic-btn.is-active {
   margin: 0 !important;
 }
 
+/* Second button (View Repo / View Wiki) gets ghost/outline style */
+.portfolio_ > a.portfolio__button + a.portfolio__button {
+  background: transparent;
+  color: var(--first-color);
+  border: 1px solid color-mix(in srgb, var(--first-color) 40%, transparent);
+}
+
+.portfolio_ > a.portfolio__button + a.portfolio__button:hover {
+  background: color-mix(in srgb, var(--first-color) 10%, transparent);
+  border-color: var(--first-color);
+  color: var(--first-color);
+}
+
 .portfolio__button:hover .button__icon {
   transform: translateX(0.25rem);
 }
