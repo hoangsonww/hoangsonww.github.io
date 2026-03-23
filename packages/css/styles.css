@@ -4269,7 +4269,7 @@ body.dark-theme #welcome #scroll-button:focus-visible::after {
 #welcome #scroll-button {
   display: inline-flex;
   align-items: center; /* vertical centering of children */
-  gap: 0.6rem;
+  gap: 0.5rem;
   line-height: 1; /* kill extra baseline room */
   white-space: nowrap;
 }
@@ -4284,13 +4284,13 @@ body.dark-theme #welcome #scroll-button:focus-visible::after {
   justify-content: center;
 
   /* size tuned to match text cap-height */
-  width: 16px;
-  height: 16px;
-  font-size: 16px;
+  width: 24px;
+  height: 24px;
+  font-size: 24px;
   line-height: 1; /* ensure the icon glyph sits dead-center */
   flex: 0 0 auto;
 
-  margin-right: 10px !important; /* keep a bit of space if icon is last */
+  margin-right: 0 !important;
 }
 
 /* Smooth entrance + delay bounce until after reveal */
