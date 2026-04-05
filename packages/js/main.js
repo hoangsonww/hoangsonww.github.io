@@ -355,7 +355,7 @@ const SHIELD_STYLE_HINTS = {
   springboot: { color: 'yellow', logo: 'spring', logoColor: 'white' },
   django: { color: 'darkgreen', logo: 'django', logoColor: 'white' },
   djangorestframework: { color: 'darkgreen', logo: 'django', logoColor: 'white' },
-  flask: { color: 'lightgrey', logo: 'flask', logoColor: 'white' },
+  flask: { color: 'black', logo: 'flask', logoColor: 'white' },
   fastapi: { color: 'success', logo: 'fastapi', logoColor: 'white' },
   pytest: { color: '0A9EDC', logo: 'pytest', logoColor: 'white' },
   mocha: { color: '8D6748', logo: 'mocha', logoColor: 'white' },
@@ -368,11 +368,14 @@ const SHIELD_STYLE_HINTS = {
   trpc: { color: '2596BE', logo: 'trpc', logoColor: 'white' },
   grpc: { color: '4285F4', logo: 'grocy', logoColor: 'white' },
   protocolbuffers: { color: '4285F4', logo: 'grocy', logoColor: 'white' },
-  websockets: { color: 'yellow', logo: 'socketdotio', logoColor: 'white' },
+  websockets: { color: '5C3D2E', logo: 'socketdotio', logoColor: 'white' },
   serversentevents: { color: '0EA5E9', logo: 'serverless', logoColor: 'white' },
   sse: { color: '0EA5E9', logo: 'serverless', logoColor: 'white' },
   rabbitmq: { color: 'orange', logo: 'rabbitmq', logoColor: 'white' },
   nginx: { color: 'darkgreen', logo: 'nginx', logoColor: 'white' },
+  net: { color: '512BD4', logo: 'dotnet', logoColor: 'white' },
+  aspnetcore: { color: '512BD4', logo: 'dotnet', logoColor: 'white' },
+  dotnet: { color: '512BD4', logo: 'dotnet', logoColor: 'white' },
   hibernate: { color: 'purple', logo: 'hibernate', logoColor: 'white' },
   typeorm: { color: 'blue', logo: 'typeorm', logoColor: 'white' },
   prisma: { color: 'darkblue', logo: 'prisma', logoColor: 'white' },
@@ -395,8 +398,8 @@ const SHIELD_STYLE_HINTS = {
   pytorch: { color: 'red', logo: 'pytorch', logoColor: 'white' },
   scikitlearn: { color: 'blue', logo: 'scikitlearn', logoColor: 'white' },
   opencv: { color: 'darkgreen', logo: 'opencv', logoColor: 'white' },
-  yolov3: { color: 'yellow', logo: 'e', logoColor: 'white' },
-  yolov8: { color: 'yellow', logo: 'e', logoColor: 'white' },
+  yolov3: { color: 'darkyellow', logo: 'e', logoColor: 'white' },
+  yolov8: { color: 'darkyellow', logo: 'e', logoColor: 'white' },
   tesseractocr: { color: 'darkgreen', logo: 'interactjs', logoColor: 'white' },
   transformers: { color: 'E53236', logo: 'huggingface', logoColor: 'white' },
   langchain: { color: 'black', logo: 'langchain', logoColor: 'white' },
@@ -419,7 +422,7 @@ const SHIELD_STYLE_HINTS = {
   mongodb: { color: 'darkgreen', logo: 'mongodb', logoColor: 'white' },
   postgresql: { color: 'blue', logo: 'postgresql', logoColor: 'white' },
   microsoftsqlserver: { color: 'darkred', logo: 'sololearn', logoColor: 'white' },
-  neo4j: { color: 'yellow', logo: 'neo4j', logoColor: 'white' },
+  neo4j: { color: 'darkblue', logo: 'neo4j', logoColor: 'white' },
   weaviate: { color: 'darkblue', logo: 'weblate', logoColor: 'white' },
   firebase: { color: 'orange', logo: 'firebase', logoColor: 'white' },
   supabase: { color: 'darkgreen', logo: 'supabase', logoColor: 'white' },
@@ -442,8 +445,8 @@ const SHIELD_STYLE_HINTS = {
   makefile: { color: 'darkblue', logo: 'gnu', logoColor: 'white' },
   powerbi: { color: 'yellow', logo: 'gotomeeting', logoColor: 'white' },
   tableau: { color: 'blue', logo: 'airtable', logoColor: 'white' },
-  stata: { color: 'lightblue', logo: 'statamic', logoColor: 'white' },
-  sas: { color: 'lightblue', logo: 'sanic', logoColor: 'white' },
+  stata: { color: 'darkyellow', logo: 'statamic', logoColor: 'white' },
+  sas: { color: 'darkblue', logo: 'sanic', logoColor: 'white' },
   rstudio: { color: 'blue', logo: 'r', logoColor: 'white' },
   pandas: { color: '150458', logo: 'pandas', logoColor: 'white' },
   microsoftexcel: { color: 'darkgreen', logo: 'micropython', logoColor: 'white' },
@@ -528,7 +531,8 @@ function createCdnBadgeUrl(label) {
   const badgeLabel = label
     .replace(/Server-Sent Events/gi, 'Server Sent Events')
     .replace(/Blue-Green/gi, 'Blue/Green')
-    .replace(/ORMs and ODMs\s*\(.*/i, 'ORMs & ODMs');
+    .replace(/ORMs and ODMs\s*\(.*/i, 'ORMs & ODMs')
+    .replace(/scikit-learn/gi, 'scikit--learn');
 
   const style = pickShieldStyle(label);
   let url = `https://img.shields.io/badge/${encodeURIComponent(badgeLabel)}-${style.color}`;
