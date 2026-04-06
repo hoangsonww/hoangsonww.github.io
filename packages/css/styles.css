@@ -1099,7 +1099,8 @@ body.dark-theme .scroll-progress {
 }
 
 .skills__icon {
-  margin-right: var(--mb-0-75);
+  margin-left: 0.35rem;
+  margin-right: var(--mb-0-25);
 }
 
 .skills__title {
