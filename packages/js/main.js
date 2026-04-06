@@ -352,8 +352,8 @@ const SHIELD_STYLE_HINTS = {
   nodejs: { color: 'darkgreen', logo: 'node.js', logoColor: 'white' },
   expressjs: { color: 'blue', logo: 'express', logoColor: 'white' },
   nestjs: { color: 'red', logo: 'nestjs', logoColor: 'white' },
-  springframework: { color: 'yellow', logo: 'spring', logoColor: 'white' },
-  springboot: { color: 'yellow', logo: 'spring', logoColor: 'white' },
+  springframework: { color: '8B4513', logo: 'spring', logoColor: 'white' },
+  springboot: { color: '8B4513', logo: 'spring', logoColor: 'white' },
   django: { color: 'darkgreen', logo: 'django', logoColor: 'white' },
   djangorestframework: { color: 'darkgreen', logo: 'django', logoColor: 'white' },
   flask: { color: 'lightgrey', logo: 'flask', logoColor: 'white' },
@@ -407,7 +407,7 @@ const SHIELD_STYLE_HINTS = {
   langgraph: { color: 'purple', logo: 'langgraph', logoColor: 'white' },
   langsmith: { color: '111111', logo: 'langflow', logoColor: 'white' },
   crewai: { color: 'blue', logo: 'crewai', logoColor: 'white' },
-  fireworksai: { color: 'FF6B35' },
+  fireworksai: { color: 'FF6B35', logo: 'pinetwork', logoColor: 'white' },
   faiss: { color: 'blue', logo: 'meta', logoColor: 'white' },
   pinecone: { color: 'orange', logo: 'googledataproc', logoColor: 'white' },
   optuna: { color: 'purple', logo: 'openaigym', logoColor: 'white' },
@@ -544,6 +544,7 @@ function createCdnBadgeUrl(label) {
     .replace(/Blue-Green/gi, 'Blue/Green')
     .replace(/Micro-Frontends/gi, 'Micro--Frontends')
     .replace(/Micro-Services/gi, 'Micro--Services')
+    .replace(/ELK-Stack/gi, 'ELK--Stack')
     .replace(/ORMs and ODMs\s*\(.*/i, 'ORMs & ODMs')
     .replace(/scikit-learn/gi, 'scikit--learn');
 
