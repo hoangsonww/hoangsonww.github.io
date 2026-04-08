@@ -946,6 +946,7 @@ const portfolioProjectTopicMap = {
   'Tic-Tac-Toe Fullstack Game': ['AI', 'Game', 'Full-Stack'],
   'Learning Management System (LMS)': ['Full-Stack', 'Productivity'],
   'CollabNote - A Realtime Note-Taking App': ['Full-Stack', 'Realtime', 'Productivity'],
+  'DevVerse - A SWE Blog Platform': ['Full-Stack', 'Productivity', 'Data', 'AI'],
   'PuzzleForge - A Puzzle Collection': ['Game', 'Full-Stack'],
   'The Maze Game': ['Game'],
   'The 2048 Game': ['Game'],
