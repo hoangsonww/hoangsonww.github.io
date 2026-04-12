@@ -3583,6 +3583,7 @@ canvas#skillsChart {
   display: block;
   width: 100%;
   height: auto;
+  overflow: visible;
 }
 
 .tech-graph__legend {

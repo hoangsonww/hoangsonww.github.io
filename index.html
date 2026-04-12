@@ -7250,7 +7250,9 @@
         function buildGraph(wrap) {
           const rect = wrap.getBoundingClientRect();
           const width = Math.max(rect.width, 320);
-          const height = Math.min(width * 0.95, 800);
+          const isMobileGraph = width < 600;
+          const mobileVh = isMobileGraph ? Math.round(window.innerHeight * 0.8) : 0;
+          const height = isMobileGraph ? Math.max(mobileVh, 480) : Math.min(width * 0.95, 850);
           const TYPE_CONFIG = getTypeConfig(width);
 
           const svg = d3.select(wrap).append('svg').attr('viewBox', `0 0 ${width} ${height}`).attr('preserveAspectRatio', 'xMidYMid meet');
@@ -7286,7 +7288,6 @@
             return Math.min(maxTechRadius, TYPE_CONFIG.tech.r + deg * 1.2);
           };
 
-          const isMobileGraph = width < 600;
           const domainClusterRadius = Math.min(width, height) * 0.28;
 
           const simulation = d3
@@ -7454,10 +7455,11 @@
             });
 
           simulation.on('tick', () => {
+            const labelPad = 24;
             nodes.forEach(d => {
               const r = techRadius(d);
-              d.x = Math.max(r + 4, Math.min(width - r - 4, d.x));
-              d.y = Math.max(r + 4, Math.min(height - r - 4, d.y));
+              d.x = Math.max(r + 30, Math.min(width - r - 30, d.x));
+              d.y = Math.max(r + 4, Math.min(height - r - labelPad, d.y));
             });
             link
               .attr('x1', d => d.source.x)
