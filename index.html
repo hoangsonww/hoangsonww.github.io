@@ -7300,25 +7300,25 @@
                 .distance(l => {
                   const s = typeof l.source === 'object' ? l.source.type : '';
                   const t = typeof l.target === 'object' ? l.target.type : '';
-                  return s === 'domain' || t === 'domain' ? 70 : 50;
+                  return s === 'domain' || t === 'domain' ? (isMobileGraph ? 80 : 100) : 50;
                 })
             )
             .force(
               'charge',
-              d3.forceManyBody().strength(d => (d.type === 'domain' ? (isMobileGraph ? -220 : -350) : isMobileGraph ? -95 : -120))
+              d3.forceManyBody().strength(d => (d.type === 'domain' ? (isMobileGraph ? -400 : -650) : isMobileGraph ? -95 : -120))
             )
             .force('center', d3.forceCenter(width / 2, height / 2))
             .force(
               'collision',
-              d3.forceCollide().radius(d => techRadius(d) + 6)
+              d3.forceCollide().radius(d => techRadius(d) + (d.type === 'domain' ? (isMobileGraph ? 40 : 60) : 6))
             )
             .force(
               'x',
-              d3.forceX(width / 2).strength(d => (d.type === 'domain' ? (isMobileGraph ? 0.2 : 0.15) : isMobileGraph ? 0.05 : 0.04))
+              d3.forceX(width / 2).strength(d => (d.type === 'domain' ? (isMobileGraph ? 0.08 : 0.06) : isMobileGraph ? 0.05 : 0.04))
             )
             .force(
               'y',
-              d3.forceY(height / 2).strength(d => (d.type === 'domain' ? (isMobileGraph ? 0.2 : 0.15) : isMobileGraph ? 0.05 : 0.04))
+              d3.forceY(height / 2).strength(d => (d.type === 'domain' ? (isMobileGraph ? 0.08 : 0.06) : isMobileGraph ? 0.05 : 0.04))
             );
 
           if (isMobileGraph) {
