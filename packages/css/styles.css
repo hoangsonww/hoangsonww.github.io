@@ -3569,6 +3569,8 @@ canvas#skillsChart {
 .tech-graph__container {
   margin: 20px auto 0;
   text-align: center;
+  position: relative;
+  z-index: 10;
 }
 
 #tech-graph-svg-wrap {
@@ -3852,6 +3854,7 @@ body.dark-theme .welcome {
   padding: 0.55rem 0.75rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   background: rgba(255, 255, 255, 0.82);
+  position: relative;
 }
 
 .mac-dot {
@@ -3874,10 +3877,14 @@ body.dark-theme .welcome {
 }
 
 .mac-window__title {
-  margin-left: 0.45rem;
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
   font-size: 0.73rem;
   letter-spacing: 0.03em;
   color: rgba(24, 34, 44, 0.78);
+  pointer-events: none;
 }
 
 .mac-window__body {
