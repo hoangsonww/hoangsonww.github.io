@@ -118,3 +118,43 @@ jobs:
           docker logs portfolio-smoke
           docker stop portfolio-smoke
           exit 1
+
+  status:
+    name: "📊 Pipeline Status"
+    needs: [format, build, docker]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Report Pipeline Status
+        run: |
+          echo "### 🚦 Pipeline Status Report" >> $GITHUB_STEP_SUMMARY
+          echo "| Job | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "| :--- | :---: |" >> $GITHUB_STEP_SUMMARY
+          
+          status_icon() {
+            case "$1" in
+              success) echo "✅" ;;
+              failure) echo "❌" ;;
+              cancelled) echo "🛑" ;;
+              skipped) echo "⏭️" ;;
+              *) echo "❓" ;;
+            esac
+          }
+          
+          FORMAT_RES="${{ needs.format.result }}"
+          BUILD_RES="${{ needs.build.result }}"
+          DOCKER_RES="${{ needs.docker.result }}"
+          
+          echo "| 🎨 Format check | $(status_icon "$FORMAT_RES") \`$FORMAT_RES\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🏗️ Vite build | $(status_icon "$BUILD_RES") \`$BUILD_RES\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🐳 Docker → GHCR | $(status_icon "$DOCKER_RES") \`$DOCKER_RES\` |" >> $GITHUB_STEP_SUMMARY
+          
+          echo "Format check: $FORMAT_RES"
+          echo "Vite build: $BUILD_RES"
+          echo "Docker → GHCR: $DOCKER_RES"
+          
+          if [ "$FORMAT_RES" != "success" ] || [ "$BUILD_RES" != "success" ] || [ "$DOCKER_RES" != "success" ]; then
+            echo "Pipeline finished with errors or was cancelled."
+            exit 1
+          fi
+
