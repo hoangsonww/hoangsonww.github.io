@@ -410,6 +410,8 @@ const SHIELD_STYLE_HINTS = {
   fireworksai: { color: 'FF6B35', logo: 'pinetwork', logoColor: 'white' },
   faiss: { color: 'blue', logo: 'meta', logoColor: 'white' },
   pinecone: { color: 'orange', logo: 'googledataproc', logoColor: 'white' },
+  qdrant: { color: 'purple', logo: 'qdrant', logoColor: 'white' },
+  chroma: { color: 'darkgreen', logo: 'chromatic', logoColor: 'white' },
   optuna: { color: 'purple', logo: 'openaigym', logoColor: 'white' },
   jupyternotebook: { color: 'orange', logo: 'jupyter', logoColor: 'white' },
   mlflow: { color: 'blue', logo: 'mlflow', logoColor: 'white' },
@@ -1049,7 +1051,7 @@ function detectPortfolioTopics(title, description) {
     topics.add('AI');
   }
   if (/(\bai\b|\bllm\b|genai|rag|chatbot|transformer|gpt)/.test(text)) topics.add('AI');
-  if (/(rag|retrieval-augmented|langchain|faiss|pinecone|vector db)/.test(text)) topics.add('RAG');
+  if (/(rag|retrieval-augmented|langchain|faiss|pinecone|qdrant|chroma|weaviate|vector db)/.test(text)) topics.add('RAG');
   if (/(\bml\b|machine learning|classifier|prediction|predictor)/.test(text)) topics.add('ML');
   if (/(mlops|model deployment|orchestration|airflow|prefect|kubeflow)/.test(text)) topics.add('MLOps');
   if (/(data pipeline|analytics|etl|dataset|data)/.test(text)) topics.add('Data');
