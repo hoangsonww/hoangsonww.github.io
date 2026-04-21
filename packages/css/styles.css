@@ -5188,6 +5188,7 @@ body.dark-theme .waves.waves--mirror .wave3 {
   display: flex;
   overflow: hidden;
   padding: 0.75rem 0;
+  contain: layout paint style;
   -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
   mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
 }
@@ -5204,7 +5205,11 @@ body.dark-theme .waves.waves--mirror .wave3 {
   min-width: 200%;
   width: max-content;
   will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
   animation: marquee-scroll 55s linear infinite;
+  animation-timing-function: linear;
 }
 
 .marquee-strip__row--reverse .marquee-strip__track {
@@ -5235,7 +5240,7 @@ body.dark-theme .waves.waves--mirror .wave3 {
   gap: 0.55rem;
   padding: 0.72rem 1.25rem;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--container-color) 82%, transparent);
+  background: color-mix(in srgb, var(--container-color) 94%, transparent);
   border: 1px solid color-mix(in srgb, var(--first-color) 20%, transparent);
   color: var(--title-color);
   font-weight: 600;
@@ -5243,16 +5248,14 @@ body.dark-theme .waves.waves--mirror .wave3 {
   line-height: 1;
   white-space: nowrap;
   letter-spacing: 0.01em;
-  box-shadow:
-    0 1px 2px color-mix(in srgb, var(--first-color) 8%, transparent),
-    0 8px 24px -12px color-mix(in srgb, var(--first-color) 20%, transparent);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 6px 18px -12px color-mix(in srgb, var(--first-color) 24%, transparent);
+  transform: translateZ(0);
   transition:
-    transform 0.35s ease,
-    border-color 0.35s ease,
-    box-shadow 0.35s ease,
-    background 0.35s ease;
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    background 0.3s ease,
+    color 0.3s ease;
 }
 
 .marquee-chip i {
@@ -5314,12 +5317,41 @@ body.dark-theme .waves.waves--mirror .wave3 {
   box-shadow: 0 8px 22px -14px color-mix(in srgb, var(--first-color) 30%, transparent);
 }
 
+/* Per-chip brand coloring — drives background/border/text from --chip-c */
+.marquee-chip--brand {
+  --chip-c: var(--first-color);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--chip-c) 18%, var(--container-color)),
+    color-mix(in srgb, var(--chip-c) 6%, var(--container-color))
+  );
+  border-color: color-mix(in srgb, var(--chip-c) 45%, transparent);
+  color: color-mix(in srgb, var(--chip-c) 78%, var(--title-color));
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  box-shadow: 0 6px 18px -12px color-mix(in srgb, var(--chip-c) 35%, transparent);
+}
+
+.marquee-chip--brand:hover {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--chip-c) 32%, var(--container-color)),
+    color-mix(in srgb, var(--chip-c) 14%, var(--container-color))
+  );
+  border-color: color-mix(in srgb, var(--chip-c) 65%, transparent);
+  color: color-mix(in srgb, var(--chip-c) 92%, var(--title-color));
+  box-shadow: 0 14px 28px -14px color-mix(in srgb, var(--chip-c) 45%, transparent);
+}
+
 @media screen and (max-width: 768px) {
   .marquee-strip {
-    padding: 2.5rem 0;
+    padding: 0;
   }
   .marquee-strip__row + .marquee-strip__row {
-    margin-top: 0.85rem;
+    margin-top: 0.25rem;
+  }
+  .marquee-strip__row {
+    padding: 0.5rem 0;
   }
   .marquee-chip {
     padding: 0.6rem 1rem;
@@ -5329,10 +5361,13 @@ body.dark-theme .waves.waves--mirror .wave3 {
     font-size: 1rem;
   }
   .marquee-strip__track {
-    animation-duration: 42s;
+    animation-duration: 48s;
   }
   .marquee-strip__row--reverse .marquee-strip__track {
-    animation-duration: 38s;
+    animation-duration: 52s;
+  }
+  .marquee-strip__row--slow .marquee-strip__track {
+    animation-duration: 64s;
   }
 }
 
