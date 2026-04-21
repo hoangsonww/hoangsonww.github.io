@@ -1,53 +1,30 @@
-# All instructions to run this containerized app are given as comments throughout this file
+# syntax=docker/dockerfile:1.7
+# Multi-stage build for the Son Nguyen portfolio (Vite static site → nginx).
 # Author: Son Nguyen
 
-# Use a specific version of Node.js as a base image
-FROM node:14
+# ---------- Stage 1: build the static bundle with Vite ----------
+FROM node:20-alpine AS builder
 
-# Set arguments for passing build-time variables (they can vary based on your environment)
-ARG NODE_ENV=production
-ARG SOME_BUILD_ARG
-ARG SOME_OTHER_BUILD_ARG
+WORKDIR /app
 
-# Set environment variables
-ENV NODE_ENV=${NODE_ENV}
-ENV PATH /src/node_modules/.bin:$PATH
-ENV PORT=8080
+# Install dependencies first for better layer caching.
+COPY package.json package-lock.json* ./
+RUN npm ci --no-audit --no-fund
 
-# Set the working directory inside the container
-WORKDIR /src
-
-# Install global npm dependencies if any
-RUN npm install -g some-global-package
-
-# Copy package.json and package-lock.json (if available)
-COPY package*.json ./
-
-# Install dependencies (including 'devDependencies' if NODE_ENV is not set to 'production')
-RUN if [ "$NODE_ENV" = "development" ]; \
-        then npm install; \
-        else npm install --only=production; \
-    fi
-RUN npm install --only=production
-RUN npm install express
-
-# Copy the rest of the application's source code
+# Copy the rest of the source and build.
 COPY . .
-
-# If your application requires build steps, include them here
 RUN npm run build
 
-# The application's port number
-EXPOSE $PORT
+# ---------- Stage 2: serve with nginx ----------
+FROM nginx:1.27-alpine AS runtime
 
-# Add a health check (optional)
-HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
-CMD node healthcheck.js
+# Non-root friendly nginx image; copy our server config and the built assets.
+COPY project-config/nginx.portfolio.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Set user to use when running this image
-# Non-root user for better security (if applicable)
-RUN groupadd -r nodejs && useradd -r -g nodejs nodejs
-USER nodejs
+EXPOSE 8080
 
-# Run the application
-CMD ["npm", "start"]
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD wget -qO- http://127.0.0.1:8080/ >/dev/null 2>&1 || exit 1
+
+CMD ["nginx", "-g", "daemon off;"]
