@@ -754,7 +754,7 @@ body.dark-theme .critter-controls {
   }
 }
 
-/* Scroll progress bar */
+/* Scroll progress bar — brand base, soft teal sweep (L→R), rounded leading tip */
 .scroll-progress {
   position: fixed;
   bottom: var(--header-height);
@@ -762,29 +762,84 @@ body.dark-theme .critter-controls {
   right: 0;
   width: 0%;
   height: 4px;
-  background: linear-gradient(90deg, hsl(var(--hue-color), 89%, 61%), hsl(var(--hue-color), 57%, 53%), hsl(var(--hue-color), 89%, 61%));
-  background-size: 200% 100%;
+  overflow: hidden;
   z-index: 99999;
   transition: none;
-  box-shadow: 0 0 10px rgba(86, 201, 224, 0.5);
-  animation: shimmer 2s linear infinite;
-  will-change: width;
   pointer-events: none;
+  will-change: width;
+  border-radius: 0 9999px 9999px 0;
+  background: linear-gradient(90deg, var(--first-color-alt), var(--first-color), var(--first-color-alt));
+  box-shadow:
+    2px 0 12px hsla(var(--hue-color), 90%, 58%, 0.38),
+    0 0 18px hsla(var(--hue-color), 88%, 56%, 0.3);
 }
 
-@keyframes shimmer {
+/* Analogous cool sweep: green-teal → bright aqua → azure (reads clearly vs brand bar) */
+.scroll-progress::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 58%;
+  height: 100%;
+  left: -58%;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    hsla(calc(var(--hue-color) - 32), 90%, 46%, 0) 0%,
+    hsla(calc(var(--hue-color) - 28), 94%, 48%, 0.65) 10%,
+    hsla(calc(var(--hue-color) - 12), 98%, 54%, 0.92) 28%,
+    hsla(calc(var(--hue-color) + 6), 85%, 88%, 0.78) 44%,
+    hsla(calc(var(--hue-color) + 10), 100%, 68%, 0.95) 52%,
+    hsla(calc(var(--hue-color) + 36), 96%, 58%, 0.94) 66%,
+    hsla(calc(var(--hue-color) + 22), 92%, 52%, 0.72) 82%,
+    hsla(calc(var(--hue-color) - 24), 88%, 48%, 0) 100%
+  );
+  animation: scrollProgressSoftSweepLTR 1.95s linear infinite;
+  will-change: left;
+}
+
+@keyframes scrollProgressSoftSweepLTR {
   0% {
-    background-position: -200% 0;
+    left: -58%;
   }
   100% {
-    background-position: 200% 0;
+    left: 100%;
   }
 }
 
 body.dark-theme .scroll-progress {
   box-shadow:
-    0 0 15px rgba(86, 201, 224, 0.7),
-    0 0 30px rgba(86, 201, 224, 0.3);
+    2px 0 14px hsla(var(--hue-color), 92%, 62%, 0.42),
+    0 0 22px hsla(var(--hue-color), 88%, 54%, 0.34);
+}
+
+body.dark-theme .scroll-progress::after {
+  background: linear-gradient(
+    90deg,
+    hsla(calc(var(--hue-color) - 32), 92%, 44%, 0) 0%,
+    hsla(calc(var(--hue-color) - 26), 96%, 50%, 0.7) 10%,
+    hsla(calc(var(--hue-color) - 10), 100%, 58%, 0.96) 28%,
+    hsla(calc(var(--hue-color) + 8), 88%, 82%, 0.82) 44%,
+    hsla(calc(var(--hue-color) + 12), 100%, 70%, 0.98) 52%,
+    hsla(calc(var(--hue-color) + 38), 98%, 62%, 0.96) 66%,
+    hsla(calc(var(--hue-color) + 24), 94%, 56%, 0.78) 82%,
+    hsla(calc(var(--hue-color) - 22), 90%, 48%, 0) 100%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-progress::after {
+    animation: none;
+    display: none;
+  }
+
+  .scroll-progress {
+    box-shadow: 0 0 8px hsla(var(--hue-color), 70%, 50%, 0.35);
+  }
+
+  body.dark-theme .scroll-progress {
+    box-shadow: 0 0 12px hsla(var(--hue-color), 75%, 55%, 0.45);
+  }
 }
 
 /* Mobile: Hide progress bar */
