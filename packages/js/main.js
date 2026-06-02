@@ -1,4 +1,5 @@
 import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } from '@google/generative-ai';
+import { SKILL_BADGE_URLS } from './skill-badge-urls.js';
 
 const navMenu = document.getElementById('nav-menu'),
   navToggle = document.getElementById('nav-toggle'),
@@ -544,6 +545,10 @@ function pickShieldStyle(label) {
 }
 
 function createCdnBadgeUrl(label) {
+  if (SKILL_BADGE_URLS[label]) {
+    return SKILL_BADGE_URLS[label];
+  }
+
   const badgeLabel = label
     .replace(/Server-Sent Events/gi, 'Server Sent Events')
     .replace(/Blue-Green/gi, 'Blue/Green')
@@ -950,6 +955,7 @@ const portfolioProjectTopicMap = {
   'Learning Management System (LMS)': ['Full-Stack', 'Productivity'],
   'CollabNote - A Realtime Note-Taking App': ['Full-Stack', 'Realtime', 'Productivity'],
   'Forge - Agentic Coding CLI Runtime': ['Agentic AI', 'AI', 'Productivity', 'Cross-Platform', 'Full-Stack'],
+  'AegisVision - GPU-Native Computer Vision Platform': ['AI', 'ML', 'MLOps', 'Agentic AI', 'Backend/API'],
   'DevVerse - A SWE Blog Platform': ['Full-Stack', 'Productivity', 'Data', 'AI'],
   'PuzzleForge - A Puzzle Collection': ['Game', 'Full-Stack'],
   'The Maze Game': ['Game', 'Full-Stack'],
