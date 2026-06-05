@@ -1,0 +1,5 @@
+# Default owner for everything in the repo
+*       @hoangsonww
+
+# Workflows and CI
+/.github/ @hoangsonww
