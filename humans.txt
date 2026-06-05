@@ -1,0 +1,10 @@
+/* TEAM */
+Developer: Son Nguyen (David Nguyen)
+Site: https://sonnguyenhoang.com
+GitHub: @hoangsonww
+Location: USA
+
+/* SITE */
+Standards: HTML5, CSS3, JavaScript
+Components: React, Swiper, FontAwesome
+Software: WebStorm, Vercel
