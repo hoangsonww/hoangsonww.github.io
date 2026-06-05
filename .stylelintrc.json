@@ -1,0 +1,8 @@
+{
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "no-descending-specificity": null,
+    "color-hex-length": "short",
+    "declaration-block-no-redundant-longhand-properties": true
+  }
+}
