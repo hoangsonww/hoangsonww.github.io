@@ -958,7 +958,7 @@ const portfolioProjectTopicMap = {
   'AegisVision - GPU-Native Computer Vision Platform': ['AI', 'ML', 'MLOps', 'Agentic AI', 'Backend/API'],
   'DevVerse - A SWE Blog Platform': ['Full-Stack', 'Productivity', 'Data', 'AI'],
   'PuzzleForge - A Puzzle Collection': ['Game', 'Full-Stack'],
-  'The Maze Game': ['Game', 'Full-Stack'],
+  'The Maze Game - Full-Stack JavaScript Game': ['Game', 'Full-Stack', 'Backend/API', 'Realtime'],
   'The 2048 Game': ['Game', 'Cross-Platform'],
   'The Flappy Bird Game': ['Game', 'Mobile'],
   'The StickyNotes App': ['Productivity'],
