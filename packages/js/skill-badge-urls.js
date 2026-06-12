@@ -1,4 +1,8 @@
 export const SKILL_BADGE_URLS = {
+  'Three.js': 'https://img.shields.io/badge/Three.js-000000?logo=threedotjs&logoColor=white',
+  'React Three Fiber': 'https://img.shields.io/badge/React%20Three%20Fiber-20232A?logo=reactos&logoColor=61DAFB',
+  WebGL: 'https://img.shields.io/badge/WebGL-990000?logo=webgl&logoColor=white',
+  'Ant Design': 'https://img.shields.io/badge/Ant%20Design-0170FE?logo=antdesign&logoColor=white',
   '.NET, ASP.NET Core & Aspire': 'https://img.shields.io/badge/.NET%2C%20ASP.NET%20Core%20%26%20Aspire-512BD4?logo=dotnet&logoColor=white',
   'Adobe Illustrator': 'https://img.shields.io/badge/Adobe%20Illustrator-orange?logo=milvus&logoColor=white',
   'Adobe Photoshop': 'https://img.shields.io/badge/Adobe%20Photoshop-blue?logo=googlephotos&logoColor=white',

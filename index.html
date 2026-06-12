@@ -865,7 +865,8 @@
     <script type="importmap">
       {
         "imports": {
-          "@google/generative-ai": "https://esm.run/@google/generative-ai"
+          "@google/generative-ai": "https://esm.run/@google/generative-ai",
+          "three": "https://esm.run/three@0.169.0"
         }
       }
     </script>
@@ -876,6 +877,9 @@
 
   <!--==================== BODY ====================-->
   <body style="overflow-x: hidden">
+    <!--==================== THREE.JS SCROLL-REACTIVE BACKGROUND ====================-->
+    <canvas id="bg-canvas" aria-hidden="true"></canvas>
+
     <!--==================== HEADER ====================-->
     <header class="header" id="header" style="z-index: 100000000000">
       <div class="scroll-progress" id="scroll-progress"></div>
@@ -1396,6 +1400,33 @@
                   </div>
                   <div class="skills__data">
                     <div class="skills__titles">
+                      <h3 class="skills__name">Three.js</h3>
+                      <span class="skills__number">90%</span>
+                    </div>
+                    <div class="skills__bar">
+                      <span class="skills__percentage skills__react"></span>
+                    </div>
+                  </div>
+                  <div class="skills__data">
+                    <div class="skills__titles">
+                      <h3 class="skills__name">React Three Fiber</h3>
+                      <span class="skills__number">80%</span>
+                    </div>
+                    <div class="skills__bar">
+                      <span class="skills__percentage skills__wordpress"></span>
+                    </div>
+                  </div>
+                  <div class="skills__data">
+                    <div class="skills__titles">
+                      <h3 class="skills__name">WebGL</h3>
+                      <span class="skills__number">80%</span>
+                    </div>
+                    <div class="skills__bar">
+                      <span class="skills__percentage skills__wordpress"></span>
+                    </div>
+                  </div>
+                  <div class="skills__data">
+                    <div class="skills__titles">
                       <h3 class="skills__name">WebAssembly</h3>
                       <span class="skills__number">80%</span>
                     </div>
@@ -1455,6 +1486,15 @@
                     </div>
                     <div class="skills__bar">
                       <span class="skills__percentage skills__office"></span>
+                    </div>
+                  </div>
+                  <div class="skills__data">
+                    <div class="skills__titles">
+                      <h3 class="skills__name">Ant Design</h3>
+                      <span class="skills__number">90%</span>
+                    </div>
+                    <div class="skills__bar">
+                      <span class="skills__percentage skills__react"></span>
                     </div>
                   </div>
                   <div class="skills__data">
@@ -3245,6 +3285,8 @@
 
         <!-- Skills Interconnection Graph -->
         <div class="tech-graph__container container scroll-animation">
+          <h3 class="tech-graph__title">How My Skills Connect</h3>
+          <p class="tech-graph__subtitle">An interactive map of the domains and technologies I work across - hover a node to explore its links.</p>
           <div class="tech-graph__legend">
             <span class="tech-graph__legend-item"><span class="tech-graph__dot tech-graph__dot--domain"></span> Domain</span>
             <span class="tech-graph__legend-item"><span class="tech-graph__dot tech-graph__dot--tech"></span> Technology</span>
@@ -7186,6 +7228,9 @@
 
     <!--==================== MAIN JS ====================-->
     <script type="module" src="./packages/js/main.js"></script>
+
+    <!--==================== THREE.JS BACKGROUND ====================-->
+    <script type="module" src="./packages/js/bg-three.js"></script>
 
     <!--==================== PUBLICATION SPOTLIGHT ====================-->
     <script>

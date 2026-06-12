@@ -3622,10 +3622,35 @@ canvas#skillsChart {
 
 /* ==================== TECH ECOSYSTEM GRAPH ==================== */
 .tech-graph__container {
-  margin: 20px auto 0;
+  margin: 40px auto 0;
   text-align: center;
   position: relative;
   z-index: 10;
+  /* Card so the graph reads as a distinct surface over the 3D background. */
+  padding: 30px 26px 34px;
+  background: var(--container-color);
+  border: 1px solid color-mix(in srgb, var(--first-color) 20%, transparent);
+  border-radius: 22px;
+  box-shadow: 0 20px 48px rgba(8, 18, 36, 0.14);
+}
+
+body.dark-theme .tech-graph__container {
+  border-color: color-mix(in srgb, var(--first-color) 34%, transparent);
+  box-shadow:
+    0 22px 52px rgba(0, 0, 0, 0.5),
+    0 0 0 1px color-mix(in srgb, var(--first-color) 12%, transparent);
+}
+
+.tech-graph__title {
+  margin: 0 0 4px;
+  font-size: var(--h2-font-size);
+  color: var(--title-color);
+}
+
+.tech-graph__subtitle {
+  margin: 0 0 18px;
+  font-size: var(--small-font-size);
+  color: var(--text-color-light);
 }
 
 #tech-graph-svg-wrap {
@@ -5438,4 +5463,37 @@ body.dark-theme .waves.waves--mirror .wave3 {
   .marquee-strip__row::-webkit-scrollbar {
     display: none;
   }
+}
+
+/*==================== THREE.JS SCROLL-REACTIVE BACKGROUND ====================*/
+/* Full-viewport WebGL canvas painted behind all content. The aurora shader
+   itself renders the page base color, so the body/hero backgrounds are made
+   transparent to let it show through. The canvas keeps a CSS background-color
+   fallback so the page still looks correct if WebGL is unavailable. */
+#bg-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  /* !important + max-* reset are required to beat the global
+     `canvas { width:100% !important; max-height:500px }` rule (used by the
+     skills chart), which would otherwise clamp this full-screen canvas. */
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  max-width: none !important;
+  max-height: none !important;
+  z-index: -1;
+  display: block;
+  pointer-events: none;
+  background-color: var(--body-color);
+  transition: background-color 0.5s;
+}
+
+/* Let the 3D background show through the page and the hero. */
+body {
+  background-color: transparent;
+}
+.welcome,
+body.dark-theme .welcome {
+  background-color: transparent;
 }
