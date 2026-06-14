@@ -1964,6 +1964,18 @@ const selectedIcon = localStorage.getItem('selected-icon');
 const getCurrentTheme = () => (document.body.classList.contains(darkTheme) ? 'dark' : 'light');
 const getCurrentIcon = () => (themeButton.classList.contains(iconTheme) ? 'uil-moon' : 'uil-sun');
 
+// Make theme switches INSTANT for every element (no slow color/background fade).
+// Disable all transitions for one frame around the class change, then restore so
+// hover/other transitions keep working normally.
+const suppressThemeTransitions = () => {
+  const root = document.documentElement;
+  root.classList.add('no-theme-transition');
+  void root.offsetWidth; // force reflow so the override applies before colors change
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => root.classList.remove('no-theme-transition'));
+  });
+};
+
 // On load: apply saved theme & icon, and set meta theme-color
 if (selectedTheme) {
   document.body.classList[selectedTheme === 'dark' ? 'add' : 'remove'](darkTheme);
@@ -1974,6 +1986,7 @@ if (selectedTheme) {
 
 // On click: toggle classes, save prefs, update meta
 themeButton.addEventListener('click', () => {
+  suppressThemeTransitions();
   document.body.classList.toggle(darkTheme);
   themeButton.classList.toggle(iconTheme);
 
@@ -2684,6 +2697,7 @@ window.clearHistory = clearHistory;
   const mq = window.matchMedia('(prefers-color-scheme: dark)');
 
   const apply = isDark => {
+    suppressThemeTransitions();
     document.body.classList[isDark ? 'add' : 'remove'](darkTheme);
     if (themeButton) themeButton.classList[isDark ? 'add' : 'remove'](iconTheme);
     if (themeMeta) themeMeta.setAttribute('content', isDark ? '#162427' : '#ffffff');

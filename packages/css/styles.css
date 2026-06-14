@@ -6,8 +6,14 @@
   body {
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
-    height: 100%;
+    /* `overflow-x: hidden` (incl. the inline one on <body>) forces overflow-y to
+       `auto`, which — together with the old `height:100%` — made body a
+       fixed-height inner scroll container, causing weird mobile scrolling.
+       `overflow-x: clip` blocks horizontal scroll WITHOUT creating a scroll
+       container, so the viewport scrolls the document normally. */
+    overflow-x: clip !important;
+    min-height: 100%;
+    height: auto;
   }
 }
 
@@ -185,32 +191,32 @@ body {
   background-color: var(--body-color);
   color: var(--text-color);
   transition:
-    background-color 0.5s,
-    color 0.5s;
+    background-color 0s,
+    color 0s;
 }
 
 header {
   transition:
-    background-color 0.5s,
-    color 0.5s;
+    background-color 0s,
+    color 0s;
 }
 
 footer {
   transition:
-    background-color 0.5s,
-    color 0.5s;
+    background-color 0s,
+    color 0s;
 }
 
 input {
   transition:
-    background-color 0.5s,
-    color 0.5s;
+    background-color 0s,
+    color 0s;
 }
 
 textarea {
   transition:
-    background-color 0.5s,
-    color 0.5s;
+    background-color 0s,
+    color 0s;
 }
 
 h1,
@@ -3865,7 +3871,7 @@ body.dark-theme #welcome .welcome__subtitle {
   flex-direction: column;
   text-align: center;
   position: relative;
-  transition: background-color 0.5s;
+  transition: background-color 0s;
   margin-bottom: 0;
 }
 
@@ -4151,7 +4157,7 @@ body.dark-theme .mac-window__stat {
   background: var(--body-color);
   color: var(--title-color);
   overflow: hidden;
-  transition: background-color 0.5s;
+  transition: background-color 0s;
 }
 
 .graphics svg {
@@ -4821,7 +4827,7 @@ body.dark-theme .waves.waves--mirror .wave3 {
   opacity: 0;
   transition:
     opacity 0.5s ease,
-    background-color 0.5s;
+    background-color 0s;
 }
 
 /* A helper class to handle the fade-in */
@@ -5486,7 +5492,7 @@ body.dark-theme .waves.waves--mirror .wave3 {
   display: block;
   pointer-events: none;
   background-color: var(--body-color);
-  transition: background-color 0.5s;
+  transition: background-color 0s;
 }
 
 /* Let the 3D background show through the page and the hero. */
@@ -5496,4 +5502,14 @@ body {
 .welcome,
 body.dark-theme .welcome {
   background-color: transparent;
+}
+
+/* Instant theme switch: transitions are killed for one frame around the toggle
+   (class added/removed in JS) so colors/backgrounds change immediately for every
+   element, while hover and other transitions keep working the rest of the time. */
+html.no-theme-transition,
+html.no-theme-transition *,
+html.no-theme-transition *::before,
+html.no-theme-transition *::after {
+  transition: none !important;
 }

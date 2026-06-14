@@ -3,21 +3,20 @@
  *
  * The centerpiece is a real geodesic icosphere: its actual triangulation edges
  * form a glowing wireframe net and its vertices are glowing nodes. The surface
- * breathes (vertices are displaced along their normals by layered noise) and the
+ * breathes (vertices displaced along their normals by layered noise) and the
  * whole structure rotates. A larger, sparser icosphere shell counter-rotates
  * around it for depth, with an ambient dust field behind.
  *
- * Because the edges/nodes come from genuine sphere geometry (not random points),
- * the structure reads as intentional 3D art rather than scattered lines.
- *
  * Reactivity:
  *   - Scroll  -> rotation (a full turn over the page), zoom, and palette
- *                progression (cyan -> violet). This keeps motion harmonic and
- *                tied to scroll across the whole page.
+ *                progression (cyan -> violet). Harmonic across the whole page.
  *   - Pointer -> parallax tilt.
  *   - Idle    -> continuous slow rotation + surface breathing + node twinkle.
- *   - Theme   -> palette eases between light/dark (tracks body.dark-theme).
- *               In light mode the backdrop stays pure (no darkening overlay).
+ *   - Theme   -> palette snaps instantly between light/dark (no slow fade); the
+ *                light backdrop stays pure white.
+ *
+ * A center-biased opacity fade keeps the network calm behind central text while
+ * staying bold at the edges.
  *
  * Guards: respects prefers-reduced-motion, caps DPR, pauses while hidden, and
  * silently no-ops (CSS fallback color stays) if WebGL is unavailable.
@@ -29,10 +28,10 @@ const canvas = document.getElementById('bg-canvas');
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ------------------------------------------------------------------ *
- * Theme palettes. Dark mode uses additive blending for neon glow and a
- * subtle vignette; light mode uses normal blending with darker, saturated
- * colors and a PURE flat backdrop (no darkening). Each theme defines a
- * start->end color the scroll position interpolates across.
+ * Theme palettes. Dark mode uses additive neon glow + subtle vignette;
+ * light mode uses normal blending with lighter mid-tone colors and a PURE
+ * flat white backdrop. Each theme defines a start->end color the scroll
+ * position interpolates across.
  * ------------------------------------------------------------------ */
 const PALETTES = {
   dark: {
@@ -46,21 +45,21 @@ const PALETTES = {
     nodeOpacity: 0.85,
     lineOpacity: 0.32,
     dustOpacity: 0.4,
-    darken: 0.28, // backdrop edge vignette
-    glow: 0.5, // backdrop center glow
+    darken: 0.28,
+    glow: 0.5,
   },
   light: {
-    base: new THREE.Color(0xffffff), // pure white page background
-    nodeStart: new THREE.Color(0x37b0cf), // lighter mid cyan (was dark teal)
-    nodeEnd: new THREE.Color(0x7b70de), // lighter periwinkle (was dark indigo)
+    base: new THREE.Color(0xffffff),
+    nodeStart: new THREE.Color(0x37b0cf),
+    nodeEnd: new THREE.Color(0x7b70de),
     lineStart: new THREE.Color(0x44aec6),
     lineEnd: new THREE.Color(0x8a80e2),
     dust: new THREE.Color(0x6cc0d6),
     additive: false,
     nodeOpacity: 0.55,
     lineOpacity: 0.22,
-    dustOpacity: 0.0, // no dust haze on white
-    darken: 0.0, // keep light backdrop pure
+    dustOpacity: 0.0,
+    darken: 0.0,
     glow: 0.0,
   },
 };
@@ -76,7 +75,7 @@ const DISPLACE_GLSL = /* glsl */ `
     float n = sin(dot(d, vec3(1.3, 1.7, 0.9)) + t);
     n += 0.5 * sin(dot(d, vec3(-1.1, 0.8, 1.9)) - t * 1.3);
     n += 0.25 * sin(dot(d, vec3(2.1, -1.4, 0.6)) + t * 0.7);
-    return n * 0.5714; // normalize to ~[-1, 1]
+    return n * 0.5714;
   }
   vec3 displace(vec3 p, float t, float amp, float freq) {
     vec3 d = normalize(p + 0.0001);
@@ -110,10 +109,8 @@ const POINT_FRAG = /* glsl */ `
   void main() {
     float d = length(gl_PointCoord - 0.5);
     float core = smoothstep(0.5, 0.0, d);
-    float halo = smoothstep(0.5, 0.22, d) * 0.32; // tighter, crisper dot
+    float halo = smoothstep(0.5, 0.22, d) * 0.32;
     float a = (core + halo) * uOpacity * vFade * vTw;
-    // Calm the network behind the central text zone (fades toward the base
-    // color, so it never darkens a light background).
     vec2 sc = gl_FragCoord.xy / uResolution;
     float cd = length((sc - 0.5) * vec2(uResolution.x / max(uResolution.y, 1.0), 1.0));
     a *= mix(1.0, smoothstep(0.0, 0.62, cd), uCenterFade);
@@ -169,7 +166,6 @@ const BG_FRAG = /* glsl */ `
     vec2 p = vUv - 0.5;
     float r = length(p * vec2(1.35, 1.0));
     float vign = smoothstep(0.95, 0.05, r);
-    // uDarken=0 (light) -> pure flat base; >0 (dark) -> subtle edge vignette.
     vec3 col = mix(uBase * (1.0 - uDarken), uBase, vign);
     col += uGlow * pow(vign, 2.2) * uGlowAmt;
     gl_FragColor = vec4(col, 1.0);
@@ -179,8 +175,6 @@ const BG_FRAG = /* glsl */ `
 /* ------------------------------------------------------------------ *
  * Builders
  * ------------------------------------------------------------------ */
-// Deduplicate the (non-indexed) icosphere vertices so each node is a real,
-// unique sphere vertex rather than a face-duplicated point.
 function uniqueVertices(geo) {
   const a = geo.attributes.position.array;
   const seen = new Set();
@@ -247,9 +241,9 @@ function init() {
   renderer.autoClear = false;
 
   const pal = theme();
-  const detail = reducedMotion ? 1 : window.innerWidth < 768 ? 2 : 2;
-  // Shared screen resolution + center-fade strength (calms the network behind
-  // central text). Kept in one place so all materials and resize stay in sync.
+  const blend = () => (theme().additive ? THREE.AdditiveBlending : THREE.NormalBlending);
+
+  const detail = reducedMotion ? 1 : 2;
   const resolution = new THREE.Vector2(window.innerWidth, window.innerHeight);
   const CENTER_FADE = 0.78;
 
@@ -279,10 +273,9 @@ function init() {
   const dustGroup = new THREE.Group();
   scene.add(core, shell, dustGroup);
 
-  // Shared morph params (eased + scroll-driven each frame).
   const morph = { amp: 0.22, freq: 2.1, speed: 0.5 };
 
-  // --- Core icosphere: edges (real triangulation) ---
+  // --- Core icosphere: real triangulation edges ---
   const ico = new THREE.IcosahedronGeometry(2.3, detail);
   const wire = new THREE.WireframeGeometry(ico);
   const wireCount = wire.attributes.position.count;
@@ -341,13 +334,13 @@ function init() {
   };
   shell.add(new THREE.LineSegments(shellGeo, lineMaterial(shellUniforms, pal.additive)));
 
-  // --- Ambient dust (depth, no morph) ---
+  // --- Ambient dust ---
   const dustCount = reducedMotion ? 250 : window.innerWidth < 768 ? 500 : 900;
   const dustPos = new Float32Array(dustCount * 3);
   for (let i = 0; i < dustCount; i++) {
-    dustPos[i * 3 + 0] = (Math.random() - 0.5) * 34;
-    dustPos[i * 3 + 1] = (Math.random() - 0.5) * 22;
-    dustPos[i * 3 + 2] = (Math.random() - 0.5) * 30 - 6;
+    dustPos[i * 3 + 0] = (Math.random() - 0.5) * 24;
+    dustPos[i * 3 + 1] = (Math.random() - 0.5) * 16;
+    dustPos[i * 3 + 2] = (Math.random() - 0.5) * 22 - 4;
   }
   const dustRand = randAttr(dustCount);
   const dustGeo = new THREE.BufferGeometry();
@@ -364,11 +357,10 @@ function init() {
     uColor: { value: pal.dust.clone() },
     uOpacity: { value: pal.dustOpacity },
     uResolution: { value: resolution },
-    uCenterFade: { value: 0.0 }, // dust stays evenly spread
+    uCenterFade: { value: 0.0 },
   };
   dustGroup.add(new THREE.Points(dustGeo, pointMaterial(dustUniforms, pal.additive)));
 
-  // Collect every material so theme toggles can swap blend modes at once.
   const blendTargets = [];
   core.traverse(o => o.material && blendTargets.push(o.material));
   shell.traverse(o => o.material && blendTargets.push(o.material));
@@ -395,10 +387,11 @@ function init() {
   const tLine = new THREE.Color();
 
   function readScroll() {
-    const max = document.documentElement.scrollHeight - window.innerHeight;
-    scrollTarget = max > 0 ? Math.min(Math.max(window.scrollY / max, 0), 1) : 0;
+    const el = document.scrollingElement || document.documentElement;
+    const max = el.scrollHeight - window.innerHeight;
+    const y = window.scrollY || el.scrollTop || 0;
+    scrollTarget = max > 0 ? Math.min(Math.max(y / max, 0), 1) : 0;
   }
-
   function onResize() {
     const w = window.innerWidth;
     const h = window.innerHeight;
@@ -408,14 +401,12 @@ function init() {
     camera.updateProjectionMatrix();
     readScroll();
   }
-
   function onPointer(e) {
     pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
     pointer.y = (e.clientY / window.innerHeight) * 2 - 1;
   }
-
   function syncBlending() {
-    const b = theme().additive ? THREE.AdditiveBlending : THREE.NormalBlending;
+    const b = blend();
     blendTargets.forEach(m => {
       if (m.blending !== b) {
         m.blending = b;
@@ -434,7 +425,9 @@ function init() {
 
   function frame() {
     const t = clock.getElapsedTime();
-    const k = 0.07;
+    // Theme palette snaps instantly; scroll-driven color still evolves smoothly
+    // because `scroll` itself is eased separately below.
+    const k = 1;
 
     scroll += (scrollTarget - scroll) * 0.06;
     pe.x += (pointer.x - pe.x) * 0.05;
