@@ -8,3 +8,8 @@ Location: USA
 Standards: HTML5, CSS3, JavaScript
 Components: React, Swiper, FontAwesome
 Software: WebStorm, Vercel
+
+/* THANKS */
+Icons: FontAwesome
+Hosting: Vercel
+Inspiration: the open-source community
