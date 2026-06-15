@@ -13,3 +13,10 @@ confidentially. Maintainers may remove comments, commits, or contributors that
 violate this code.
 
 Adapted from the Contributor Covenant v2.1.
+
+## Scope
+This code applies within all project spaces and in public spaces when an
+individual is representing the project or its community.
+
+## Attribution
+Homepage: https://www.contributor-covenant.org
