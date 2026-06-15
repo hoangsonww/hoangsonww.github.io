@@ -14,3 +14,5 @@ jobs:
             https://sonnguyenhoang.com
           uploadArtifacts: true
           temporaryPublicStorage: true
+          runs: 3
+          configPath: ./.lighthouserc.json
