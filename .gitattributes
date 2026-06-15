@@ -9,3 +9,6 @@
 *.woff2 binary
 
 *.html linguist-detectable=true
+
+sitemap.xml linguist-generated=true
+package-lock.json linguist-generated=true
