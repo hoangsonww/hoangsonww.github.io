@@ -12,3 +12,9 @@
 - [ ] Ran `npm run format`
 - [ ] Verified locally in the browser
 - [ ] Updated docs where relevant
+
+## Screenshots
+<!-- Before/after screenshots for UI changes -->
+
+## Related issues
+Closes #
