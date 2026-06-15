@@ -4,3 +4,7 @@ sitemap.xml
 logos
 *.min.js
 *.min.css
+dist
+build
+coverage
+.vercel
