@@ -14,3 +14,13 @@ Thanks for your interest in improving this portfolio site!
 
 ## Reporting bugs
 Open an issue with steps to reproduce, expected vs. actual behavior, and browser/OS.
+
+## Commit messages
+Use imperative mood and a concise subject line:
+
+```
+Add dark-mode toggle to navbar
+Fix broken project links on mobile
+```
+
+Reference issues with `#<number>` when applicable.
