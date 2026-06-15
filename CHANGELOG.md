@@ -10,3 +10,9 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 ## [1.0.0]
 ### Added
 - Initial portfolio site: home, projects, and contact sections.
+
+### Changed
+- Documented commit and PR conventions.
+
+### Fixed
+- Normalized line endings across text files.
