@@ -3,3 +3,10 @@
 
 # Workflows and CI
 /.github/ @hoangsonww
+
+# Documentation
+/docs/ @hoangsonww
+*.md   @hoangsonww
+
+# Source packages
+/packages/ @hoangsonww
