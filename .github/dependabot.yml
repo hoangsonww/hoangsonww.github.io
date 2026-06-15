@@ -13,3 +13,8 @@ updates:
       interval: "weekly"
     labels:
       - "ci"
+    groups:
+      minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
