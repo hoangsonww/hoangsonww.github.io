@@ -18,3 +18,10 @@ body:
     attributes:
       label: Browser
       options: [Chrome, Firefox, Safari, Edge, Other]
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What did you expect to happen?
+    validations:
+      required: true
