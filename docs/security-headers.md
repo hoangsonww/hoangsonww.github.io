@@ -12,3 +12,19 @@ For deployments (Vercel / Nginx) configure the following:
 | Strict-Transport-Security | `max-age=31536000; includeSubDomains` |
 
 These mitigate clickjacking, MIME sniffing, and mixed-content risks.
+
+## Example: vercel.json
+
+```json
+{
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" }
+      ]
+    }
+  ]
+}
+```
