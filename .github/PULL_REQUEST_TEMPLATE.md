@@ -18,3 +18,8 @@
 
 ## Related issues
 Closes #
+
+## Testing done
+- [ ] Tested in Chrome
+- [ ] Tested in Safari
+- [ ] Verified responsive layout (mobile + desktop)
