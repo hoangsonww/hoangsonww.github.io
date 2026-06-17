@@ -2,3 +2,6 @@ node_modules
 dist
 build
 *.min.css
+vendor
+logos
+*.bundle.css
