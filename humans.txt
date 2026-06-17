@@ -13,3 +13,8 @@ Software: WebStorm, Vercel
 Icons: FontAwesome
 Hosting: Vercel
 Inspiration: the open-source community
+
+/* META */
+Last update: 2026/03
+Language: English
+Doctype: HTML5
