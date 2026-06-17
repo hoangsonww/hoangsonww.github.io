@@ -17,3 +17,7 @@ Adding these improves quick access from the home-screen long-press menu.
   { "name": "Contact",  "url": "/#contact" }
 ]
 ```
+
+## Icon requirements
+Each shortcut icon should be 96x96 PNG (maskable preferred) and live under
+`/logos/`. Provide a 192x192 fallback for higher-density displays.
