@@ -10,3 +10,9 @@
 
 # Source packages
 /packages/ @hoangsonww
+
+# CI workflows
+/.github/workflows/ @hoangsonww
+
+# Build and config
+/project-config/ @hoangsonww
