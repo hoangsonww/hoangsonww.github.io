@@ -24,3 +24,10 @@ Fix broken project links on mobile
 ```
 
 Reference issues with `#<number>` when applicable.
+
+## Local development
+```bash
+npm install
+npm run start   # serves on http-server with live reload
+```
+Open the printed localhost URL to preview changes.
