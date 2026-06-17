@@ -20,3 +20,9 @@ individual is representing the project or its community.
 
 ## Attribution
 Homepage: https://www.contributor-covenant.org
+
+## Enforcement guidelines
+1. **Correction** — private written warning.
+2. **Warning** — consequences for continued behavior.
+3. **Temporary ban** — for a serious violation.
+4. **Permanent ban** — for repeated violations.
