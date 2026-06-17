@@ -16,3 +16,9 @@ Found an accessibility barrier? Open a GitHub issue and we will address it.
 - Animations respect `prefers-reduced-motion` where supported.
 
 Last reviewed: 2026.
+
+## Testing tools
+- axe DevTools
+- Lighthouse accessibility audit
+- VoiceOver / NVDA screen readers
+- Keyboard-only navigation pass
