@@ -28,3 +28,8 @@ These mitigate clickjacking, MIME sniffing, and mixed-content risks.
   ]
 }
 ```
+
+## Rolling out CSP safely
+Start with `Content-Security-Policy-Report-Only` to collect violations without
+breaking the site, review reports, then switch to the enforcing header once the
+policy is clean.
