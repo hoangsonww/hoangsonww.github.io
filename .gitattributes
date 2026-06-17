@@ -12,3 +12,7 @@
 
 sitemap.xml linguist-generated=true
 package-lock.json linguist-generated=true
+
+.github/ export-ignore
+.idea/ export-ignore
+*.test.js export-ignore
