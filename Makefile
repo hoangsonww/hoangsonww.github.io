@@ -19,3 +19,10 @@ lint:
 
 help:
 	@grep -E "^[a-zA-Z_-]+:" Makefile | cut -d: -f1
+
+.PHONY: format-check serve
+
+format-check:
+	npx prettier --check .
+
+serve: start
