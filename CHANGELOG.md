@@ -16,3 +16,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/).
 
 ### Fixed
 - Normalized line endings across text files.
+
+## Versioning
+This project follows [Semantic Versioning](https://semver.org/).
+Given MAJOR.MINOR.PATCH, increment based on backward compatibility.
