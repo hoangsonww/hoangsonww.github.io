@@ -1,4 +1,5 @@
-# SOLID Refactor
+# SOLID Principles Refactor
 
-Documenting SOLID principles application across this codebase.
-- SOLID review pass: SRP, OCP, LSP, ISP, DIP verified across modules.
+Documenting incremental application of SOLID principles.
+
+Last touched: 2026-07-02T12:48:21Z
