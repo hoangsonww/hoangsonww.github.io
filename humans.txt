@@ -1,0 +1,6 @@
+/* TEAM */
+Developer: Son (David) Nguyen
+Site: https://sonnguyenhoang.com
+
+/* SITE */
+Standards: HTML5, CSS3, JavaScript
