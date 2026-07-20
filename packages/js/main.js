@@ -497,6 +497,7 @@ const SHIELD_STYLE_HINTS = {
   coralogix: { color: '6B2D8B', logo: 'diaspora', logoColor: 'white' },
   splunk: { color: '000000', logo: 'splunk', logoColor: 'white' },
   datadog: { color: '632CA6', logo: 'datadog', logoColor: 'white' },
+  sentry: { color: '362D59', logo: 'sentry', logoColor: 'white' },
   linux: { color: 'black', logo: 'linux', logoColor: 'white' },
   wsl: { color: 'darkblue', logo: 'windsurf', logoColor: 'white' },
   jira: { color: 'blue', logo: 'jira', logoColor: 'white' },

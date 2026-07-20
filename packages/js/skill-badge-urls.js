@@ -148,6 +148,7 @@ export const SKILL_BADGE_URLS = {
   Rust: 'https://img.shields.io/badge/Rust-000000?logo=rust&logoColor=white',
   'Scikit-Learn': 'https://img.shields.io/badge/Scikit--Learn-blue?logo=scikitlearn&logoColor=white',
   Selenium: 'https://img.shields.io/badge/Selenium-43B02A?logo=selenium&logoColor=white',
+  Sentry: 'https://img.shields.io/badge/Sentry-362D59?logo=sentry&logoColor=white',
   'Server-Sent Events (SSE)': 'https://img.shields.io/badge/Server--Sent%20Events%20(SSE)-0EA5E9?logo=serverless&logoColor=white',
   'Shadcn UI': 'https://img.shields.io/badge/Shadcn%20UI-black?logo=shadcnui&logoColor=white',
   Shell: 'https://img.shields.io/badge/Shell-black?logo=gnu-bash&logoColor=white',
