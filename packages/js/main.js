@@ -374,6 +374,7 @@ const SHIELD_STYLE_HINTS = {
   serversentevents: { color: '0EA5E9', logo: 'serverless', logoColor: 'white' },
   sse: { color: '0EA5E9', logo: 'serverless', logoColor: 'white' },
   rabbitmq: { color: 'orange', logo: 'rabbitmq', logoColor: 'white' },
+  bullmq: { color: 'D32F2F', logo: 'apacherocketmq', logoColor: 'white' },
   nginx: { color: 'darkgreen', logo: 'nginx', logoColor: 'white' },
   net: { color: '512BD4', logo: 'dotnet', logoColor: 'white' },
   aspnetcore: { color: '512BD4', logo: 'dotnet', logoColor: 'white' },

@@ -139,6 +139,7 @@ export const SKILL_BADGE_URLS = {
   Qdrant: 'https://img.shields.io/badge/Qdrant-purple?logo=qdrant&logoColor=white',
   'R & RStudio': 'https://img.shields.io/badge/R%20%26%20RStudio-blue?logo=r&logoColor=white',
   RabbitMQ: 'https://img.shields.io/badge/RabbitMQ-orange?logo=rabbitmq&logoColor=white',
+  BullMQ: 'https://img.shields.io/badge/BullMQ-D32F2F?logo=apacherocketmq&logoColor=white',
   React: 'https://img.shields.io/badge/React-blue?logo=react&logoColor=white',
   'React Native': 'https://img.shields.io/badge/React%20Native-blue?logo=react&logoColor=white',
   'Red5 Media Server': 'https://img.shields.io/badge/Red5%20Media%20Server-red?logo=webrtc&logoColor=white',
