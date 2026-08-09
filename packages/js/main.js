@@ -969,6 +969,8 @@ const portfolioProjectTopicMap = {
   'The StickyNotes App': ['Productivity'],
   'The WeatherMate App': ['Full-Stack'],
   'The RecipeGenie App': ['AI', 'Full-Stack'],
+  'Post Analyzer Webserver - Go Microservices Platform': ['Backend/API', 'Full-Stack', 'ML', 'Data'],
+  'Library Management Backend - Go REST API': ['Backend/API', 'Full-Stack'],
 };
 const portfolioPreviewState = {
   projectData: [],
@@ -2717,4 +2719,70 @@ window.clearHistory = clearHistory;
   };
   if (mq.addEventListener) mq.addEventListener('change', onChange);
   else if (mq.addListener) mq.addListener(onChange); // Safari/old Chrome fallback
+})();
+
+// ── Cursor glow: a soft shadow that trails just below the pointer ──────────
+// Fine-pointer (mouse) + motion-ok only — skipped entirely on touch and for
+// prefers-reduced-motion, matching the CSS gate on .cursor-glow.
+(function () {
+  const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const motionOk = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!canHover || !motionOk) return;
+
+  const glow = document.createElement('div');
+  glow.className = 'cursor-glow';
+  glow.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(glow);
+
+  const VERTICAL_OFFSET = 48; // sits just below the pointer, not centered on it
+  const EASE = 0.14;
+  const SETTLE_EPSILON = 0.05;
+
+  let targetX = 0;
+  let targetY = 0;
+  let currentX = 0;
+  let currentY = 0;
+  let hasMoved = false;
+  let rafId = null;
+
+  const tick = () => {
+    currentX += (targetX - currentX) * EASE;
+    currentY += (targetY - currentY) * EASE;
+    glow.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+
+    const settled = Math.abs(targetX - currentX) < SETTLE_EPSILON && Math.abs(targetY - currentY) < SETTLE_EPSILON;
+    if (settled) {
+      rafId = null;
+      return;
+    }
+    rafId = requestAnimationFrame(tick);
+  };
+
+  const ensureLoop = () => {
+    if (rafId === null) rafId = requestAnimationFrame(tick);
+  };
+
+  window.addEventListener(
+    'pointermove',
+    e => {
+      if (e.pointerType && e.pointerType !== 'mouse') return;
+      targetX = e.clientX;
+      targetY = e.clientY + VERTICAL_OFFSET;
+      if (!hasMoved) {
+        hasMoved = true;
+        currentX = targetX;
+        currentY = targetY;
+        glow.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+        requestAnimationFrame(() => glow.classList.add('is-visible'));
+      }
+      ensureLoop();
+    },
+    { passive: true }
+  );
+
+  document.addEventListener('mouseleave', () => glow.classList.remove('is-visible'));
+  window.addEventListener('blur', () => glow.classList.remove('is-visible'));
+  document.addEventListener('mouseenter', () => {
+    if (hasMoved) glow.classList.add('is-visible');
+  });
 })();

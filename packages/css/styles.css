@@ -2100,6 +2100,12 @@ body.dark-theme .pub-spotlight__number {
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
 }
 
+/* Library Management Backend's REPL screenshot: crop toward the left edge
+   instead of centering, so the banner/command text stays in frame. */
+.portfolio__img--left {
+  object-position: left center;
+}
+
 .portfolio__title {
   font-size: var(--h3-font-size);
   margin-bottom: var(--mb-0-5);
@@ -5512,4 +5518,42 @@ html.no-theme-transition *,
 html.no-theme-transition *::before,
 html.no-theme-transition *::after {
   transition: none !important;
+}
+
+/*==================== CURSOR GLOW ====================*/
+/* A soft, blurred shadow that trails just below the pointer. Purely
+   decorative: fixed, unhittable, and driven by a translate3d transform
+   (not top/left) so it never touches layout. Disabled outright for
+   touch/coarse pointers and for prefers-reduced-motion. */
+.cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 11rem;
+  height: 11rem;
+  margin: -5.5rem 0 0 -5.5rem;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--first-color) 0%, transparent 70%);
+  filter: blur(18px);
+  opacity: 0;
+  transform: translate3d(-9999px, -9999px, 0);
+  pointer-events: none;
+  z-index: 1;
+  will-change: transform, opacity;
+  transition: opacity 0.5s ease;
+}
+.cursor-glow.is-visible {
+  opacity: 0.16;
+}
+body.dark-theme .cursor-glow {
+  mix-blend-mode: screen;
+}
+body.dark-theme .cursor-glow.is-visible {
+  opacity: 0.26;
+}
+
+@media (prefers-reduced-motion: reduce), (hover: none), (pointer: coarse) {
+  .cursor-glow {
+    display: none;
+  }
 }
