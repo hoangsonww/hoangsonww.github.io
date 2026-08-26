@@ -1608,6 +1608,8 @@ body.dark-theme .qualification__discover-action:hover {
 /* Accent palette */
 .pub-spotlight {
   --pub-cs: hsl(190, 72%, 52%);
+  --pub-orch: hsl(44, 92%, 40%);
+  --pub-reg: hsl(322, 66%, 52%);
   --pub-ai: hsl(270, 58%, 58%);
   --pub-cloud: hsl(210, 78%, 56%);
   --pub-adv: hsl(350, 74%, 56%);
@@ -1674,6 +1676,12 @@ body.dark-theme .qualification__discover-action:hover {
 .pub-spotlight__card[data-accent='cs']::before {
   background: linear-gradient(90deg, var(--pub-cs), hsl(200, 70%, 62%));
 }
+.pub-spotlight__card[data-accent='orch']::before {
+  background: linear-gradient(90deg, var(--pub-orch), hsl(56, 86%, 50%));
+}
+.pub-spotlight__card[data-accent='reg']::before {
+  background: linear-gradient(90deg, var(--pub-reg), hsl(340, 72%, 64%));
+}
 .pub-spotlight__card[data-accent='ai']::before {
   background: linear-gradient(90deg, var(--pub-ai), hsl(290, 55%, 65%));
 }
@@ -1722,6 +1730,12 @@ body.dark-theme .qualification__discover-action:hover {
 }
 .pub-spotlight__pill[data-accent='cs'] {
   background: var(--pub-cs);
+}
+.pub-spotlight__pill[data-accent='orch'] {
+  background: var(--pub-orch);
+}
+.pub-spotlight__pill[data-accent='reg'] {
+  background: var(--pub-reg);
 }
 .pub-spotlight__pill[data-accent='ai'] {
   background: var(--pub-ai);
@@ -1851,6 +1865,12 @@ body.dark-theme .qualification__discover-action:hover {
 }
 .pub-spotlight__tab.is-active[data-accent='cs'] {
   background: var(--pub-cs);
+}
+.pub-spotlight__tab.is-active[data-accent='orch'] {
+  background: var(--pub-orch);
+}
+.pub-spotlight__tab.is-active[data-accent='reg'] {
+  background: var(--pub-reg);
 }
 .pub-spotlight__tab.is-active[data-accent='ai'] {
   background: var(--pub-ai);
