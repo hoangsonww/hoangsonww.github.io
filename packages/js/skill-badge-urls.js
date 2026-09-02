@@ -31,6 +31,7 @@ export const SKILL_BADGE_URLS = {
     'https://img.shields.io/badge/Canary%20%26%20Blue--Green%20Deployments-16A34A?logo=googleanalytics&logoColor=white',
   Chroma: 'https://img.shields.io/badge/Chroma-darkgreen?logo=chromatic&logoColor=white',
   ClickHouse: 'https://img.shields.io/badge/ClickHouse-FFCC01?logo=clickhouse&logoColor=black',
+  Cloudflare: 'https://img.shields.io/badge/Cloudflare-F38020?logo=cloudflare&logoColor=white',
   Codecov: 'https://img.shields.io/badge/Codecov-F01F7A?logo=codecov&logoColor=white',
   Coralogix: 'https://img.shields.io/badge/Coralogix-5C4EE5?logo=diaspora&logoColor=white',
   'Cosign & Sigstore': 'https://img.shields.io/badge/Cosign%20%26%20Sigstore-4285F4?logo=persistent&logoColor=white',
